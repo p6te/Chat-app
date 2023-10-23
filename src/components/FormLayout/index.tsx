@@ -1,9 +1,9 @@
-import "./FormLayout.scss";
+import "./styles.scss";
 
 type Props = {
   title: string;
   footer: string;
-  children: JSX.Element;
+  children: JSX.Element | string;
 };
 
 function FormLayout({ title, footer, children }: Props) {

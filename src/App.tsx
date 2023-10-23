@@ -2,6 +2,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import "./index.scss";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 
 const Layout = () => {
   return (
@@ -24,6 +25,10 @@ function App() {
         {
           path: "register",
           element: <Register />,
+        },
+        {
+          path: "login",
+          element: <Login />,
         },
       ],
     },
