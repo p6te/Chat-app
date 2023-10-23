@@ -1,0 +1,45 @@
+.inputMessage {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid gray;
+  background-color: rgb(255, 255, 255);
+
+  input {
+    border: none;
+    outline: none;
+
+    font-size: 18px;
+    width: 100%;
+    background-color: transparent;
+  }
+  label {
+    object-position: 50% 50%;
+  }
+
+  .send {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    img {
+      height: 24px;
+      min-width: 24px;
+      cursor: pointer;
+    }
+
+    button {
+      border: none;
+      background-color: rgb(49, 85, 116);
+      padding: 5px 8px;
+      color: white;
+      margin: 0 5px;
+      font-size: 14px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

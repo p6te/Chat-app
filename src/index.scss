@@ -61,6 +61,10 @@ h6 {
   isolation: isolate;
 }
 
+* {
+  font-family: "Inter", sans-serif;
+}
+
 .layout {
   background-color: #d2d4dc;
   min-height: 100vh;
@@ -112,6 +116,10 @@ h6 {
   }
 }
 
-* {
-  font-family: "Inter", sans-serif;
+.home {
+  border-radius: 10px;
+  width: 65%;
+  height: 80vh;
+  display: flex;
+  overflow: hidden;
 }
