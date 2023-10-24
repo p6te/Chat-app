@@ -1,8 +1,30 @@
+@import "../../responsive.scss";
+
 .chat {
   flex: 2;
   background-color: #f5f5fa;
   display: flex;
   flex-direction: column;
+  overflow: scroll;
+
+  .leftSide {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .arrow {
+    width: 30px;
+    filter: invert(100);
+    transition: rotate;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  @include tablet {
+    flex: 3;
+  }
 
   .chatInfo {
     height: 50px;

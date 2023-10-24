@@ -1,4 +1,22 @@
+@import "../../responsive.scss";
+
 .sidebar {
-  flex: 1;
   background-color: #346486;
+  position: relative;
+
+  .arrow {
+    width: 24px;
+    position: absolute;
+    top: 50%;
+    right: -12px;
+    background-color: #346486;
+    padding: 4px;
+    border-radius: 50%;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .mobileSidebar {
+    background-color: #346486;
+  }
 }
