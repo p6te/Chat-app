@@ -1,4 +1,3 @@
-import React from "react";
 import "./styles.scss";
 import Img from "../../assets/img.png";
 import Attach from "../../assets/attach.png";

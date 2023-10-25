@@ -4,7 +4,7 @@ import Search from "../Search";
 import Chats from "../Chats";
 
 import useScreenWidth from "../../hooks/useScreenWidth";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import Arrow from "../../assets/arrow.png";
 
 export default function Sidebar() {

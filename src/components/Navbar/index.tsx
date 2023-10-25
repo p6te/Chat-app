@@ -1,6 +1,4 @@
-import React from "react";
 import "./styles.scss";
-import Arrow from "../../assets/arrow.png";
 
 export default function Navbar() {
   return (
