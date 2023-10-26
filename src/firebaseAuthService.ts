@@ -2,7 +2,6 @@ import { auth } from "./firebaseConfig";
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
   signOut,
   sendPasswordResetEmail,
   GoogleAuthProvider,
@@ -31,25 +30,12 @@ const loginWithGoogle = () => {
   return signInWithPopup(auth, provider);
 };
 
-const subscribeToAuthChanges = onAuthStateChanged(auth, (user) => {
-  if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/auth.user
-    // const uid = user.uid;
-    // ...
-  } else {
-    // User is signed out
-    // ...
-  }
-});
-
 const FirebaseAuthService = {
   registerUser,
   loginUser,
   logoutUser,
   sendPasswordResetEmail,
   loginWithGoogle,
-  subscribeToAuthChanges,
   resetPasswordViaEmail,
 };
 

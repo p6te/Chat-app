@@ -1,7 +1,13 @@
 import FormLayout from "../components/FormLayout";
 import AddAvatar from "../assets/addAvatar.png";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import FormInput from "../components/FormInput/FormInput";
+import FirebaseAuthService from "../firebaseAuthService";
+import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
+import { storage, db } from "../firebaseConfig";
+import { updateProfile } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 interface FormInputs {
   username: string;
@@ -11,28 +17,83 @@ interface FormInputs {
 }
 
 function Register() {
+  const navigate = useNavigate();
+
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [values, setValues] = useState<FormInputs>({
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-
   const [avatar, setAvatar] = useState<File | null>(null);
 
   const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const handleRegistration = (e: FormEvent<HTMLFormElement>) => {
+  const handleRegistration = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+
+    try {
+      //create user
+      const res = await FirebaseAuthService.registerUser(
+        values.email,
+        values.password
+      );
+      console.warn(res);
+
+      const date = new Date().getTime();
+      const storageRef = ref(storage, `avatars/${values.username + date}`);
+
+      if (!avatar) {
+        return;
+      }
+
+      await uploadBytes(storageRef, avatar).then(() => {
+        alert("image uploaded successfully");
+
+        getDownloadURL(storageRef).then(async (downloadURL) => {
+          console.log(downloadURL);
+          try {
+            //Update profile
+            await updateProfile(res.user, {
+              displayName: values.username,
+              photoURL: downloadURL,
+            });
+
+            //create user on firestore
+            await setDoc(doc(db, "users", res.user.uid), {
+              uid: res.user.uid,
+              displayName: values.username,
+              email: values.email,
+              photoURL: downloadURL,
+            });
+
+            //create empty user chats on firestore
+            await setDoc(doc(db, "userChats", res.user.uid), {});
+            navigate("/");
+          } catch (err) {
+            console.log(err);
+            setError(true);
+            setLoading(false);
+          }
+        });
+      });
+    } catch (err) {
+      console.warn(err);
+      setError(true);
+    }
   };
+
   const onSaveAvatar: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     if (e.target.files) {
       setAvatar(e.target.files[0]);
     }
   };
-  console.log(avatar);
 
   const inputs = [
     {
@@ -83,8 +144,6 @@ function Register() {
     <FormLayout title="Register" footer="You do have an account? Login">
       <form onSubmit={handleRegistration}>
         {inputs.map((input) => {
-          const nameI = input.name;
-          console.log(nameI);
           return (
             <FormInput
               key={input.id}

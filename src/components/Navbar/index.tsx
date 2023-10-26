@@ -1,3 +1,4 @@
+import FirebaseAuthService from "../../firebaseAuthService";
 import "./styles.scss";
 
 export default function Navbar() {
@@ -11,7 +12,7 @@ export default function Navbar() {
           alt=""
         />
         <span>Name</span>
-        <button>logout</button>
+        <button onClick={FirebaseAuthService.logoutUser}>logout</button>
       </div>
     </div>
   );
