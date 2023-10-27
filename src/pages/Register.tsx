@@ -44,19 +44,18 @@ function Register() {
         values.email,
         values.password
       );
-      console.warn(res);
 
       const date = new Date().getTime();
       const storageRef = ref(storage, `avatars/${values.username + date}`);
 
-      if (!avatar) {
-        return;
+      if (avatar) {
+        await uploadBytes(storageRef, avatar).then(() => {
+          alert("image uploaded successfully");
+        });
       }
 
-      await uploadBytes(storageRef, avatar).then(() => {
-        alert("image uploaded successfully");
-
-        getDownloadURL(storageRef).then(async (downloadURL) => {
+      getDownloadURL(avatar ? storageRef : ref(storage, "avatarIcon.png")).then(
+        async (downloadURL) => {
           console.log(downloadURL);
           try {
             //Update profile
@@ -81,17 +80,30 @@ function Register() {
             setError(true);
             setLoading(false);
           }
-        });
-      });
+        }
+      );
     } catch (err) {
       console.warn(err);
+      setLoading(false);
       setError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
   const onSaveAvatar: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     if (e.target.files) {
       setAvatar(e.target.files[0]);
+    }
+  };
+
+  const handleRegistrationViaGoogle = async () => {
+    try {
+      const response = await FirebaseAuthService.loginWithGoogle();
+      console.warn(response.user);
+      navigate("/");
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -141,7 +153,11 @@ function Register() {
   ];
 
   return (
-    <FormLayout title="Register" footer="You do have an account? Login">
+    <FormLayout
+      title="Register"
+      footer="You do have an account?"
+      footerLink="Login"
+    >
       <>
         <form onSubmit={handleRegistration}>
           {inputs.map((input) => {
@@ -156,7 +172,6 @@ function Register() {
             );
           })}
           <input
-            required
             style={{ display: "none" }}
             type="file"
             id="file"
@@ -167,8 +182,11 @@ function Register() {
             <img src={AddAvatar} alt="" />
             {avatar ? <img src={avatar.name} /> : <span>Add an avatar</span>}
           </label>
-
           <button type="submit">Sign up</button>
+
+          <span onClick={handleRegistrationViaGoogle}>
+            Register with Google account
+          </span>
         </form>
         {error && <span>something went wrong</span>}
         {loading && <span>loading...</span>}

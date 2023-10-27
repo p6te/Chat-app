@@ -1,7 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import FirebaseAuthService from "../../firebaseAuthService";
 import "./styles.scss";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    FirebaseAuthService.logoutUser();
+    navigate("/login");
+  };
   return (
     <div className="navbar">
       <h4>Wall chat</h4>
@@ -12,7 +18,7 @@ export default function Navbar() {
           alt=""
         />
         <span>Name</span>
-        <button onClick={FirebaseAuthService.logoutUser}>logout</button>
+        <button onClick={handleLogout}>logout</button>
       </div>
     </div>
   );

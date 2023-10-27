@@ -15,21 +15,26 @@ type Props = {
 };
 
 export const AuthContextProvider = ({ children }: Props) => {
-  const [currentUser, setCurrentUser] = useState<AuthContextType>({
+  const [context, setContext] = useState<AuthContextType>({
     currentUser: null,
   });
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
+      console.warn(user);
       if (user) {
-        setCurrentUser({ currentUser: user });
+        setContext({ currentUser: user });
       }
+      setIsReady(true);
     });
 
     return () => unsub();
   }, []);
 
   return (
-    <AuthContext.Provider value={currentUser}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={context}>
+      {isReady ? children : null}
+    </AuthContext.Provider>
   );
 };

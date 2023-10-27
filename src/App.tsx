@@ -21,7 +21,6 @@ const Layout = () => {
 
 function App() {
   const { currentUser } = useContext(AuthContext);
-  console.log(currentUser);
 
   const ProtectedRoute: React.FC<PropsWithChildren> = ({ children }) => {
     if (!currentUser) {

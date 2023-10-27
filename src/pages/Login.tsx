@@ -2,7 +2,11 @@ import FormLayout from "../components/FormLayout";
 
 function Login() {
   return (
-    <FormLayout title="Login" footer="You don't have an account? Register">
+    <FormLayout
+      title="Login"
+      footer="You don't have an account?"
+      footerLink="Register"
+    >
       <form
         onSubmit={(e) => {
           e.preventDefault();
