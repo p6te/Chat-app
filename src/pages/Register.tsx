@@ -5,7 +5,7 @@ import FormInput from "../components/FormInput/FormInput";
 import FirebaseAuthService from "../firebaseAuthService";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { storage, db } from "../firebaseConfig";
-import { updateProfile } from "firebase/auth";
+import { User, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
@@ -34,6 +34,32 @@ function Register() {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
+  const updateUserProfile = async (user: User, downloadURL: string) => {
+    try {
+      //Update profile
+      await updateProfile(user, {
+        displayName: values.username,
+        photoURL: downloadURL,
+      });
+
+      //create user on firestore
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        displayName: values.username,
+        email: values.email,
+        photoURL: downloadURL,
+      });
+
+      //create empty user chats on firestore
+      await setDoc(doc(db, "userChats", user.uid), {});
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      setError(true);
+      setLoading(false);
+    }
+  };
+
   const handleRegistration = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -56,30 +82,12 @@ function Register() {
 
       getDownloadURL(avatar ? storageRef : ref(storage, "avatarIcon.png")).then(
         async (downloadURL) => {
-          console.log(downloadURL);
-          try {
-            //Update profile
-            await updateProfile(res.user, {
-              displayName: values.username,
-              photoURL: downloadURL,
-            });
-
-            //create user on firestore
-            await setDoc(doc(db, "users", res.user.uid), {
-              uid: res.user.uid,
-              displayName: values.username,
-              email: values.email,
-              photoURL: downloadURL,
-            });
-
-            //create empty user chats on firestore
-            await setDoc(doc(db, "userChats", res.user.uid), {});
-            navigate("/");
-          } catch (err) {
-            console.log(err);
-            setError(true);
-            setLoading(false);
+          if (!res.user.photoURL) {
           }
+          updateUserProfile(
+            res.user,
+            res.user.photoURL ? res.user.photoURL : downloadURL
+          );
         }
       );
     } catch (err) {
@@ -99,11 +107,24 @@ function Register() {
 
   const handleRegistrationViaGoogle = async () => {
     try {
+      setLoading(true);
       const response = await FirebaseAuthService.loginWithGoogle();
       console.warn(response.user);
+      if (response.user.photoURL) {
+        updateUserProfile(response.user, response.user.photoURL);
+      } else {
+        getDownloadURL(ref(storage, "avatarIcon.png")).then(
+          async (downloadURL) => {
+            updateUserProfile(response.user, downloadURL);
+          }
+        );
+      }
+
       navigate("/");
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
