@@ -8,14 +8,12 @@ import "./index.scss";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import { useState, useContext, PropsWithChildren } from "react";
+import { useContext, PropsWithChildren } from "react";
 import { AuthContext } from "./context/AuthContext";
 
 const Layout = () => {
-  const [error, setError] = useState(false);
   return (
     <div className="layout">
-      {error && <span>error</span>}
       <Outlet />
     </div>
   );

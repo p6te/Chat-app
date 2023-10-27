@@ -1,4 +1,4 @@
-import { useState, useEffect, InputHTMLAttributes } from "react";
+import { useState } from "react";
 import "./styles.scss";
 
 type props = {

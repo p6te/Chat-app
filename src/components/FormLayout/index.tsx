@@ -3,7 +3,7 @@ import "./styles.scss";
 type Props = {
   title: string;
   footer: string;
-  children: JSX.Element | string;
+  children: JSX.Element;
 };
 
 function FormLayout({ title, footer, children }: Props) {

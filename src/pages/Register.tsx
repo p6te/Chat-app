@@ -142,33 +142,37 @@ function Register() {
 
   return (
     <FormLayout title="Register" footer="You do have an account? Login">
-      <form onSubmit={handleRegistration}>
-        {inputs.map((input) => {
-          return (
-            <FormInput
-              key={input.id}
-              onChange={onChange}
-              value={values[input.name as keyof typeof values]}
-              {...input}
-              id={input.id.toString()}
-            />
-          );
-        })}
-        <input
-          required
-          style={{ display: "none" }}
-          type="file"
-          id="file"
-          onChange={onSaveAvatar}
-          accept="image/png, image/gif, image/jpeg"
-        />
-        <label htmlFor="file">
-          <img src={AddAvatar} alt="" />
-          {avatar ? <img src={avatar.name} /> : <span>Add an avatar</span>}
-        </label>
+      <>
+        <form onSubmit={handleRegistration}>
+          {inputs.map((input) => {
+            return (
+              <FormInput
+                key={input.id}
+                onChange={onChange}
+                value={values[input.name as keyof typeof values]}
+                {...input}
+                id={input.id.toString()}
+              />
+            );
+          })}
+          <input
+            required
+            style={{ display: "none" }}
+            type="file"
+            id="file"
+            onChange={onSaveAvatar}
+            accept="image/png, image/gif, image/jpeg"
+          />
+          <label htmlFor="file">
+            <img src={AddAvatar} alt="" />
+            {avatar ? <img src={avatar.name} /> : <span>Add an avatar</span>}
+          </label>
 
-        <button type="submit">Sign up</button>
-      </form>
+          <button type="submit">Sign up</button>
+        </form>
+        {error && <span>something went wrong</span>}
+        {loading && <span>loading...</span>}
+      </>
     </FormLayout>
   );
 }
