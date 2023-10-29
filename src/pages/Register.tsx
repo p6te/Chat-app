@@ -8,20 +8,14 @@ import { storage, db } from "../firebaseConfig";
 import { User, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-
-interface FormInputs {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
+import { UserForm } from "../types";
 
 function Register() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isGoogleAuth, setIsGoogleAuth] = useState(false);
 
-  const [values, setValues] = useState<FormInputs>({
+  const [values, setValues] = useState<UserForm>({
     username: "",
     email: "",
     password: "",
@@ -42,6 +36,7 @@ function Register() {
         displayName: values.username,
         photoURL: downloadURL,
       });
+
       //create user on firestore
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
@@ -49,8 +44,6 @@ function Register() {
         email: values.email ? values.email : user.email,
         photoURL: downloadURL,
       });
-      console.log(!!values.email);
-      console.log(user.email);
 
       //create empty user chats on firestore
       await setDoc(doc(db, "userChats", user.uid), {});
@@ -89,12 +82,12 @@ function Register() {
           );
         }
       );
+      navigate("/");
     } catch (err) {
       console.warn(err);
       setLoading(false);
       setError(true);
     } finally {
-      navigate("/");
       setLoading(false);
     }
   };
