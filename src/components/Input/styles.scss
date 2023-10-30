@@ -18,6 +18,23 @@
     object-position: 50% 50%;
   }
 
+  .imageLoaded {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 0 24px;
+    border-radius: 4px;
+    background-color: aliceblue;
+    .cancel {
+      opacity: 0.3;
+      width: 20px;
+      &:hover {
+        cursor: pointer;
+        opacity: 0.6;
+      }
+    }
+  }
   .send {
     display: flex;
     align-items: center;

@@ -23,6 +23,7 @@ export default function Search() {
 
   const { currentUser } = useContext(AuthContext);
 
+  //TODO add save user to context
   const handleSearch = async () => {
     const q = query(
       collection(db, "users"),
@@ -101,6 +102,7 @@ export default function Search() {
             imgSrc={user?.photoURL}
             name={user?.displayName}
             onClick={handleSelectUser}
+            timestamp={0}
           />
         )}
       </div>
