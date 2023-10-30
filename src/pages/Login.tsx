@@ -66,7 +66,7 @@ function Login() {
             type="password"
             placeholder="password"
             value={values.password}
-            onChange={(e) => setValues({ ...values, email: e.target.value })}
+            onChange={(e) => setValues({ ...values, password: e.target.value })}
           />
           <button type="submit">Sign in</button>
         </form>
