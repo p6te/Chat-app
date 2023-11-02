@@ -6,6 +6,7 @@ type Props = {
   name?: string;
   lastMessage?: string;
   timestamp: number;
+  isSelected: boolean;
   onClick?: MouseEventHandler<HTMLDivElement>;
 };
 const User: React.FC<Props> = ({
@@ -13,6 +14,7 @@ const User: React.FC<Props> = ({
   name,
   lastMessage,
   timestamp,
+  isSelected,
   onClick,
 }: Props) => {
   const currentDay = new Date();
@@ -28,7 +30,7 @@ const User: React.FC<Props> = ({
       ? `${hours}:${minutes}`
       : `${day}-${month}-${year}`;
   return (
-    <div className="user" onClick={onClick}>
+    <div className={`user ${isSelected && "selected"}`} onClick={onClick}>
       <img src={imgSrc} alt="" />
       <div className="userInfo">
         <span>{name}</span>
