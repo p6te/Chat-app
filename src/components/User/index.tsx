@@ -6,7 +6,7 @@ type Props = {
   name?: string;
   lastMessage?: string;
   timestamp: number;
-  isSelected: boolean;
+  isSelected?: boolean;
   onClick?: MouseEventHandler<HTMLDivElement>;
 };
 const User: React.FC<Props> = ({
