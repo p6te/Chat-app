@@ -1,4 +1,5 @@
 import FormLayout from "../components/FormLayout";
+import Loading from "../components/Loading";
 import AddAvatar from "../assets/addAvatar.png";
 import CancelIcon from "../assets/cancel.png";
 import { ChangeEvent, FormEvent, useState } from "react";
@@ -13,7 +14,7 @@ import { UserForm } from "../types";
 
 function Register() {
   const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [isGoogleAuth, setIsGoogleAuth] = useState(false);
   const [avatar, setAvatar] = useState<File | null>(null);
   const [imageURL, setImageURL] = useState<string>("");
@@ -51,13 +52,13 @@ function Register() {
     } catch (err) {
       console.log(err);
       setError(true);
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
   const handleRegistration = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
+    setIsLoading(true);
 
     try {
       //create user
@@ -86,10 +87,10 @@ function Register() {
       navigate("/");
     } catch (err) {
       console.warn(err);
-      setLoading(false);
+      setIsLoading(false);
       setError(true);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -110,7 +111,7 @@ function Register() {
   const handleRegistrationViaGoogle = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      setLoading(true);
+      setIsLoading(true);
       const response = await FirebaseAuthService.loginWithGoogle();
       if (response.user.photoURL) {
         updateUserProfile(response.user, response.user.photoURL);
@@ -124,7 +125,7 @@ function Register() {
     } catch (err) {
       console.error(err);
     } finally {
-      setLoading(false);
+      setIsLoading(false);
       navigate("/");
     }
   };
@@ -179,85 +180,90 @@ function Register() {
   ];
 
   return (
-    <div className="register">
-      <FormLayout
-        title="Register"
-        footer="You do have an account?"
-        footerLink="Login"
-      >
-        <>
-          <form onSubmit={handleRegistration}>
-            {inputs.map((input) => {
-              return (
-                <FormInput
-                  key={input.id}
-                  onChange={onChange}
-                  value={values[input.name as keyof typeof values]}
-                  {...input}
-                  id={input.id.toString()}
-                />
-              );
-            })}
-            <div>
-              {imageURL ? (
-                <div className="avatarPreview">
-                  <button
-                    onClick={() => {
-                      setImageURL("");
-                    }}
-                  >
-                    <img src={CancelIcon} alt="" />
-                  </button>
-                  <img src={imageURL} alt="avatar" />
-                </div>
-              ) : (
-                <div className="addAvatar">
-                  <input
-                    style={{ display: "none" }}
-                    type="file"
-                    id="file"
-                    onChange={(e) => {
-                      console.warn("zmiana");
-                      onSaveAvatar(e);
-                    }}
-                    accept="image/png, image/jpeg"
+    <>
+      {isLoading && <Loading />}
+      <div className="register">
+        <FormLayout
+          title="Register"
+          footer="You do have an account?"
+          footerLink="Login"
+        >
+          <>
+            <form onSubmit={handleRegistration}>
+              {inputs.map((input) => {
+                return (
+                  <FormInput
+                    key={input.id}
+                    onChange={onChange}
+                    value={values[input.name as keyof typeof values]}
+                    {...input}
+                    id={input.id.toString()}
                   />
-                  <label htmlFor="file">
-                    <img src={AddAvatar} alt="" />
-                  </label>
-                  <span>Add an avatar</span>
-                </div>
-              )}
-            </div>
-            <button type="submit">Sign up</button>
-          </form>
-          <button className="googleBtn" onClick={addUsername}>
-            Register with Google account
-          </button>
-          {error && <span>something went wrong</span>}
-          {loading && <span>loading...</span>}
-        </>
-      </FormLayout>
-      {isGoogleAuth && (
-        <div className="googleUsername" onClick={() => setIsGoogleAuth(false)}>
-          <form
-            onClick={(e) => e.stopPropagation()}
-            onSubmit={handleRegistrationViaGoogle}
+                );
+              })}
+              <div>
+                {imageURL ? (
+                  <div className="avatarPreview">
+                    <button
+                      onClick={() => {
+                        setImageURL("");
+                      }}
+                    >
+                      <img src={CancelIcon} alt="" />
+                    </button>
+                    <img src={imageURL} alt="avatar" />
+                  </div>
+                ) : (
+                  <div className="addAvatar">
+                    <input
+                      style={{ display: "none" }}
+                      type="file"
+                      id="file"
+                      onChange={(e) => {
+                        console.warn("zmiana");
+                        onSaveAvatar(e);
+                      }}
+                      accept="image/png, image/jpeg"
+                    />
+                    <label htmlFor="file">
+                      <img src={AddAvatar} alt="" />
+                    </label>
+                    <span>Add an avatar</span>
+                  </div>
+                )}
+              </div>
+              <button type="submit">Sign up</button>
+            </form>
+            <button className="googleBtn" onClick={addUsername}>
+              Register with Google account
+            </button>
+            {error && <span>something went wrong</span>}
+          </>
+        </FormLayout>
+        {isGoogleAuth && (
+          <div
+            className="googleUsername"
+            onClick={() => setIsGoogleAuth(false)}
           >
-            <h3>Add your display name</h3>
-            {
-              <FormInput
-                onChange={onChange}
-                value={values.username}
-                {...inputs[0]}
-                id={inputs[0].id.toString()}
-              />
-            }
-            <button type="submit">Sign up with Google</button>
-          </form>
-        </div>
-      )}
-    </div>
+            <form
+              onClick={(e) => e.stopPropagation()}
+              onSubmit={handleRegistrationViaGoogle}
+            >
+              <h3>Add your display name</h3>
+              {
+                <FormInput
+                  onChange={onChange}
+                  value={values.username}
+                  {...inputs[0]}
+                  id={inputs[0].id.toString()}
+                />
+              }
+              <button type="submit">Sign up with Google</button>
+            </form>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
