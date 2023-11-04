@@ -1,6 +1,7 @@
 import FormLayout from "../components/FormLayout";
 import AddAvatar from "../assets/addAvatar.png";
-import { FormEvent, useState } from "react";
+import CancelIcon from "../assets/cancel.png";
+import { ChangeEvent, FormEvent, useState } from "react";
 import FormInput from "../components/FormInput/FormInput";
 import FirebaseAuthService from "../firebaseAuthService";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
@@ -14,14 +15,14 @@ function Register() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isGoogleAuth, setIsGoogleAuth] = useState(false);
-
+  const [avatar, setAvatar] = useState<File | null>(null);
+  const [imageURL, setImageURL] = useState<string>("");
   const [values, setValues] = useState<UserForm>({
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const [avatar, setAvatar] = useState<File | null>(null);
 
   const navigate = useNavigate();
 
@@ -92,9 +93,17 @@ function Register() {
     }
   };
 
-  const onSaveAvatar: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    if (e.target.files) {
-      setAvatar(e.target.files[0]);
+  const onSaveAvatar = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setAvatar(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target !== null && typeof e.target.result === "string") {
+          setImageURL(e.target.result);
+        }
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -189,17 +198,37 @@ function Register() {
                 />
               );
             })}
-            <input
-              style={{ display: "none" }}
-              type="file"
-              id="file"
-              onChange={onSaveAvatar}
-              accept="image/png, image/gif, image/jpeg"
-            />
-            <label htmlFor="file">
-              <img src={AddAvatar} alt="" />
-              {avatar ? <img src={avatar.name} /> : <span>Add an avatar</span>}
-            </label>
+            <div>
+              {imageURL ? (
+                <div className="avatarPreview">
+                  <button
+                    onClick={() => {
+                      setImageURL("");
+                    }}
+                  >
+                    <img src={CancelIcon} alt="" />
+                  </button>
+                  <img src={imageURL} alt="avatar" />
+                </div>
+              ) : (
+                <div className="addAvatar">
+                  <input
+                    style={{ display: "none" }}
+                    type="file"
+                    id="file"
+                    onChange={(e) => {
+                      console.warn("zmiana");
+                      onSaveAvatar(e);
+                    }}
+                    accept="image/png, image/jpeg"
+                  />
+                  <label htmlFor="file">
+                    <img src={AddAvatar} alt="" />
+                  </label>
+                  <span>Add an avatar</span>
+                </div>
+              )}
+            </div>
             <button type="submit">Sign up</button>
           </form>
           <button className="googleBtn" onClick={addUsername}>
