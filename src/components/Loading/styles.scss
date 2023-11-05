@@ -1,14 +1,14 @@
-$spinner: salmon;
+$spinner: rgb(65, 64, 150);
 $background: white;
 $size: 50px;
-
+@use "sass:math";
 html {
   background-color: $background;
 }
 .background {
   position: absolute;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: aliceblue;
   opacity: 0.5;
   display: flex;

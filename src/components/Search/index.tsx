@@ -15,11 +15,17 @@ import {
 import { db } from "../../firebaseConfig";
 import { UserData } from "../../types";
 import { AuthContext } from "../../context/AuthContext";
+import { ensureError } from "../../utils/ensureError";
+import Loading from "../Loading";
 
-export default function Search() {
+type Props = {
+  setErrorMessage: (message: string) => void;
+};
+
+export default function Search({ setErrorMessage }: Props) {
+  const [isLoading, setIsLoading] = useState(false);
   const [username, setUsername] = useState("");
   const [user, setUser] = useState<UserData | null>(null);
-  const [err, setErr] = useState(false);
 
   const { currentUser } = useContext(AuthContext);
 
@@ -30,12 +36,16 @@ export default function Search() {
       where("displayName", "==", username)
     );
     try {
+      setIsLoading(true);
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         setUser(doc.data() as UserData);
       });
-    } catch (error) {
-      setErr(true);
+    } catch (err) {
+      const error = ensureError(err);
+      setErrorMessage(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
   const handleKey = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -78,34 +88,37 @@ export default function Search() {
         });
       }
     } catch (err) {
-      console.log(err);
+      const error = ensureError(err);
+      setErrorMessage(error.message);
     }
 
     setUser(null);
     setUsername("");
   };
   return (
-    <div className="search">
-      <div className="searchForm">
-        <input
-          type="text"
-          placeholder="Find a user"
-          onChange={(e) => setUsername(e.target.value)}
-          onKeyDown={handleKey}
-          value={username}
-        />
-        {err && <span>user not found!</span>}
-      </div>
-      <div className="userChat">
-        {user && (
-          <UserComponent
-            imgSrc={user?.photoURL}
-            name={user?.displayName}
-            onClick={handleSelectUser}
-            timestamp={0}
+    <>
+      {isLoading && <Loading />}
+      <div className="search">
+        <div className="searchForm">
+          <input
+            type="text"
+            placeholder="Find a user"
+            onChange={(e) => setUsername(e.target.value)}
+            onKeyDown={handleKey}
+            value={username}
           />
-        )}
+        </div>
+        <div className="userChat">
+          {user && (
+            <UserComponent
+              imgSrc={user?.photoURL}
+              name={user?.displayName}
+              onClick={handleSelectUser}
+              timestamp={0}
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

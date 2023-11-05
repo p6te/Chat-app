@@ -1,7 +1,4 @@
 import "./styles.scss";
-import Cam from "../../assets/cam.png";
-import Add from "../../assets/add.png";
-import More from "../../assets/more.png";
 import Messages from "../Messages";
 import Input from "../Input";
 import { useContext } from "react";
@@ -14,12 +11,12 @@ export default function Chat() {
     <div className="chat">
       <div className="chatInfo">
         <span>{state.user.displayName}</span>
-
-        <div className="chatIcons">
+        {/* TODO add additional functionality  */}
+        {/* <div className="chatIcons">
           <img src={Cam} alt="" />
           <img src={Add} alt="" />
           <img src={More} alt="" />
-        </div>
+        </div> */}
       </div>
       <Messages />
       <Input />

@@ -7,7 +7,11 @@ import useScreenWidth from "../../hooks/useScreenWidth";
 import { useState } from "react";
 import Arrow from "../../assets/arrow.png";
 
-export default function Sidebar() {
+type Props = {
+  setErrorMessage: (message: string) => void;
+};
+
+export default function Sidebar({ setErrorMessage }: Props) {
   const isMobile = useScreenWidth() <= 480;
   const [isSidebarOpen, setisSidebarOpen] = useState(isMobile ? false : true);
 
@@ -17,9 +21,9 @@ export default function Sidebar() {
         <div className="mobileSidebar" />
       ) : (
         <div>
-          <Navbar />
-          <Search />
-          <Chats />
+          <Navbar setErrorMessage={setErrorMessage} />
+          <Search setErrorMessage={setErrorMessage} />
+          <Chats setErrorMessage={setErrorMessage} />
         </div>
       )}
 

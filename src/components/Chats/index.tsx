@@ -7,8 +7,14 @@ import { db } from "../../firebaseConfig";
 import User from "../User";
 import { ChatContext } from "../../context/ChatContext";
 import { changeUser } from "../../context/actionCreators";
+import { ensureError } from "../../utils/ensureError";
+import Loading from "../Loading";
 
-export default function Chats() {
+type Props = {
+  setErrorMessage: (message: string) => void;
+};
+
+export default function Chats({ setErrorMessage }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [chats, setChats] = useState<
     [
@@ -56,36 +62,52 @@ export default function Chats() {
     }
 
     const getChats = () => {
-      setIsLoading(true);
-      const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
-        const data = doc.data();
-        if (!data) {
-          return;
-        }
+      try {
+        setIsLoading(true);
+        const unsub = onSnapshot(
+          doc(db, "userChats", currentUser.uid),
+          (doc) => {
+            const data = doc.data();
+            if (!data) {
+              return;
+            }
 
-        setChats(Object.entries(data));
-        const firstSortedChats = Object.entries(data).sort((a, b) => {
-          if (b[1].date?.seconds && a[1].date?.seconds) {
-            return b[1].date?.seconds - a[1].date?.seconds;
-          } else if (b[1].date?.seconds) {
-            return -1;
-          } else if (a[1].date?.seconds) {
-            return 1;
+            setChats(Object.entries(data));
+            const firstSortedChats = Object.entries(data).sort((a, b) => {
+              if (b[1].date?.seconds && a[1].date?.seconds) {
+                return b[1].date?.seconds - a[1].date?.seconds;
+              } else if (b[1].date?.seconds) {
+                return -1;
+              } else if (a[1].date?.seconds) {
+                return 1;
+              }
+              return 0;
+            });
+
+            if (
+              firstSortedChats.length &&
+              firstSortedChats[0].length &&
+              firstSortedChats[0][1]
+            ) {
+              handleSelect(firstSortedChats[0][1]?.userInfo);
+            }
+
+            if (sortedChats.length && sortedChats[0]) {
+              handleSelect(sortedChats[0][1]?.userInfo);
+            }
+            setIsLoading(false);
           }
-          return 0;
-        });
-        const latestUser = firstSortedChats[0][1]?.userInfo;
-        handleSelect(latestUser);
+        );
 
-        if (sortedChats.length && sortedChats[0]) {
-          handleSelect(sortedChats[0][1]?.userInfo);
-        }
+        return () => {
+          unsub();
+        };
+      } catch (err) {
+        const error = ensureError(err);
+        setErrorMessage(error.message);
+      } finally {
         setIsLoading(false);
-      });
-
-      return () => {
-        unsub();
-      };
+      }
     };
 
     currentUser.uid && getChats();
@@ -93,10 +115,9 @@ export default function Chats() {
   }, [currentUser?.uid, currentUser]);
 
   return (
-    <div className="chats">
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
+    <>
+      {isLoading && <Loading />}
+      <div className="chats">
         <div className="userChat">
           <div className="userChatInfo">
             {sortedChats.map((chat) => {
@@ -121,7 +142,7 @@ export default function Chats() {
             })}
           </div>
         </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 }

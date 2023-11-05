@@ -11,9 +11,11 @@ import { User, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { UserForm } from "../types";
+import { ensureError } from "../utils/ensureError";
+import ErrorModal from "../components/ErrorModal";
 
 function Register() {
-  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleAuth, setIsGoogleAuth] = useState(false);
   const [avatar, setAvatar] = useState<File | null>(null);
@@ -50,8 +52,8 @@ function Register() {
       //create empty user chats on firestore
       await setDoc(doc(db, "userChats", user.uid), {});
     } catch (err) {
-      console.log(err);
-      setError(true);
+      const error = ensureError(err);
+      setErrorMessage(error.message);
       setIsLoading(false);
     }
   };
@@ -86,9 +88,8 @@ function Register() {
       );
       navigate("/");
     } catch (err) {
-      console.warn(err);
-      setIsLoading(false);
-      setError(true);
+      const error = ensureError(err);
+      setErrorMessage(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -123,7 +124,8 @@ function Register() {
         );
       }
     } catch (err) {
-      console.error(err);
+      const error = ensureError(err);
+      setErrorMessage(error.message);
     } finally {
       setIsLoading(false);
       navigate("/");
@@ -182,6 +184,12 @@ function Register() {
   return (
     <>
       {isLoading && <Loading />}
+      {errorMessage && (
+        <ErrorModal
+          closeModal={() => setErrorMessage("")}
+          errorMessage={errorMessage}
+        />
+      )}
       <div className="register">
         <FormLayout
           title="Register"
@@ -237,7 +245,6 @@ function Register() {
             <button className="googleBtn" onClick={addUsername}>
               Register with Google account
             </button>
-            {error && <span>something went wrong</span>}
           </>
         </FormLayout>
         {isGoogleAuth && (

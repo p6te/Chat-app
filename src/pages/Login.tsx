@@ -3,6 +3,8 @@ import FormLayout from "../components/FormLayout";
 import FirebaseAuthService from "../firebaseAuthService";
 import { useNavigate } from "react-router-dom";
 import Loading from "../components/Loading";
+import ErrorModal from "../components/ErrorModal";
+import { ensureError } from "../utils/ensureError";
 
 interface FormInputs {
   email: string;
@@ -10,8 +12,8 @@ interface FormInputs {
 }
 
 function Login() {
-  const [error, setError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [values, setValues] = useState<FormInputs>({
     email: "",
     password: "",
@@ -25,8 +27,8 @@ function Login() {
       setIsLoading(true);
       await FirebaseAuthService.loginWithGoogle();
     } catch (err) {
-      console.error(err);
-      setError(true);
+      const error = ensureError(err);
+      setErrorMessage(error.message);
     } finally {
       setIsLoading(false);
       navigate("/");
@@ -40,18 +42,25 @@ function Login() {
     try {
       setIsLoading(true);
       await FirebaseAuthService.loginUser(values.email, values.password);
+      navigate("/");
+      setIsLoading(false);
     } catch (err) {
-      console.error(err);
-      setError(true);
+      const error = ensureError(err);
+      setErrorMessage(error.message);
     } finally {
       setIsLoading(false);
-      navigate("/");
     }
   };
 
   return (
     <>
       {isLoading && <Loading />}
+      {errorMessage && (
+        <ErrorModal
+          closeModal={() => setErrorMessage("")}
+          errorMessage={errorMessage}
+        />
+      )}
       <FormLayout
         title="Login"
         footer="You don't have an account?"
@@ -78,7 +87,6 @@ function Login() {
           <button className="googleBtn" onClick={loginViaGoogle}>
             Sign in with Google
           </button>
-          {error && <span>something went wrong</span>}
         </>
       </FormLayout>
     </>

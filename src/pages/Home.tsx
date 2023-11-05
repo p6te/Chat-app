@@ -1,10 +1,19 @@
+import { useState } from "react";
 import Chat from "../components/Chat";
 import Sidebar from "../components/Sidebar";
+import ErrorModal from "../components/ErrorModal";
 
 function Home() {
+  const [errorMessage, setErrorMessage] = useState("");
   return (
     <div className="home">
-      <Sidebar />
+      {errorMessage && (
+        <ErrorModal
+          closeModal={() => setErrorMessage("")}
+          errorMessage={errorMessage}
+        />
+      )}
+      <Sidebar setErrorMessage={setErrorMessage} />
       <Chat />
     </div>
   );
