@@ -59,4 +59,19 @@
       }
     }
   }
+  button {
+    border: none;
+    background-color: transparent;
+    &:hover {
+      cursor: pointer;
+    }
+    .openEmoji {
+      width: 24px;
+    }
+  }
+}
+
+.EmojiPickerReact {
+  position: relative;
+  bottom: 100px;
 }

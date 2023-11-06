@@ -2,6 +2,7 @@ import "./styles.scss";
 import Img from "../../assets/img.png";
 import Cancel from "../../assets/cancel.png";
 import Attach from "../../assets/attach.png";
+import EmojiIcon from "../../assets/smile.png";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import {
@@ -16,11 +17,21 @@ import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
 import { db, storage } from "../../firebaseConfig";
 import { MessageType } from "../../types";
+import EmojiPicker, {
+  EmojiStyle,
+  SkinTones,
+  Theme,
+  Categories,
+  EmojiClickData,
+  Emoji,
+  SuggestionMode,
+  SkinTonePickerLocation,
+} from "emoji-picker-react";
 
 export default function Input() {
   const [text, setText] = useState("");
   const [img, setImg] = useState<File | null>(null);
-
+  const [isEmojPicker, setIsEmojPicker] = useState(false);
   const { currentUser } = useContext(AuthContext);
   const { state } = useContext(ChatContext);
 
@@ -98,6 +109,14 @@ export default function Input() {
     }
   };
 
+  const handleEmojiClick = (emojiData: EmojiClickData, event: MouseEvent) => {
+    setText(
+      (inputValue) =>
+        inputValue + (emojiData.isCustom ? emojiData.unified : emojiData.emoji)
+    );
+    setIsEmojPicker(false);
+  };
+
   return (
     <div className="inputMessage">
       <input
@@ -118,6 +137,14 @@ export default function Input() {
               className="cancel"
             />
             <img src={Img} alt="" /> <p>{img.name}</p>{" "}
+          </div>
+        )}
+        <button onClick={() => setIsEmojPicker(true)}>
+          <img src={EmojiIcon} alt="" className="openEmoji" />
+        </button>
+        {isEmojPicker && (
+          <div>
+            <EmojiPicker onEmojiClick={handleEmojiClick} />
           </div>
         )}
       </div>
