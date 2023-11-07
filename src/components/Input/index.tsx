@@ -17,16 +17,8 @@ import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
 import { db, storage } from "../../firebaseConfig";
 import { MessageType } from "../../types";
-import EmojiPicker, {
-  EmojiStyle,
-  SkinTones,
-  Theme,
-  Categories,
-  EmojiClickData,
-  Emoji,
-  SuggestionMode,
-  SkinTonePickerLocation,
-} from "emoji-picker-react";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import { useOutsideClick } from "../../hooks/useOutsideClick";
 
 export default function Input() {
   const [text, setText] = useState("");
@@ -34,6 +26,10 @@ export default function Input() {
   const [isEmojPicker, setIsEmojPicker] = useState(false);
   const { currentUser } = useContext(AuthContext);
   const { state } = useContext(ChatContext);
+
+  const emojiPickerRef = useOutsideClick(() => {
+    setIsEmojPicker(false);
+  });
 
   const handleSend = async () => {
     if (!img && !text) {
@@ -110,6 +106,7 @@ export default function Input() {
   };
 
   const handleEmojiClick = (emojiData: EmojiClickData, event: MouseEvent) => {
+    event.preventDefault();
     setText(
       (inputValue) =>
         inputValue + (emojiData.isCustom ? emojiData.unified : emojiData.emoji)
@@ -127,6 +124,16 @@ export default function Input() {
         onChange={(e) => setText(e.target.value)}
         onKeyDown={(e) => handleEnterKey(e)}
       />
+      {isEmojPicker && (
+        <div ref={emojiPickerRef} className="emojiPicker">
+          <EmojiPicker
+            onEmojiClick={handleEmojiClick}
+            height={400}
+            lazyLoadEmojis={true}
+            skinTonesDisabled={true}
+          />
+        </div>
+      )}
       <div>
         {img && (
           <div className="imageLoaded">
@@ -142,11 +149,6 @@ export default function Input() {
         <button onClick={() => setIsEmojPicker(true)}>
           <img src={EmojiIcon} alt="" className="openEmoji" />
         </button>
-        {isEmojPicker && (
-          <div>
-            <EmojiPicker onEmojiClick={handleEmojiClick} />
-          </div>
-        )}
       </div>
       <div className="send">
         <img src={Attach} alt="" />

@@ -5,6 +5,7 @@
   justify-content: space-between;
   border-top: 1px solid gray;
   background-color: rgb(255, 255, 255);
+  position: relative;
 
   input {
     border: none;
@@ -62,6 +63,8 @@
   button {
     border: none;
     background-color: transparent;
+    padding: 6px;
+
     &:hover {
       cursor: pointer;
     }
@@ -69,9 +72,10 @@
       width: 24px;
     }
   }
-}
 
-.EmojiPickerReact {
-  position: relative;
-  bottom: 100px;
+  .emojiPicker {
+    position: absolute;
+    bottom: 50px;
+    right: 0;
+  }
 }
