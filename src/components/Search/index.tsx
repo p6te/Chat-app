@@ -102,7 +102,7 @@ export default function Search({ setErrorMessage }: Props) {
         <div className="searchForm">
           <input
             type="text"
-            placeholder="Find a user"
+            placeholder="Find a user by nickname"
             onChange={(e) => setUsername(e.target.value)}
             onKeyDown={handleKey}
             value={username}

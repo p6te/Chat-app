@@ -1,7 +1,7 @@
 import "./styles.scss";
 import Img from "../../assets/img.png";
 import Cancel from "../../assets/cancel.png";
-import Attach from "../../assets/attach.png";
+// import Attach from "../../assets/attach.png";
 import EmojiIcon from "../../assets/smile.png";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
@@ -128,7 +128,8 @@ export default function Input() {
         <div ref={emojiPickerRef} className="emojiPicker">
           <EmojiPicker
             onEmojiClick={handleEmojiClick}
-            height={400}
+            height={350}
+            width={350}
             lazyLoadEmojis={true}
             skinTonesDisabled={true}
           />
@@ -146,12 +147,13 @@ export default function Input() {
             <img src={Img} alt="" /> <p>{img.name}</p>{" "}
           </div>
         )}
+      </div>
+      <div className="send">
+        {/* TODO add handling files */}
+        {/* <img src={Attach} alt="" /> */}
         <button onClick={() => setIsEmojPicker(true)}>
           <img src={EmojiIcon} alt="" className="openEmoji" />
         </button>
-      </div>
-      <div className="send">
-        <img src={Attach} alt="" />
         <input
           type="file"
           style={{ display: "none" }}

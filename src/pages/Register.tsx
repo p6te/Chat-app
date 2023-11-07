@@ -73,9 +73,7 @@ function Register() {
       const storageRef = ref(storage, `avatars/${values.username + date}`);
 
       if (avatar) {
-        await uploadBytes(storageRef, avatar).then(() => {
-          alert("image uploaded successfully");
-        });
+        await uploadBytes(storageRef, avatar);
       }
 
       getDownloadURL(avatar ? storageRef : ref(storage, "avatarIcon.png")).then(

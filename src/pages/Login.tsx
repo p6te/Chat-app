@@ -41,9 +41,10 @@ function Login() {
 
     try {
       setIsLoading(true);
-      await FirebaseAuthService.loginUser(values.email, values.password);
+      await FirebaseAuthService.loginUser(values.email, values.password).then(
+        (res) => console.log(res)
+      );
       navigate("/");
-      setIsLoading(false);
     } catch (err) {
       const error = ensureError(err);
       setErrorMessage(error.message);

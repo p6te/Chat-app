@@ -14,7 +14,6 @@ export default function Navbar({ setErrorMessage }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { currentUser } = useContext(AuthContext);
-
   const handleLogout = () => {
     try {
       setIsLoading(true);

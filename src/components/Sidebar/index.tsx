@@ -13,7 +13,7 @@ type Props = {
 
 export default function Sidebar({ setErrorMessage }: Props) {
   const isMobile = useScreenWidth() <= 480;
-  const [isSidebarOpen, setisSidebarOpen] = useState(isMobile ? false : true);
+  const [isSidebarOpen, setisSidebarOpen] = useState(isMobile ? true : false);
 
   return (
     <div className="sidebar" style={isSidebarOpen ? { width: "24px" } : {}}>
