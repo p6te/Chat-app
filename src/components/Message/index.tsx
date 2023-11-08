@@ -3,6 +3,7 @@ import "./styles.scss";
 import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
 import { MessageType } from "../../types";
+import { formatDate } from "../../utils/formatDate";
 type Props = {
   message: MessageType;
 };
@@ -31,7 +32,7 @@ export default function Message({ message }: Props) {
           }
           alt=""
         />
-        <span>just now</span>
+        <span>{formatDate(message.date?.seconds)}</span>
       </div>
       <div className="messageContent">
         {message.text && <p>{message.text}</p>}

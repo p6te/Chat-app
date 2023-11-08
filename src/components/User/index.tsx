@@ -1,5 +1,6 @@
 import { MouseEventHandler } from "react";
 import "./styles.scss";
+import { formatDate } from "../../utils/formatDate";
 
 type Props = {
   imgSrc?: string;
@@ -17,18 +18,6 @@ const User: React.FC<Props> = ({
   isSelected,
   onClick,
 }: Props) => {
-  const currentDay = new Date();
-  const date = new Date(timestamp * 1000);
-  const day = date.getDate();
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
-  const hours = date.getHours();
-  const minutes = date.getMinutes();
-
-  const lastMessageDate =
-    date.toDateString() === currentDay.toDateString()
-      ? `${hours}:${minutes}`
-      : `${day}-${month}-${year}`;
   return (
     <div className={`user ${isSelected && "selected"}`} onClick={onClick}>
       <img src={imgSrc} alt="" />
@@ -37,7 +26,7 @@ const User: React.FC<Props> = ({
         {lastMessage ? (
           <>
             <p>{lastMessage}</p>
-            <time>{lastMessageDate}</time>
+            <time>{formatDate(timestamp)}</time>
           </>
         ) : null}
       </div>

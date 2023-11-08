@@ -96,7 +96,12 @@ export default function Input() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setImg(e.target.files[0]);
+      console.log();
+      if (e.target.files[0].size > 100000) {
+        alert("Your img is too large, please use file below 100Kb");
+      } else {
+        setImg(e.target.files[0]);
+      }
     }
   };
   const handleEnterKey = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -144,7 +149,7 @@ export default function Input() {
               onClick={() => setImg(null)}
               className="cancel"
             />
-            <img src={Img} alt="" /> <p>{img.name}</p>{" "}
+            <img src={Img} alt="" /> <p>{img.name}</p>
           </div>
         )}
       </div>

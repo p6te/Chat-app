@@ -53,7 +53,6 @@ export default function Chats({ setErrorMessage }: Props) {
     photoURL: string;
   }) => {
     dispatch(changeUser(user));
-    console.warn(state.user);
   };
 
   useEffect(() => {
