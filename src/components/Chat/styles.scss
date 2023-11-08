@@ -5,6 +5,18 @@
   background-color: #f5f5fa;
   display: flex;
   flex-direction: column;
+  position: relative;
+
+  .chatMissing {
+    position: absolute;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
+    background-color: #6288a14a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   .leftSide {
     display: flex;

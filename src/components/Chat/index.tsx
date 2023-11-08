@@ -9,17 +9,25 @@ export default function Chat() {
 
   return (
     <div className="chat">
-      <div className="chatInfo">
-        <span>{state.user.displayName}</span>
-        {/* TODO add additional functionality  */}
-        {/* <div className="chatIcons">
+      {!state.chatId && (
+        <div className="chatMissing">
+          <h3>Please open a new chat... </h3>
+        </div>
+      )}
+
+      <>
+        <div className="chatInfo">
+          <span>{state.user.displayName}</span>
+          {/* TODO add additional functionality  */}
+          {/* <div className="chatIcons">
           <img src={Cam} alt="" />
           <img src={Add} alt="" />
           <img src={More} alt="" />
         </div> */}
-      </div>
-      <Messages />
-      <Input />
+        </div>
+        <Messages />
+        <Input />
+      </>
     </div>
   );
 }

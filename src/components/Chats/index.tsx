@@ -15,7 +15,7 @@ type Props = {
 };
 
 export default function Chats({ setErrorMessage }: Props) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [chats, setChats] = useState<
     [
       string,
@@ -61,8 +61,8 @@ export default function Chats({ setErrorMessage }: Props) {
     }
 
     const getChats = () => {
+      setIsLoading(true);
       try {
-        setIsLoading(true);
         const unsub = onSnapshot(
           doc(db, "userChats", currentUser.uid),
           (doc) => {
