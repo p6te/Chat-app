@@ -15,10 +15,12 @@ Explore the app [here](https://wall-chat-69c60.web.app).
 Feel free to use the following example users for testing:
 
 - **User 1:**
+  - *nickname:* Tom
   - *Login:* tom@mail.com
   - *Password:* P@ssword1
 
 - **User 2:**
+  - *nickname:* Luna
   - *Login:* luna@mail.com
   - *Password:* P@ssword1
 
