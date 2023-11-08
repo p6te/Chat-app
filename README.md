@@ -1,27 +1,25 @@
-# React + TypeScript + Vite
+# Chat Wall
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Chat Wall is an application that utilizes Firebase for database management and authentication. It incorporates Continuous Delivery through GitHub Actions.
 
-Currently, two official plugins are available:
+Explore the app [here](https://wall-chat-69c60.web.app).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started
 
-## Expanding the ESLint configuration
+1. **Register and Login**: Create an account and log in to start using the Chat Wall.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+2. **Connect with Others**: Find and connect with other users within the app.
 
-- Configure the top-level `parserOptions` property like this:
+## Example Users
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+Feel free to use the following example users for testing:
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- **User 1:**
+  - *Login:* tom@mail.com
+  - *Password:* P@ssword1
+
+- **User 2:**
+  - *Login:* luna@mail.com
+  - *Password:* P@ssword1
+
+## Enjoy!
