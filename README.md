@@ -2,7 +2,7 @@
 
 Chat Wall is an application that utilizes Firebase for database management and authentication. It incorporates Continuous Delivery through GitHub Actions.
 
-Explore the app [here](https://wall-chat-69c60.web.app).
+## Explore the app [here](https://wall-chat-69c60.web.app).
 
 ## Getting Started
 
