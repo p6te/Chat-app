@@ -24,7 +24,7 @@ export default function Input() {
   const [text, setText] = useState("");
   const [img, setImg] = useState<File | null>(null);
   const [isEmojPicker, setIsEmojPicker] = useState(false);
-  const { currentUser } = useContext(AuthContext);
+  const { loggedUser } = useContext(AuthContext);
   const { state } = useContext(ChatContext);
 
   const emojiPickerRef = useOutsideClick(() => {
@@ -46,7 +46,7 @@ export default function Input() {
             const newMessage: MessageType = {
               id: uuid(),
               text,
-              senderId: currentUser?.uid,
+              senderId: loggedUser?.uid,
               date: Timestamp.now(),
               img: downloadURL,
             };
@@ -64,27 +64,23 @@ export default function Input() {
         messages: arrayUnion({
           id: uuid(),
           text,
-          senderId: currentUser?.uid,
+          senderId: loggedUser?.uid,
           date: Timestamp.now(),
         }),
       });
     }
-    if (!currentUser?.uid) {
+    if (!loggedUser?.uid) {
       return;
     }
 
     try {
-      await updateDoc(doc(db, "userChats", currentUser.uid), {
-        [state.chatId + ".lastMessage"]: {
-          text,
-        },
+      await updateDoc(doc(db, "userChats", loggedUser.uid), {
+        [state.chatId + ".lastMessage"]: text,
         [state.chatId + ".date"]: serverTimestamp(),
       });
 
       await updateDoc(doc(db, "userChats", state.user.uid), {
-        [state.chatId + ".lastMessage"]: {
-          text,
-        },
+        [state.chatId + ".lastMessage"]: text,
         [state.chatId + ".date"]: serverTimestamp(),
       });
     } catch (error) {

@@ -9,7 +9,6 @@ import {
   query,
   serverTimestamp,
   setDoc,
-  updateDoc,
   where,
 } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
@@ -27,7 +26,7 @@ export default function Search({ setErrorMessage }: Props) {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState<UserData | null>(null);
 
-  const { currentUser } = useContext(AuthContext);
+  const { loggedUser } = useContext(AuthContext);
 
   //TODO add save user to context
   const handleSearch = async () => {
@@ -54,38 +53,44 @@ export default function Search({ setErrorMessage }: Props) {
 
   const handleSelectUser = async () => {
     //check whether the group(chats in firestore) exists, if not create
-    if (!currentUser || !user) {
+    if (!loggedUser || !user) {
       return;
     }
     const combinedId =
-      currentUser.uid > user.uid
-        ? currentUser.uid + user.uid
-        : user.uid + currentUser.uid;
+      loggedUser.uid > user.uid
+        ? loggedUser.uid + user.uid
+        : user.uid + loggedUser.uid;
     try {
       const res = await getDoc(doc(db, "chats", combinedId));
-
+      console.log(res.exists());
       if (!res.exists()) {
         //create a chat in chats collection
         await setDoc(doc(db, "chats", combinedId), { messages: [] });
 
         //create user chats
-        await updateDoc(doc(db, "userChats", currentUser.uid), {
-          [combinedId + ".userInfo"]: {
-            uid: user.uid,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
+        await setDoc(
+          doc(db, "userChats", loggedUser.uid),
+          {
+            [combinedId]: {
+              userId: user.uid,
+              date: serverTimestamp(),
+              lastMessage: "",
+            },
           },
-          [combinedId + ".date"]: serverTimestamp(),
-        });
+          { merge: true }
+        );
 
-        await updateDoc(doc(db, "userChats", user.uid), {
-          [combinedId + ".userInfo"]: {
-            uid: currentUser.uid,
-            displayName: currentUser.displayName,
-            photoURL: currentUser.photoURL,
+        await setDoc(
+          doc(db, "userChats", user.uid),
+          {
+            [combinedId]: {
+              userId: loggedUser.uid,
+              date: serverTimestamp(),
+              lastMessage: "",
+            },
           },
-          [combinedId + ".date"]: serverTimestamp(),
-        });
+          { merge: true }
+        );
       }
     } catch (err) {
       const error = ensureError(err);
@@ -108,13 +113,14 @@ export default function Search({ setErrorMessage }: Props) {
             value={username}
           />
         </div>
-        <div className="userChat">
+        <div className="userChat" onClick={handleSelectUser}>
           {user && (
             <UserComponent
               imgSrc={user?.photoURL}
               name={user?.displayName}
-              onClick={handleSelectUser}
               timestamp={0}
+              isOnline={false}
+              lastMessage=""
             />
           )}
         </div>
