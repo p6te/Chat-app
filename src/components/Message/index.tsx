@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default function Message({ message }: Props) {
-  const { currentUser } = useContext(AuthContext);
+  const { loggedUser } = useContext(AuthContext);
   const { state } = useContext(ChatContext);
 
   const ref = useRef<null | HTMLDivElement>(null);
@@ -21,13 +21,13 @@ export default function Message({ message }: Props) {
   return (
     <div
       ref={ref}
-      className={`message ${message.senderId === currentUser?.uid && "owner"}`}
+      className={`message ${message.senderId === loggedUser?.uid && "owner"}`}
     >
       <div className="messageInfo">
         <img
           src={
-            message.senderId === currentUser?.uid && currentUser?.photoURL
-              ? currentUser?.photoURL
+            message.senderId === loggedUser?.uid && loggedUser?.photoURL
+              ? loggedUser?.photoURL
               : state.user.photoURL
           }
           alt=""

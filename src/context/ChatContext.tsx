@@ -7,6 +7,7 @@ const initialState: StateType = {
     uid: "",
     displayName: "",
     photoURL: "",
+    isOnline: false,
   },
 
   chatId: "",
@@ -27,17 +28,17 @@ export const ChatContext = createContext<ContextType>({
 });
 
 export const ChatContextProvider = ({ children }: Props) => {
-  const { currentUser } = useContext(AuthContext);
+  const { loggedUser } = useContext(AuthContext);
 
   const chatReducer = (state: StateType, action: ActionType): StateType => {
     switch (action.type) {
       case ACTION.CHANGE_USER:
         return {
           user: action.payload,
-          chatId: currentUser
-            ? currentUser.uid > action.payload.uid
-              ? currentUser.uid + action.payload.uid
-              : action.payload.uid + currentUser.uid
+          chatId: loggedUser
+            ? loggedUser.uid > action.payload.uid
+              ? loggedUser.uid + action.payload.uid
+              : action.payload.uid + loggedUser.uid
             : "",
         };
       default:

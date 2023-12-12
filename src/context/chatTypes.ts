@@ -7,6 +7,7 @@ export type ActionType = {
     uid: string;
     displayName: string;
     photoURL: string;
+    isOnline: boolean;
   };
 };
 
@@ -15,6 +16,7 @@ export type StateType = {
     uid: string;
     displayName: string;
     photoURL: string;
+    isOnline: boolean;
   };
   chatId: string;
 };

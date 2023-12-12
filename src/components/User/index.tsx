@@ -1,14 +1,13 @@
-import { MouseEventHandler } from "react";
 import "./styles.scss";
 import { formatDate } from "../../utils/formatDate";
 
 type Props = {
-  imgSrc?: string;
-  name?: string;
+  imgSrc: string;
+  name: string;
   lastMessage?: string;
   timestamp: number;
   isSelected?: boolean;
-  onClick?: MouseEventHandler<HTMLDivElement>;
+  isOnline?: boolean;
 };
 const User: React.FC<Props> = ({
   imgSrc,
@@ -16,11 +15,14 @@ const User: React.FC<Props> = ({
   lastMessage,
   timestamp,
   isSelected,
-  onClick,
+  isOnline,
 }: Props) => {
   return (
-    <div className={`user ${isSelected && "selected"}`} onClick={onClick}>
-      <img src={imgSrc} alt="" />
+    <div className={`user ${isSelected && "selected"}`}>
+      <div className="imgContainer">
+        <img src={imgSrc} alt="" />
+        {isOnline && <div className="onlineIcon"></div>}
+      </div>
       <div className="userInfo">
         <span>{name}</span>
         {lastMessage ? (

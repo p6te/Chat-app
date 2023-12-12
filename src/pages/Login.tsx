@@ -35,15 +35,13 @@ function Login() {
     }
   };
 
-  const login = async (e: FormEvent<HTMLFormElement>) => {
+  const loginViaEmail = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
       setIsLoading(true);
-      await FirebaseAuthService.loginUser(values.email, values.password).then(
-        (res) => console.log(res)
-      );
+      await FirebaseAuthService.loginUser(values.email, values.password);
       navigate("/");
     } catch (err) {
       const error = ensureError(err);
@@ -68,7 +66,7 @@ function Login() {
         footerLink="Register"
       >
         <>
-          <form onSubmit={login}>
+          <form onSubmit={loginViaEmail}>
             <input
               type="emial"
               placeholder="email"

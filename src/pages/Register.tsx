@@ -2,7 +2,7 @@ import FormLayout from "../components/FormLayout";
 import Loading from "../components/Loading";
 import AddAvatar from "../assets/addAvatar.png";
 import CancelIcon from "../assets/cancel.png";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import FormInput from "../components/FormInput/FormInput";
 import FirebaseAuthService from "../firebaseAuthService";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { UserForm } from "../types";
 import { ensureError } from "../utils/ensureError";
 import ErrorModal from "../components/ErrorModal";
+import { AuthContext } from "../context/AuthContext";
 
 function Register() {
   const [errorMessage, setErrorMessage] = useState("");
@@ -27,6 +28,7 @@ function Register() {
     confirmPassword: "",
   });
 
+  const { setLoggedUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -47,10 +49,13 @@ function Register() {
         displayName: values.username,
         email: values.email ? values.email : user.email,
         photoURL: downloadURL,
+        isOnline: true,
       });
 
       //create empty user chats on firestore
       await setDoc(doc(db, "userChats", user.uid), {});
+
+      setLoggedUser(user);
     } catch (err) {
       const error = ensureError(err);
       setErrorMessage(error.message);
@@ -58,7 +63,7 @@ function Register() {
     }
   };
 
-  const handleRegistration = async (e: FormEvent<HTMLFormElement>) => {
+  const handleRegistrationViaEmail = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
 
@@ -195,7 +200,7 @@ function Register() {
           footerLink="Login"
         >
           <>
-            <form onSubmit={handleRegistration}>
+            <form onSubmit={handleRegistrationViaEmail}>
               {inputs.map((input) => {
                 return (
                   <FormInput

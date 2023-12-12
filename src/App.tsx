@@ -20,10 +20,11 @@ const Layout = () => {
 };
 
 function App() {
-  const { currentUser } = useContext(AuthContext);
+  const { loggedUser } = useContext(AuthContext);
 
   const ProtectedRoute: React.FC<PropsWithChildren> = ({ children }) => {
-    if (!currentUser) {
+    console.log(loggedUser);
+    if (!loggedUser) {
       return <Navigate to="/login" />;
     }
 
