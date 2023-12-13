@@ -5,6 +5,7 @@ import ErrorModal from "../components/ErrorModal";
 
 function Home() {
   const [errorMessage, setErrorMessage] = useState("");
+
   return (
     <div className="home">
       {errorMessage && (
@@ -13,6 +14,7 @@ function Home() {
           errorMessage={errorMessage}
         />
       )}
+
       <Sidebar setErrorMessage={setErrorMessage} />
       <Chat />
     </div>
