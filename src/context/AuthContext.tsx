@@ -23,7 +23,6 @@ export const AuthContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
-      console.log(user);
       if (user) {
         setLoggedUser(user);
         const isLogin = async () => {
