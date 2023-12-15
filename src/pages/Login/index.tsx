@@ -6,6 +6,9 @@ import { Flex } from "~/components/common/Flexbox";
 import Loading from "~/components/common/LoadingSpinner";
 import FirebaseAuthService from "~/firebaseAuthService";
 import { ensureError } from "~/utils/ensureError";
+import { Button } from "~/components/common/Button/styled";
+import Spacer from "~/components/common/Spacer";
+import Input from "~/components/common/Input";
 
 interface FormInputs {
   email: string;
@@ -68,27 +71,34 @@ function Login() {
       >
         <>
           <form onSubmit={loginViaEmail}>
-            <Flex column gap="20px">
-              <input
+            <Flex column>
+              <Input
                 type="emial"
                 placeholder="email"
+                label="email"
                 value={values.email}
+                // errorMessage="sadsad"
                 onChange={(e) =>
                   setValues({ ...values, email: e.target.value })
                 }
               />
-              <input
+              <Input
                 type="password"
                 placeholder="password"
+                label="password"
                 value={values.password}
                 onChange={(e) =>
                   setValues({ ...values, password: e.target.value })
                 }
               />
-              <button type="submit">Sign in</button>
+              <Spacer />
+              <Button type="submit">Sign in</Button>
             </Flex>
           </form>
-          <button onClick={loginViaGoogle}>Sign in with Google</button>
+          <Spacer size="24" />
+          <Button onClick={loginViaGoogle} outline>
+            Sign in with Google
+          </Button>
         </>
       </FormLayout>
     </>

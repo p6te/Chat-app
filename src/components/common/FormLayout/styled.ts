@@ -11,7 +11,6 @@ export const Container = styled("div")`
   }
   h3 {
     color: ${({ theme }) => theme.textPrimary};
-    margin: 12px 0;
     font-size: 1.4rem;
     font-weight: 400;
   }

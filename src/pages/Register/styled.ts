@@ -15,6 +15,7 @@ export const AddImageContainer = styled("div")`
   display: flex;
   align-items: center;
   padding: 4px 16px;
+  margin-top: 0.5rem;
   border-radius: 1rem;
   &:hover {
     cursor: pointer;
