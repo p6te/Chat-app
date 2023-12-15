@@ -1,6 +1,6 @@
 import "./styles.scss";
-import Messages from "../Messages";
-import Input from "../Input";
+import Messages from "./Messages";
+import Input from "./ChatInput";
 import { useContext } from "react";
 import { ChatContext } from "../../context/ChatContext";
 

@@ -3,15 +3,36 @@ import "./index.scss";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import { ThemeProvider } from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
 import ProtectedRoute from "./ProtectedRoute";
 import { useTheme } from "./styles/theme/themeContext";
+import GlobalStyle from "./styles/global";
+
+const StyledLayout = styled("div")`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: ${({ theme }) => theme.backgroundGradient};
+`;
+
+const AppContainer = styled("div")`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${({ theme }) => theme.backgroundPrimary};
+  padding: 40px;
+  border-radius: 40px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+`;
 
 const Layout = () => {
   return (
-    <div className="layout">
-      <Outlet />
-    </div>
+    <StyledLayout>
+      <AppContainer>
+        <Outlet />
+      </AppContainer>
+    </StyledLayout>
   );
 };
 
@@ -44,6 +65,7 @@ function App() {
   ]);
   return (
     <ThemeProvider theme={currentTheme.theme}>
+      <GlobalStyle />
       <RouterProvider router={router} />
     </ThemeProvider>
   );

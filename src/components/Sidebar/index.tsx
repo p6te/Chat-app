@@ -1,7 +1,7 @@
 import "./styles.scss";
-import Navbar from "../Navbar";
-import Search from "../Search";
-import Chats from "../Chats";
+import Navbar from "./Navbar";
+import Search from "./SearchNewUser";
+import Chats from "./Chats";
 
 import useScreenWidth from "../../hooks/useScreenWidth";
 import { useState } from "react";

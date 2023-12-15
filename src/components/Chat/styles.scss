@@ -1,5 +1,3 @@
-@import "../../responsive.scss";
-
 .chat {
   flex: 2;
   background-color: #f5f5fa;
@@ -31,10 +29,6 @@
     &:hover {
       cursor: pointer;
     }
-  }
-
-  @include tablet {
-    flex: 3;
   }
 
   .chatInfo {
