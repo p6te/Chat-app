@@ -181,7 +181,7 @@ function Register() {
           errorMessage={errorMessage}
         />
       )}
-      <div className="register">
+      <div>
         <FormLayout
           title="Register"
           footer="You do have an account?"

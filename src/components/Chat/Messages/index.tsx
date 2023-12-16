@@ -4,6 +4,7 @@ import "./styles.scss";
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "~/firebaseConfig";
 import { ChatContext } from "~/context/ChatContext";
+import { MessagesContainer } from "./styled";
 
 export default function Messages() {
   const [messages, setMessages] = useState<[]>([]);
@@ -23,10 +24,10 @@ export default function Messages() {
   }, [state.chatId]);
 
   return (
-    <div className="messages">
+    <MessagesContainer>
       {messages.map((message, i) => {
         return <Message message={message} key={i} />;
       })}
-    </div>
+    </MessagesContainer>
   );
 }

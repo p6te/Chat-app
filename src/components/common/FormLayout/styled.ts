@@ -4,6 +4,7 @@ export const Container = styled("div")`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  padding: 40px;
 
   h1 {
     color: ${({ theme }) => theme.primary};

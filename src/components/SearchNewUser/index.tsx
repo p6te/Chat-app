@@ -1,6 +1,12 @@
 import "./styles.scss";
-import UserComponent from "../Chats/User";
-import { useState, KeyboardEvent, useContext } from "react";
+import UserComponent from "../Sidebar/Chats/User";
+import {
+  useState,
+  KeyboardEvent,
+  useContext,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import {
   collection,
   doc,
@@ -11,17 +17,18 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
-import { db } from "../../../firebaseConfig";
-import { UserData } from "../../../types";
-import { AuthContext } from "../../../context/AuthContext";
-import { ensureError } from "../../../utils/ensureError";
-import Loading from "../../common/LoadingSpinner";
+import { db } from "../../firebaseConfig";
+import { UserData } from "../../types";
+import { AuthContext } from "../../context/AuthContext";
+import { ensureError } from "../../utils/ensureError";
+import Loading from "../common/LoadingSpinner";
 
 type Props = {
   setErrorMessage: (message: string) => void;
+  setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function Search({ setErrorMessage }: Props) {
+export default function Search({ setErrorMessage, setIsSearchOpen }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [username, setUsername] = useState("");
   const [user, setUser] = useState<UserData | null>(null);

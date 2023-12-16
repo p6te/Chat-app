@@ -1,4 +1,3 @@
-import "./styles.scss";
 import { v4 as uuid } from "uuid";
 import { useContext, useEffect, useState } from "react";
 import { Timestamp, doc, onSnapshot } from "firebase/firestore";
@@ -9,6 +8,7 @@ import { ChatContext } from "../../../context/ChatContext";
 import { changeUser } from "~/context/actionCreators";
 import { ensureError } from "../../../utils/ensureError";
 import Loading from "../../common/LoadingSpinner";
+import { ChatsContainer } from "./styled";
 
 export type ChatUserData = {
   userId: string;
@@ -69,7 +69,7 @@ export default function Chats({ setErrorMessage }: Props) {
               return;
             }
             const userDbData = userData.data() as UserInfo;
-
+            console.log(userDbData);
             const nextChatUser = {
               ...chatUser,
               ...userDbData,
@@ -119,7 +119,7 @@ export default function Chats({ setErrorMessage }: Props) {
   return (
     <>
       {isLoading && <Loading />}
-      <div className="chats">
+      <ChatsContainer>
         <div className="userChat">
           <div className="userChatInfo">
             {chats.map((chat) => {
@@ -151,7 +151,7 @@ export default function Chats({ setErrorMessage }: Props) {
             })}
           </div>
         </div>
-      </div>
+      </ChatsContainer>
     </>
   );
 }
