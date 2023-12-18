@@ -37,17 +37,22 @@ function Register() {
   };
 
   const updateUserProfile = async (user: User, downloadURL: string) => {
+    const googleAccountDisplayName = user.providerData[0].displayName;
+    const displayName = values.username
+      ? values.username
+      : googleAccountDisplayName;
+    console.log(displayName);
     try {
       //Update profile
       await updateProfile(user, {
-        displayName: values.username,
+        displayName: displayName,
         photoURL: downloadURL,
       });
 
       //create user on firestore
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
-        displayName: values.username,
+        displayName: displayName,
         email: values.email ? values.email : user.email,
         photoURL: downloadURL,
         isOnline: true,
@@ -99,11 +104,30 @@ function Register() {
     }
   };
 
-  const loginViaGoogle = async (e: React.MouseEvent<HTMLElement>) => {
+  const handleRegistrationViaGoogle = async (
+    e: React.MouseEvent<HTMLElement>
+  ) => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      await FirebaseAuthService.loginWithGoogle();
+      const response = await FirebaseAuthService.loginWithGoogle();
+      if (response.user.photoURL) {
+        const googleAccountDisplayName =
+          response.user.providerData[0].displayName;
+        console.log(values.username);
+
+        console.warn(
+          values.username !== "" ? values.username : googleAccountDisplayName
+        );
+
+        updateUserProfile(response.user, response.user.photoURL);
+      } else {
+        getDownloadURL(ref(storage, "avatarIcon.png")).then(
+          async (downloadURL) => {
+            updateUserProfile(response.user, downloadURL);
+          }
+        );
+      }
     } catch (err) {
       const error = ensureError(err);
       setErrorMessage(error.message);
@@ -237,7 +261,11 @@ function Register() {
               <Button type="submit">Sign up</Button>
             </form>
             <Spacer size="24" />
-            <Button className="googleBtn" onClick={loginViaGoogle} outline>
+            <Button
+              className="googleBtn"
+              onClick={handleRegistrationViaGoogle}
+              outline
+            >
               Register with Google account
             </Button>
           </>
@@ -245,6 +273,7 @@ function Register() {
       </div>
     </>
   );
+  ``;
 }
 
 export default Register;
