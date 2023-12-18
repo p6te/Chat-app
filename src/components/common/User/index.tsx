@@ -1,11 +1,11 @@
 import "./styles.scss";
-import { formatDate } from "../../../../utils/formatDate";
+import { formatDate } from "../../../utils/formatDate";
 
 type Props = {
   imgSrc: string;
   name: string;
   lastMessage?: string;
-  timestamp: number;
+  timestamp?: number;
   isSelected?: boolean;
   isOnline?: boolean;
 };

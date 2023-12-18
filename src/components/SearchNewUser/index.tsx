@@ -1,5 +1,5 @@
 import "./styles.scss";
-import UserComponent from "../Sidebar/Chats/User";
+import UserComponent from "../common/User";
 import {
   useState,
   KeyboardEvent,

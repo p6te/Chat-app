@@ -10,7 +10,7 @@ export interface FlexProps {
   children: ReactNode;
 }
 
-export const Flex = styled.div<FlexProps>`
+export const Flexbox = styled.div<FlexProps>`
   display: flex;
   ${({ center }) =>
     center &&

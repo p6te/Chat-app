@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Timestamp, doc, onSnapshot } from "firebase/firestore";
 import { AuthContext } from "../../../context/AuthContext";
 import { db } from "../../../firebaseConfig";
-import User from "./User";
+import User from "../../common/User";
 import { ChatContext } from "../../../context/ChatContext";
 import { changeUser } from "~/context/actionCreators";
 import { ensureError } from "../../../utils/ensureError";

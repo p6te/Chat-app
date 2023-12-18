@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FormLayout from "~/components/common/FormLayout";
 import ErrorModal from "~/components/common/ErrorModal";
-import { Flex } from "~/components/common/Flexbox";
+import { Flexbox } from "~/components/common/Flexbox";
 import Loading from "~/components/common/LoadingSpinner";
 import FirebaseAuthService from "~/firebaseAuthService";
 import { ensureError } from "~/utils/ensureError";
@@ -71,7 +71,7 @@ function Login() {
       >
         <>
           <form onSubmit={loginViaEmail}>
-            <Flex column>
+            <Flexbox column>
               <Input
                 type="emial"
                 placeholder="email"
@@ -93,7 +93,7 @@ function Login() {
               />
               <Spacer />
               <Button type="submit">Sign in</Button>
-            </Flex>
+            </Flexbox>
           </form>
           <Spacer size="24" />
           <Button onClick={loginViaGoogle} outline>

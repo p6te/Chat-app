@@ -15,6 +15,7 @@ export const FooterContainer = styled("div")`
 export const LogoutButton = styled("button")`
   display: flex;
   justify-content: flex-start;
+  align-items: center;
   gap: 0.5rem;
   background-color: transparent;
   outline: none;
@@ -24,9 +25,13 @@ export const LogoutButton = styled("button")`
   padding: 0.5rem;
   border-radius: 1rem;
   color: ${({ theme }) => theme.primary};
+  svg {
+    transform: translateY(2px);
+  }
+
   &:hover {
     cursor: pointer;
-    background-color: ${({ theme }) => theme.backgroundSecondary};
-    border: 1px solid gray;
+    background-color: ${({ theme }) => theme.backgroundPrimary};
+    transition: 0.2s;
   }
 `;

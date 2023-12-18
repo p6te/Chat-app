@@ -7,51 +7,31 @@ import { ensureError } from "../../../utils/ensureError";
 import Loading from "../../common/LoadingSpinner";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
-import { NavbarContainer } from "./styled";
+import {
+  CredentialsContainer,
+  ImageContainer,
+  NavbarContainer,
+} from "./styled";
+import SettingsIcon from "~/assets/SettingsIcon";
 
 type Props = {
   setErrorMessage: (message: string) => void;
 };
 export default function Navbar({ setErrorMessage }: Props) {
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
   const { loggedUser } = useContext(AuthContext);
 
-  const handleLogout = async () => {
-    try {
-      setIsLoading(true);
-      if (loggedUser) {
-        await setDoc(
-          doc(db, "users", loggedUser?.uid),
-          {
-            isOnline: false,
-          },
-          { merge: true }
-        );
-      }
-
-      FirebaseAuthService.logoutUser();
-      navigate("/login");
-    } catch (err) {
-      const error = ensureError(err);
-      setErrorMessage(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  if (!loggedUser?.photoURL) {
-    return;
-  }
-
   return (
-    <>
-      {isLoading && <Loading />}
-
-      <NavbarContainer>
-        <img src={loggedUser?.photoURL} alt="" />
-        {/* <span>{loggedUser?.displayName}</span> */}
-        <span>User Name</span>
-      </NavbarContainer>
-    </>
+    <NavbarContainer>
+      <ImageContainer onClick={() => {}}>
+        {loggedUser?.photoURL && <img src={loggedUser?.photoURL} alt="" />}
+        <SettingsIcon size="24" />
+      </ImageContainer>
+      <CredentialsContainer>
+        {/* <h4>{loggedUser?.displayName}</h4> */}
+        <h4>UserName</h4>
+        <span>{loggedUser?.email}</span>
+      </CredentialsContainer>
+      {/* <span>dodac ikone zebaki przy zdjeciu użytkownika</span>/ */}
+    </NavbarContainer>
   );
 }
