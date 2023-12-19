@@ -1,4 +1,3 @@
-import "./styles.scss";
 import UserComponent from "../common/User";
 import {
   useState,
@@ -22,13 +21,16 @@ import { UserData } from "../../types";
 import { AuthContext } from "../../context/AuthContext";
 import { ensureError } from "../../utils/ensureError";
 import Loading from "../common/LoadingSpinner";
+import Input from "../common/Input";
+import { Button } from "../common/Button/styled";
+import { Flexbox } from "../common/Flexbox";
+import { StyledInput } from "./styled";
 
 type Props = {
   setErrorMessage: (message: string) => void;
-  setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function Search({ setErrorMessage, setIsSearchOpen }: Props) {
+export default function Search({ setErrorMessage }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const [username, setUsername] = useState("");
   const [user, setUser] = useState<UserData | null>(null);
@@ -110,17 +112,18 @@ export default function Search({ setErrorMessage, setIsSearchOpen }: Props) {
   return (
     <>
       {isLoading && <Loading />}
-      <div className="search">
-        <div className="searchForm">
-          <input
+      <div>
+        <Flexbox spaceBetween gap="16px">
+          <StyledInput
             type="text"
             placeholder="Find a user by nickname"
             onChange={(e) => setUsername(e.target.value)}
             onKeyDown={handleKey}
             value={username}
           />
-        </div>
-        <div className="userChat" onClick={handleSelectUser}>
+          <Button shrink>Search</Button>
+        </Flexbox>
+        <div onClick={handleSelectUser}>
           {user && (
             <UserComponent
               imgSrc={user?.photoURL}

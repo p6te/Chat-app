@@ -9,15 +9,16 @@ export interface InputProps
 }
 
 export const Container = styled.div`
+  flex-grow: 1;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 1rem;
 `;
 
 export const StyledInput = styled.input<InputProps>`
   width: 100%;
+  height: 3rem;
   padding: 0.6rem 1.2rem;
   border: ${({ theme }) => css`1px solid ${theme.tertiary}`};
   border-radius: 1rem;

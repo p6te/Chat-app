@@ -6,6 +6,7 @@ export interface ButtonProps
     HTMLButtonElement
   > {
   outline?: boolean;
+  shrink?: boolean;
 }
 export const Button = styled.button<ButtonProps>`
   display: flex;
@@ -19,7 +20,8 @@ export const Button = styled.button<ButtonProps>`
   border: none;
   color: ${({ theme }) => theme.textSecondary};
   background-color: ${({ theme }) => theme.primaryLight};
-  width: 100%;
+  width: ${({ shrink }) => (shrink ? "auto" : "100%")};
+  height: 3rem;
 
   &:hover {
     background-color: ${({ theme }) => theme.primary};

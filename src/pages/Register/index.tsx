@@ -212,17 +212,20 @@ function Register() {
           footerLink="Login"
         >
           <>
+            <Spacer />
             <form onSubmit={handleRegistrationViaEmail}>
               {/* TODO refactor validation */}
               {inputs.map((input) => {
                 return (
-                  <Input
-                    key={input.id}
-                    onChange={onChange}
-                    value={values[input.name as keyof typeof values]}
-                    {...input}
-                    id={input.id.toString()}
-                  />
+                  <div key={input.id}>
+                    <Input
+                      onChange={onChange}
+                      value={values[input.name as keyof typeof values]}
+                      {...input}
+                      id={input.id.toString()}
+                    />
+                    <Spacer size="8" />
+                  </div>
                 );
               })}
               <div>

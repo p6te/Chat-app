@@ -70,8 +70,9 @@ function Login() {
         footerLink="Register"
       >
         <>
+          <Spacer />
           <form onSubmit={loginViaEmail}>
-            <Flexbox column>
+            <Flexbox column gap="16px">
               <Input
                 type="emial"
                 placeholder="email"
@@ -91,7 +92,7 @@ function Login() {
                   setValues({ ...values, password: e.target.value })
                 }
               />
-              <Spacer />
+
               <Button type="submit">Sign in</Button>
             </Flexbox>
           </form>

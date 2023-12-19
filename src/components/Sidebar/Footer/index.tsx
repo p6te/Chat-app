@@ -3,7 +3,7 @@ import { FooterContainer, LogoutButton } from "./styled";
 import FirebaseAuthService from "~/firebaseAuthService";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "~/firebaseConfig";
-import { useContext, useState } from "react";
+import { Dispatch, SetStateAction, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "~/context/AuthContext";
 import { ensureError } from "~/utils/ensureError";
@@ -13,9 +13,10 @@ import Spacer from "~/components/common/Spacer";
 
 type Props = {
   setErrorMessage: (message: string) => void;
+  setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function Footer({ setErrorMessage }: Props) {
+export default function Footer({ setErrorMessage, setIsSearchOpen }: Props) {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { loggedUser } = useContext(AuthContext);
@@ -51,7 +52,7 @@ export default function Footer({ setErrorMessage }: Props) {
 
       <FooterContainer>
         <div>
-          <Button>Add new chat</Button>
+          <Button onClick={() => setIsSearchOpen(true)}>Add new chat</Button>
           <Spacer size="12" />
           <LogoutButton onClick={handleLogout}>
             <LogoutIcon />

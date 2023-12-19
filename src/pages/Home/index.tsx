@@ -1,9 +1,11 @@
 import { useState } from "react";
-import Chat from "../../components/Chat";
+
 import Sidebar from "../../components/Sidebar";
 import ErrorModal from "../../components/common/ErrorModal";
 import { Container } from "./styled";
 import Search from "~/components/SearchNewUser";
+import Modal from "~/components/common/Modal";
+import Chat from "~/components/chat";
 
 function Home() {
   const [errorMessage, setErrorMessage] = useState("");
@@ -17,14 +19,15 @@ function Home() {
           errorMessage={errorMessage}
         />
       )}
-      {isSearchOpen && (
-        <Search
-          setErrorMessage={setErrorMessage}
-          setIsSearchOpen={setIsSearchOpen}
-        />
-      )}
 
-      <Sidebar setErrorMessage={setErrorMessage} />
+      <Modal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)}>
+        <Search setErrorMessage={setErrorMessage} />
+      </Modal>
+
+      <Sidebar
+        setErrorMessage={setErrorMessage}
+        setIsSearchOpen={setIsSearchOpen}
+      />
       <Chat />
     </Container>
   );
