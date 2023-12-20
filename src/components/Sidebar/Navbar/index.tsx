@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction, useContext, useEffect } from "react";
-import { AuthContext } from "../../../context/AuthContext";
 import {
   CredentialsContainer,
   ImageContainer,
   NavbarContainer,
 } from "./styled";
 import SettingsIcon from "~/assets/SettingsIcon";
+import { AuthContext } from "~/context/AuthContext";
 
 type Props = {
   setErrorMessage: (message: string) => void;
@@ -13,7 +13,6 @@ type Props = {
 };
 export default function Navbar({ setErrorMessage, setIsLoading }: Props) {
   const { loggedUser } = useContext(AuthContext);
-
   useEffect(() => {
     if (!loggedUser || !loggedUser?.photoURL) {
       setIsLoading(true);

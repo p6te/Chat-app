@@ -29,7 +29,7 @@ export default function Footer({
   setIsLoading,
 }: Props) {
   const navigate = useNavigate();
-  const { loggedUser } = useContext(AuthContext);
+  const { loggedUser, setLoggedUser } = useContext(AuthContext);
 
   const handleLogout = async () => {
     try {
@@ -45,6 +45,7 @@ export default function Footer({
       }
 
       FirebaseAuthService.logoutUser();
+      setLoggedUser(null);
       navigate("/login");
     } catch (err) {
       const error = ensureError(err);

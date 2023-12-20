@@ -5,7 +5,7 @@ import { doc, setDoc } from "firebase/firestore";
 
 interface AuthContextType {
   loggedUser: User | null;
-  setLoggedUser: (user: User) => void;
+  setLoggedUser: (user: User | null) => void;
 }
 
 export const AuthContext = createContext<AuthContextType>({
