@@ -22,8 +22,12 @@ export const AuthContextProvider = ({ children }: Props) => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
+    if (loggedUser) {
+      return;
+    }
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
+        console.log("test");
         setLoggedUser(user);
         const isLogin = async () => {
           await setDoc(
@@ -40,7 +44,7 @@ export const AuthContextProvider = ({ children }: Props) => {
     });
 
     return () => unsub();
-  }, []);
+  }, [loggedUser]);
 
   return (
     <AuthContext.Provider value={{ loggedUser, setLoggedUser }}>

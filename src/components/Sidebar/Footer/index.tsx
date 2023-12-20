@@ -3,7 +3,13 @@ import { FooterContainer, LogoutButton } from "./styled";
 import FirebaseAuthService from "~/firebaseAuthService";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "~/firebaseConfig";
-import { Dispatch, SetStateAction, useContext, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "~/context/AuthContext";
 import { ensureError } from "~/utils/ensureError";
@@ -14,10 +20,14 @@ import Spacer from "~/components/common/Spacer";
 type Props = {
   setErrorMessage: (message: string) => void;
   setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function Footer({ setErrorMessage, setIsSearchOpen }: Props) {
-  const [isLoading, setIsLoading] = useState(false);
+export default function Footer({
+  setErrorMessage,
+  setIsSearchOpen,
+  setIsLoading,
+}: Props) {
   const navigate = useNavigate();
   const { loggedUser } = useContext(AuthContext);
 
@@ -43,13 +53,16 @@ export default function Footer({ setErrorMessage, setIsSearchOpen }: Props) {
       setIsLoading(false);
     }
   };
-  if (!loggedUser?.photoURL) {
-    return;
-  }
+
+  useEffect(() => {
+    if (!loggedUser || !loggedUser?.photoURL) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [loggedUser, setIsLoading]);
   return (
     <>
-      {isLoading && <Loading />}
-
       <FooterContainer>
         <div>
           <Button onClick={() => setIsSearchOpen(true)}>Add new chat</Button>

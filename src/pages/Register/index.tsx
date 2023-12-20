@@ -17,6 +17,8 @@ import FirebaseAuthService from "~/firebaseAuthService";
 import Loading from "~/components/common/LoadingSpinner";
 import ErrorModal from "~/components/common/ErrorModal";
 import FormLayout from "~/components/common/FormLayout";
+import HidePasswordIcon from "~/assets/HidePasswordIcon";
+import ShowPasswordIcon from "~/assets/ShowPasswordIcon";
 
 type Inputs = {
   username: string;
@@ -30,6 +32,8 @@ function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const [avatar, setAvatar] = useState<File | null>(null);
   const [imageURL, setImageURL] = useState<string>("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { setLoggedUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -124,19 +128,10 @@ function Register() {
     e: React.MouseEvent<HTMLElement>
   ) => {
     e.preventDefault();
-    const values = getValues();
     try {
       setIsLoading(true);
       const response = await FirebaseAuthService.loginWithGoogle();
       if (response.user.photoURL) {
-        const googleAccountDisplayName =
-          response.user.providerData[0].displayName;
-        console.log(values.username);
-
-        console.warn(
-          values.username !== "" ? values.username : googleAccountDisplayName
-        );
-
         updateUserProfile(response.user, response.user.photoURL);
       } else {
         getDownloadURL(ref(storage, "avatarIcon.png")).then(
@@ -221,7 +216,7 @@ function Register() {
               />
 
               <Input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 marginTop="8"
                 label="Password"
                 {...register("password", {
@@ -236,10 +231,16 @@ function Register() {
                   },
                 })}
                 errorMessage={errors.password?.message}
+                endIcon={
+                  showPassword ? <HidePasswordIcon /> : <ShowPasswordIcon />
+                }
+                endIconOnClick={() =>
+                  setShowPassword((prevState) => !prevState)
+                }
               />
 
               <Input
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 marginTop="8"
                 label="Confirm Password"
                 {...register("confirmPassword", {
@@ -248,6 +249,16 @@ function Register() {
                   },
                 })}
                 errorMessage={errors.confirmPassword?.message}
+                endIcon={
+                  showConfirmPassword ? (
+                    <HidePasswordIcon />
+                  ) : (
+                    <ShowPasswordIcon />
+                  )
+                }
+                endIconOnClick={() =>
+                  setShowConfirmPassword((prevState) => !prevState)
+                }
               />
 
               <div>

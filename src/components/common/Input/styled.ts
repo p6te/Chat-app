@@ -7,6 +7,7 @@ export const shouldForwardProp = <CustomProps extends Record<string, unknown>>(
 
 export type InputProps = {
   isError?: boolean;
+  withEndIcon?: boolean;
 } & React.DetailedHTMLProps<
   React.InputHTMLAttributes<HTMLInputElement>,
   HTMLInputElement
@@ -21,7 +22,7 @@ export const Container = styled.div`
 `;
 
 export const StyledInput = styled("input").withConfig({
-  shouldForwardProp: (prop) => !["isError"].includes(prop),
+  shouldForwardProp: (prop) => !["isError", "withEndIcon"].includes(prop),
 })<InputProps>`
   width: 100%;
   height: 3rem;
@@ -36,6 +37,11 @@ export const StyledInput = styled("input").withConfig({
     isError &&
     css`
       border: 1px solid ${theme.error};
+    `};
+  ${({ withEndIcon }) =>
+    withEndIcon &&
+    css`
+      padding-right: 48px;
     `};
 
   &:focus {
@@ -72,4 +78,19 @@ export const ErrorMessage = styled("span")`
   color: ${({ theme }) => theme.error};
   font-size: 0.8rem;
   margin: 0 8px;
+`;
+
+export const PasswordIconContainer = styled("div")`
+  opacity: 0.5;
+  padding: 10px;
+  width: auto;
+  height: auto;
+  position: absolute;
+  right: 6px;
+
+  &:hover {
+    opacity: 1;
+    cursor: pointer;
+    transition: 0.2s;
+  }
 `;

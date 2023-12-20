@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { Dispatch, SetStateAction, useContext, useEffect } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import {
   CredentialsContainer,
@@ -9,10 +9,18 @@ import SettingsIcon from "~/assets/SettingsIcon";
 
 type Props = {
   setErrorMessage: (message: string) => void;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
-export default function Navbar({ setErrorMessage }: Props) {
+export default function Navbar({ setErrorMessage, setIsLoading }: Props) {
   const { loggedUser } = useContext(AuthContext);
 
+  useEffect(() => {
+    if (!loggedUser || !loggedUser?.photoURL) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [loggedUser, setIsLoading]);
   return (
     <NavbarContainer>
       <ImageContainer onClick={() => {}}>
@@ -20,11 +28,9 @@ export default function Navbar({ setErrorMessage }: Props) {
         <SettingsIcon size="24" />
       </ImageContainer>
       <CredentialsContainer>
-        {/* <h4>{loggedUser?.displayName}</h4> */}
-        <h4>UserName</h4>
+        <h4>{loggedUser?.displayName}</h4>
         <span>{loggedUser?.email}</span>
       </CredentialsContainer>
-      {/* <span>dodac ikone zebaki przy zdjeciu użytkownika</span>/ */}
     </NavbarContainer>
   );
 }
