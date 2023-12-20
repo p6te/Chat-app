@@ -1,43 +1,58 @@
-import FormLayout from "../../components/common/FormLayout";
-import Loading from "../../components/common/LoadingSpinner";
 import CancelIcon from "~/assets/cancel.png";
-import { ChangeEvent, FormEvent, useContext, useState } from "react";
-import FirebaseAuthService from "../../firebaseAuthService";
+import { ChangeEvent, useContext, useState } from "react";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
-import { storage, db } from "../../firebaseConfig";
 import { User, updateProfile } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import { UserForm } from "../../types";
-import { ensureError } from "../../utils/ensureError";
-import ErrorModal from "../../components/common/ErrorModal";
-import { AuthContext } from "../../context/AuthContext";
 import Input from "~/components/common/Input";
 import { Button } from "~/components/common/Button/styled";
 import Spacer from "~/components/common/Spacer";
-import { AddImageContainer, StyledImgIcon } from "./styled";
+import { AddImageContainer, Avatar, AvatarContainer } from "./styled";
+import { SubmitHandler, useForm } from "react-hook-form";
+import ImageIcon from "~/assets/ImageIcon";
+import { AuthContext } from "~/context/AuthContext";
+import { db, storage } from "~/firebaseConfig";
+import { ensureError } from "~/utils/ensureError";
+import FirebaseAuthService from "~/firebaseAuthService";
+import Loading from "~/components/common/LoadingSpinner";
+import ErrorModal from "~/components/common/ErrorModal";
+import FormLayout from "~/components/common/FormLayout";
+
+type Inputs = {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
 
 function Register() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [avatar, setAvatar] = useState<File | null>(null);
   const [imageURL, setImageURL] = useState<string>("");
-  const [values, setValues] = useState<UserForm>({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
-
   const { setLoggedUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+    watch,
+  } = useForm<Inputs>({
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  const password = watch("password", "");
 
   const updateUserProfile = async (user: User, downloadURL: string) => {
     const googleAccountDisplayName = user.providerData[0].displayName;
+    const values = getValues();
     const displayName = values.username
       ? values.username
       : googleAccountDisplayName;
@@ -69,8 +84,9 @@ function Register() {
     }
   };
 
-  const handleRegistrationViaEmail = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleRegistrationViaEmail: SubmitHandler<Inputs> = async (data) => {
+    const values = data;
+
     setIsLoading(true);
 
     try {
@@ -108,6 +124,7 @@ function Register() {
     e: React.MouseEvent<HTMLElement>
   ) => {
     e.preventDefault();
+    const values = getValues();
     try {
       setIsLoading(true);
       const response = await FirebaseAuthService.loginWithGoogle();
@@ -139,6 +156,7 @@ function Register() {
 
   const onSaveAvatar = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
     if (file) {
       setAvatar(file);
       const reader = new FileReader();
@@ -150,51 +168,6 @@ function Register() {
       reader.readAsDataURL(file);
     }
   };
-
-  const inputs = [
-    {
-      id: 1,
-      name: "username",
-      type: "text",
-      placeholder: "Username",
-      errorMessage:
-        "Username should be 3-16 characters and shouldn't include any special character!",
-      label: "Username",
-      pattern: "^[A-Za-z0-9]{3,16}$",
-      required: true,
-    },
-    {
-      id: 2,
-      name: "email",
-      type: "email",
-      placeholder: "Email",
-      errorMessage: "It should be a valid email address!",
-      label: "Email",
-      pattern: "^[A-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[A-Z0-9.-]+$",
-      required: true,
-    },
-    {
-      id: 3,
-      name: "password",
-      type: "password",
-      placeholder: "Password",
-      errorMessage:
-        "Password should be 8-20 characters and include at least 1 letter, 1 number and 1 special character!",
-      label: "Password",
-      pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
-      required: true,
-    },
-    {
-      id: 4,
-      name: "confirmPassword",
-      type: "password",
-      placeholder: "Confirm Password",
-      errorMessage: "Passwords don't match!",
-      label: "Confirm Password",
-      pattern: values.password,
-      required: true,
-    },
-  ];
 
   return (
     <>
@@ -213,24 +186,73 @@ function Register() {
         >
           <>
             <Spacer />
-            <form onSubmit={handleRegistrationViaEmail}>
-              {/* TODO refactor validation */}
-              {inputs.map((input) => {
-                return (
-                  <div key={input.id}>
-                    <Input
-                      onChange={onChange}
-                      value={values[input.name as keyof typeof values]}
-                      {...input}
-                      id={input.id.toString()}
-                    />
-                    <Spacer size="8" />
-                  </div>
-                );
-              })}
+            <form onSubmit={handleSubmit(handleRegistrationViaEmail)}>
+              <Input
+                marginTop="8"
+                label="Username"
+                {...register("username", {
+                  required: "Username is required",
+                  minLength: {
+                    value: 3,
+                    message: "Username must be at least 3 characters",
+                  },
+                  maxLength: {
+                    value: 16,
+                    message: "Username must be at less than 16 characters",
+                  },
+                })}
+                errorMessage={errors.username?.message}
+              />
+
+              <Input
+                marginTop="8"
+                label="Email"
+                {...register("email", {
+                  required: {
+                    value: true,
+                    message: "Email is required",
+                  },
+                  pattern: {
+                    value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+                    message: "Entered value does not match email format",
+                  },
+                })}
+                errorMessage={errors.email?.message}
+              />
+
+              <Input
+                type="password"
+                marginTop="8"
+                label="Password"
+                {...register("password", {
+                  required: {
+                    value: true,
+                    message: "Password is required",
+                  },
+                  pattern: {
+                    value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+                    message:
+                      "Password should be at least 8 characters and include minimum 1 letter and 1 number",
+                  },
+                })}
+                errorMessage={errors.password?.message}
+              />
+
+              <Input
+                type="password"
+                marginTop="8"
+                label="Confirm Password"
+                {...register("confirmPassword", {
+                  validate: (fieldValue) => {
+                    return fieldValue === password || "Passwords don't match!";
+                  },
+                })}
+                errorMessage={errors.confirmPassword?.message}
+              />
+
               <div>
                 {imageURL ? (
-                  <div className="avatarPreview">
+                  <AvatarContainer>
                     <button
                       onClick={() => {
                         setImageURL("");
@@ -238,8 +260,8 @@ function Register() {
                     >
                       <img src={CancelIcon} alt="" />
                     </button>
-                    <img src={imageURL} alt="avatar" />
-                  </div>
+                    <Avatar src={imageURL} alt="avatar" />
+                  </AvatarContainer>
                 ) : (
                   <AddImageContainer>
                     <>
@@ -253,7 +275,7 @@ function Register() {
                         accept="image/png, image/jpeg"
                       />
                       <label htmlFor="file">
-                        <StyledImgIcon size={48} />
+                        <ImageIcon size={"48"} />
                       </label>
                     </>
                     <span>Add an avatar</span>

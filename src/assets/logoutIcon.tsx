@@ -20,10 +20,10 @@ export default function LogoutIcon({ color, size }: Props) {
     >
       <g
         fill="none"
-        fill-rule="evenodd"
+        fillRule="evenodd"
         stroke={color ? color : theme.primary}
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         transform="matrix(-1 0 0 1 18 3)"
       >
         <path d="m10.595 10.5 2.905-3-2.905-3" />

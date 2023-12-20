@@ -5,6 +5,8 @@ export const Container = styled("div")`
   justify-content: center;
   flex-direction: column;
   padding: 40px;
+  max-width: 500px;
+  width: 80vw;
 
   h1 {
     color: ${({ theme }) => theme.primary};

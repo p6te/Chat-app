@@ -1,12 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import FirebaseAuthService from "../../../firebaseAuthService";
 import { useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
-import { ensureError } from "../../../utils/ensureError";
-import Loading from "../../common/LoadingSpinner";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../../../firebaseConfig";
 import {
   CredentialsContainer,
   ImageContainer,

@@ -10,7 +10,10 @@ export interface FlexProps {
   children: ReactNode;
 }
 
-export const Flexbox = styled.div<FlexProps>`
+export const Flexbox = styled("div").withConfig({
+  shouldForwardProp: (prop) =>
+    !["center", "spaceBetween", "flxEnd", "gap", "column"].includes(prop),
+})<FlexProps>`
   display: flex;
   ${({ center }) =>
     center &&

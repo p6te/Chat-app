@@ -1,12 +1,16 @@
 import styled, { css } from "styled-components";
 
-export interface InputProps
-  extends React.DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  > {
+export const shouldForwardProp = <CustomProps extends Record<string, unknown>>(
+  props: Array<keyof CustomProps>,
+  prop: PropertyKey
+): boolean => !props.includes(prop as string);
+
+export type InputProps = {
   isError?: boolean;
-}
+} & React.DetailedHTMLProps<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+>;
 
 export const Container = styled.div`
   flex-grow: 1;
@@ -16,7 +20,9 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const StyledInput = styled.input<InputProps>`
+export const StyledInput = styled("input").withConfig({
+  shouldForwardProp: (prop) => !["isError"].includes(prop),
+})<InputProps>`
   width: 100%;
   height: 3rem;
   padding: 0.6rem 1.2rem;
@@ -61,8 +67,9 @@ export const Label = styled.span`
   transition: 0.3s;
 `;
 
-export const ErrorMessage = styled.span`
+export const ErrorMessage = styled("span")`
+  display: inline-block;
   color: ${({ theme }) => theme.error};
   font-size: 0.8rem;
-  margin-left: 1rem;
+  margin: 0 8px;
 `;

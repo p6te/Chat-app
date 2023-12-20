@@ -21,7 +21,7 @@ import { UserData } from "../../types";
 import { AuthContext } from "../../context/AuthContext";
 import { ensureError } from "../../utils/ensureError";
 import Loading from "../common/LoadingSpinner";
-import Input from "../common/Input";
+
 import { Button } from "../common/Button/styled";
 import { Flexbox } from "../common/Flexbox";
 import { StyledInput } from "./styled";

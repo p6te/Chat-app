@@ -8,7 +8,10 @@ export interface ButtonProps
   outline?: boolean;
   shrink?: boolean;
 }
-export const Button = styled.button<ButtonProps>`
+
+export const Button = styled("button").withConfig({
+  shouldForwardProp: (prop) => !["outline", "shrink"].includes(prop),
+})<ButtonProps>`
   display: flex;
   text-align: center;
   align-self: center;
@@ -21,7 +24,8 @@ export const Button = styled.button<ButtonProps>`
   color: ${({ theme }) => theme.textSecondary};
   background-color: ${({ theme }) => theme.primaryLight};
   width: ${({ shrink }) => (shrink ? "auto" : "100%")};
-  height: 3rem;
+  min-height: 3rem;
+  word-wrap: break-word;
 
   &:hover {
     background-color: ${({ theme }) => theme.primary};
@@ -30,7 +34,7 @@ export const Button = styled.button<ButtonProps>`
   }
 
   ${({ outline }) =>
-    outline &&
+    !!outline &&
     css`
       background-color: transparent;
       color: ${({ theme }) => theme.primaryLight};

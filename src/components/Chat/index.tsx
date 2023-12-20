@@ -10,11 +10,11 @@ export default function Chat() {
   const { displayName, isOnline, photoURL } = state.user;
   return (
     <ChatContainer>
-      {/* {!state.chatId && (
+      {!state.chatId && (
         <ChatMissing>
           <h3>Please open a new chat... </h3>
         </ChatMissing>
-      )} */}
+      )}
 
       <>
         <TopSection>

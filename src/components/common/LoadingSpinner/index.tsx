@@ -1,13 +1,11 @@
-import "./styles.scss";
+import { StyledCircle, StyledSpinner, Wrapper } from "./styled";
 
 export default function Loading() {
   return (
-    <div className="background">
-      <div className="spinner">
-        <span className="spinner-inner-1"></span>
-        <span className="spinner-inner-2"></span>
-        <span className="spinner-inner-3"></span>
-      </div>
-    </div>
+    <Wrapper>
+      <StyledSpinner width="65px" height="65px" viewBox="0 0 66 66">
+        <StyledCircle />
+      </StyledSpinner>
+    </Wrapper>
   );
 }
