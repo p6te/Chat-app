@@ -2,7 +2,6 @@ import "./styles.scss";
 import Img from "~/assets/img.png";
 import Cancel from "~/assets/cancel.png";
 // import Attach from "../../assets/attach.png";
-import EmojiIcon from "~/assets/smile.png";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import {
@@ -19,8 +18,20 @@ import { db, storage } from "../../../firebaseConfig";
 import { MessageType } from "../../../types";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { useOutsideClick } from "../../../hooks/useOutsideClick";
+import EmojiIcon from "~/assets/EmojiIcon";
+import Input from "~/components/common/Input";
+import {
+  EmojiButton,
+  EmojiPickerContainer,
+  SearchInputContainer,
+  SendButton,
+  SendOptions,
+} from "./styled";
+import { Flexbox } from "~/components/common/Flexbox";
+import AddImageIcon from "~/assets/AddImageIcon";
+import SendIcon from "~/assets/SendIcon";
 
-export default function Input() {
+export default function ChatInput() {
   const [text, setText] = useState("");
   const [img, setImg] = useState<File | null>(null);
   const [isEmojPicker, setIsEmojPicker] = useState(false);
@@ -116,9 +127,9 @@ export default function Input() {
   };
 
   return (
-    <div className="inputMessage">
-      <input
-        className="inputMessage"
+    <SearchInputContainer>
+      <Input
+        // className="inputMessage"
         type="text"
         placeholder="type..."
         value={text}
@@ -126,7 +137,7 @@ export default function Input() {
         onKeyDown={(e) => handleEnterKey(e)}
       />
       {isEmojPicker && (
-        <div ref={emojiPickerRef} className="emojiPicker">
+        <EmojiPickerContainer ref={emojiPickerRef}>
           <EmojiPicker
             onEmojiClick={handleEmojiClick}
             height={350}
@@ -134,11 +145,11 @@ export default function Input() {
             lazyLoadEmojis={true}
             skinTonesDisabled={true}
           />
-        </div>
+        </EmojiPickerContainer>
       )}
       <div>
         {img && (
-          <div className="imageLoaded">
+          <Flexbox center gap="4px">
             <img
               src={Cancel}
               alt=""
@@ -146,15 +157,15 @@ export default function Input() {
               className="cancel"
             />
             <img src={Img} alt="" /> <p>{img.name}</p>
-          </div>
+          </Flexbox>
         )}
       </div>
-      <div className="send">
+      <SendOptions>
         {/* TODO add handling files */}
         {/* <img src={Attach} alt="" /> */}
-        <button onClick={() => setIsEmojPicker(true)}>
-          <img src={EmojiIcon} alt="" className="openEmoji" />
-        </button>
+        <EmojiButton onClick={() => setIsEmojPicker(true)}>
+          <EmojiIcon size="28" />
+        </EmojiButton>
         <input
           type="file"
           style={{ display: "none" }}
@@ -162,10 +173,12 @@ export default function Input() {
           onChange={handleFileChange}
         />
         <label htmlFor="file">
-          <img src={Img} alt="" />
+          <AddImageIcon size="28" />
         </label>
-        <button onClick={handleSend}>Send</button>
-      </div>
-    </div>
+        <SendButton onClick={handleSend}>
+          <SendIcon size="28" />
+        </SendButton>
+      </SendOptions>
+    </SearchInputContainer>
   );
 }

@@ -23,7 +23,7 @@ export const THEMES: Record<ThemeType, Theme> = {
     primary: "#2676ff",
     primaryLight: "#639dff",
     secondary: "#9e9e9e",
-    tertiary: "#d1d1d1",
+    tertiary: "#f0f0f0",
     backgroundPrimary: "#FFFFFF",
     backgroundSecondary: "#edf3ff",
     textPrimary: "#292929",

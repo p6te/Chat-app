@@ -25,7 +25,7 @@ const User: React.FC<Props> = ({
       </div>
       <div className="userInfo">
         <span>{name}</span>
-        {lastMessage ? (
+        {lastMessage && timestamp ? (
           <>
             <p>{lastMessage}</p>
             <time>{formatDate(timestamp)}</time>

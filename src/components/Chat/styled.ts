@@ -3,9 +3,9 @@ import styled from "styled-components";
 export const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
-  position: relative;
   width: 100%;
-  background-color: lightblue;
+
+  border-radius: 40px;
 `;
 
 export const ChatMissing = styled.div`
@@ -13,12 +13,12 @@ export const ChatMissing = styled.div`
   z-index: 5;
   width: 100%;
   height: 100%;
-  background-color: #6288a14a;
+  background-color: ${({ theme }) => theme.secondary};
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 export const TopSection = styled.div`
-  background-color: tomato;
+  box-shadow: 0px 25px 20px -27px rgba(66, 68, 90, 0.232);
 `;
