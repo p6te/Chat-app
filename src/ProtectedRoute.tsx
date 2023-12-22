@@ -50,7 +50,7 @@ const ProtectedRoute: React.FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     const handleTabClose = (event: Event) => {
       event.preventDefault();
-      turnOffOnlineStatus();
+      // turnOffOnlineStatus();
     };
 
     window.addEventListener("beforeunload", handleTabClose);

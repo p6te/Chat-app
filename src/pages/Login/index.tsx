@@ -12,7 +12,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { ref, getDownloadURL } from "firebase/storage";
 import { User, updateProfile } from "firebase/auth";
 import { AuthContext } from "~/context/AuthContext";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db, storage } from "~/firebaseConfig";
 
 type Inputs = {
@@ -49,8 +49,15 @@ function Login() {
         displayName: googleAccountDisplayName,
         photoURL: downloadURL,
       });
+      console.log(user.uid);
+      const userRes = await getDoc(doc(db, "users", user.uid));
+      console.log(userRes.data()?.uid);
 
-      //create user on firestore
+      if (userRes.data()?.uid) {
+        console.log("koniec");
+        return;
+      }
+
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
         displayName: googleAccountDisplayName,
@@ -77,7 +84,11 @@ function Login() {
     try {
       setIsLoading(true);
       const response = await FirebaseAuthService.loginWithGoogle();
-      if (response.user.photoURL) {
+      if (!response) {
+        return;
+      }
+
+      if (response && response.user.photoURL) {
         updateUserProfile(response.user, response.user.photoURL);
       } else {
         getDownloadURL(ref(storage, "avatarIcon.png")).then(

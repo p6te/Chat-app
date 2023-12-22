@@ -36,7 +36,7 @@ export default function Footer({
       setIsLoading(true);
       if (loggedUser) {
         await setDoc(
-          doc(db, "users", loggedUser?.uid),
+          doc(db, "users", loggedUser.uid),
           {
             isOnline: false,
           },

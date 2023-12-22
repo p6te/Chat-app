@@ -18,10 +18,12 @@ export const ChatMissing = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  border-radius: 40px;
 `;
 
 export const TopSection = styled.div`
   box-shadow: 0px 25px 20px -27px rgba(66, 68, 90, 0.232);
+  min-height: 50px;
   div {
     display: flex;
     align-items: center;

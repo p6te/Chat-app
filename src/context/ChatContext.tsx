@@ -29,7 +29,7 @@ export const ChatContext = createContext<ContextType>({
 
 export const ChatContextProvider = ({ children }: Props) => {
   const { loggedUser } = useContext(AuthContext);
-
+  console.log(loggedUser);
   const chatReducer = (state: StateType, action: ActionType): StateType => {
     switch (action.type) {
       case ACTION.CHANGE_USER:
@@ -47,7 +47,7 @@ export const ChatContextProvider = ({ children }: Props) => {
   };
 
   const [state, dispatch] = useReducer(chatReducer, initialState);
-  console.log(state);
+  console.log(state.chatId);
   return (
     <ChatContext.Provider value={{ state, dispatch }}>
       {children}

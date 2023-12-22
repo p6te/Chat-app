@@ -1,4 +1,3 @@
-import "./styles.scss";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import {
@@ -45,31 +44,44 @@ export default function ChatInput() {
     if (!img && !text) {
       return;
     }
+
     if (img) {
       const storageRef = ref(storage, uuid());
-
+      const uploadTask = uploadBytesResumable(storageRef, img);
       try {
-        const uploadTask = uploadBytesResumable(storageRef, img);
+        uploadTask.on(
+          "state_changed",
+          () => {},
+          (error) => {
+            console.log(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then(
+              async (downloadURL) => {
+                const newMessage: MessageType = {
+                  id: uuid(),
+                  text,
+                  senderId: loggedUser?.uid,
+                  date: Timestamp.now(),
+                  img: downloadURL,
+                };
+                try {
+                  await updateDoc(doc(db, "chats", state.chatId), {
+                    messages: arrayUnion(newMessage),
+                  });
+                } catch (error) {
+                  console.error(error);
+                }
+              }
+            );
+          }
+        );
 
-        uploadTask.on("state_changed", () => {
-          getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-            const newMessage: MessageType = {
-              id: uuid(),
-              text,
-              senderId: loggedUser?.uid,
-              date: Timestamp.now(),
-              img: downloadURL,
-            };
-            await updateDoc(doc(db, "chats", state.chatId), {
-              messages: arrayUnion(newMessage),
-            });
-          });
-        });
+        setText("");
+        setImg(null);
       } catch (error) {
         console.error(error);
       }
-      setText("");
-      setImg(null);
     } else {
       await updateDoc(doc(db, "chats", state.chatId), {
         messages: arrayUnion({
@@ -86,12 +98,12 @@ export default function ChatInput() {
 
     try {
       await updateDoc(doc(db, "userChats", loggedUser.uid), {
-        [state.chatId + ".lastMessage"]: text,
+        [state.chatId + ".lastMessage"]: text ? text : "Send a file",
         [state.chatId + ".date"]: serverTimestamp(),
       });
 
       await updateDoc(doc(db, "userChats", state.user.uid), {
-        [state.chatId + ".lastMessage"]: text,
+        [state.chatId + ".lastMessage"]: text ? text : "Send a file",
         [state.chatId + ".date"]: serverTimestamp(),
       });
     } catch (error) {
@@ -109,6 +121,7 @@ export default function ChatInput() {
         setImg(e.target.files[0]);
       }
     }
+    e.target.value = "";
   };
 
   const handleEnterKey = (event: React.KeyboardEvent<HTMLInputElement>) => {

@@ -63,6 +63,7 @@ export default function Chats({ setErrorMessage, setIsLoading }: Props) {
         }
 
         const chatsData = Object.entries(userChatsDb.data());
+        console.log(chatsData);
         let randomUserChats: ((ChatUserData & UserInfo) | null)[] = [];
 
         chatsData.forEach((chatData) => {

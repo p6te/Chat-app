@@ -20,11 +20,11 @@ import { db } from "../../firebaseConfig";
 import { UserData } from "../../types";
 import { AuthContext } from "../../context/AuthContext";
 import { ensureError } from "../../utils/ensureError";
-import Loading from "../common/LoadingSpinner";
 
 import { Button } from "../common/Button/styled";
 import { Flexbox } from "../common/Flexbox";
-import { StyledInput } from "./styled";
+import { StyledInput, Users } from "./styled";
+import Spacer from "../common/Spacer";
 
 type Props = {
   setErrorMessage: (message: string) => void;
@@ -70,6 +70,8 @@ export default function Search({
     if (!loggedUser || !user) {
       return;
     }
+    console.log(loggedUser);
+    console.log(user);
     const combinedId =
       loggedUser.uid > user.uid
         ? loggedUser.uid + user.uid
@@ -116,6 +118,7 @@ export default function Search({
   };
   return (
     <>
+      <Spacer size="32" />
       <Flexbox spaceBetween gap="16px">
         <StyledInput
           type="text"
@@ -128,17 +131,19 @@ export default function Search({
           Search
         </Button>
       </Flexbox>
-      <div onClick={handleSelectUser}>
-        {user && (
-          <UserComponent
-            imgSrc={user?.photoURL}
-            name={user?.displayName}
-            timestamp={0}
-            isOnline={false}
-            lastMessage=""
-          />
-        )}
-      </div>
+      <Users>
+        <div onClick={handleSelectUser}>
+          {user && (
+            <UserComponent
+              imgSrc={user?.photoURL}
+              name={user?.displayName}
+              timestamp={0}
+              isOnline={false}
+              lastMessage=""
+            />
+          )}
+        </div>
+      </Users>
     </>
   );
 }
