@@ -21,7 +21,6 @@ const AppContainer = styled("div")`
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.backgroundPrimary};
-  /* padding: 40px; */
   border-radius: 40px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 `;

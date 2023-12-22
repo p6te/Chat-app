@@ -4,7 +4,7 @@ export const FooterContainer = styled("div")`
   display: flex;
   flex-direction: column;
   flex-grow: 0;
-  border-top: 1px solid ${({ theme }) => theme.secondary};
+  border-top: 1px solid ${({ theme }) => theme.tertiary};
   padding-top: 1rem;
 
   & div {
@@ -31,7 +31,7 @@ export const LogoutButton = styled("button")`
 
   &:hover {
     cursor: pointer;
-    background-color: ${({ theme }) => theme.backgroundPrimary};
+    background-color: ${({ theme }) => theme.tertiary};
     transition: 0.2s;
   }
 `;

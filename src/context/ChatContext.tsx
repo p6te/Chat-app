@@ -47,7 +47,7 @@ export const ChatContextProvider = ({ children }: Props) => {
   };
 
   const [state, dispatch] = useReducer(chatReducer, initialState);
-
+  console.log(state);
   return (
     <ChatContext.Provider value={{ state, dispatch }}>
       {children}

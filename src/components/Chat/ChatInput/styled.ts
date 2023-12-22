@@ -47,3 +47,22 @@ export const EmojiButton = styled.button`
 export const SendButton = styled(EmojiButton)`
   background-color: ${({ theme }) => theme.tertiary};
 `;
+
+export const AddedImageContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: ${({ theme }) => theme.backgroundSecondary};
+  padding: 12px;
+  border-radius: 1rem;
+
+  div {
+    svg:first-child {
+      transition: 0.2s;
+      &:hover {
+        cursor: pointer;
+        transform: scale(1.2);
+      }
+    }
+  }
+`;

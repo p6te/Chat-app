@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "../firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
+import { auth } from "../firebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 interface AuthContextType {
   loggedUser: User | null;
@@ -19,36 +19,26 @@ type Props = {
 
 export const AuthContextProvider = ({ children }: Props) => {
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
-  const [isReady, setIsReady] = useState(false);
+  // const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     if (loggedUser) {
       return;
     }
-    const unsub = onAuthStateChanged(auth, (user) => {
+    const unsub = auth.onAuthStateChanged((user) => {
+      console.log(user);
+      console.log(user?.displayName);
       if (user) {
-        console.log("test");
         setLoggedUser(user);
-        const isLogin = async () => {
-          await setDoc(
-            doc(db, "users", user.uid),
-            {
-              isOnline: true,
-            },
-            { merge: true }
-          );
-        };
-        isLogin();
       }
-      setIsReady(true);
     });
 
     return () => unsub();
-  }, [loggedUser]);
-
+  }, []);
+  console.log(loggedUser);
   return (
     <AuthContext.Provider value={{ loggedUser, setLoggedUser }}>
-      {isReady ? children : null}
+      {children}
     </AuthContext.Provider>
   );
 };

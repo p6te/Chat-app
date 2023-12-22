@@ -23,7 +23,7 @@ export default function Sidebar({
     <>
       <SidebarContainer>
         <Navbar setErrorMessage={setErrorMessage} setIsLoading={setIsLoading} />
-        <Chats setErrorMessage={setErrorMessage} />
+        <Chats setErrorMessage={setErrorMessage} setIsLoading={setIsLoading} />
         <Footer
           setErrorMessage={setErrorMessage}
           setIsSearchOpen={setIsSearchOpen}

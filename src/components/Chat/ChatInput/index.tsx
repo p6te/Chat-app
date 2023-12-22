@@ -1,7 +1,4 @@
 import "./styles.scss";
-import Img from "~/assets/img.png";
-import Cancel from "~/assets/cancel.png";
-// import Attach from "../../assets/attach.png";
 import { v4 as uuid } from "uuid";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import {
@@ -21,6 +18,7 @@ import { useOutsideClick } from "../../../hooks/useOutsideClick";
 import EmojiIcon from "~/assets/EmojiIcon";
 import Input from "~/components/common/Input";
 import {
+  AddedImageContainer,
   EmojiButton,
   EmojiPickerContainer,
   SearchInputContainer,
@@ -30,6 +28,8 @@ import {
 import { Flexbox } from "~/components/common/Flexbox";
 import AddImageIcon from "~/assets/AddImageIcon";
 import SendIcon from "~/assets/SendIcon";
+import CancelIcon from "~/assets/CancelIcon";
+import ImageIcon from "~/assets/ImageIcon";
 
 export default function ChatInput() {
   const [text, setText] = useState("");
@@ -37,7 +37,6 @@ export default function ChatInput() {
   const [isEmojPicker, setIsEmojPicker] = useState(false);
   const { loggedUser } = useContext(AuthContext);
   const { state } = useContext(ChatContext);
-
   const emojiPickerRef = useOutsideClick(() => {
     setIsEmojPicker(false);
   });
@@ -61,7 +60,6 @@ export default function ChatInput() {
               date: Timestamp.now(),
               img: downloadURL,
             };
-
             await updateDoc(doc(db, "chats", state.chatId), {
               messages: arrayUnion(newMessage),
             });
@@ -70,6 +68,8 @@ export default function ChatInput() {
       } catch (error) {
         console.error(error);
       }
+      setText("");
+      setImg(null);
     } else {
       await updateDoc(doc(db, "chats", state.chatId), {
         messages: arrayUnion({
@@ -103,7 +103,6 @@ export default function ChatInput() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      console.log();
       if (e.target.files[0].size > 100000) {
         alert("Your img is too large, please use file below 100Kb");
       } else {
@@ -111,6 +110,7 @@ export default function ChatInput() {
       }
     }
   };
+
   const handleEnterKey = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       handleSend();
@@ -129,7 +129,6 @@ export default function ChatInput() {
   return (
     <SearchInputContainer>
       <Input
-        // className="inputMessage"
         type="text"
         placeholder="type..."
         value={text}
@@ -147,19 +146,16 @@ export default function ChatInput() {
           />
         </EmojiPickerContainer>
       )}
-      <div>
-        {img && (
+      {img && (
+        <AddedImageContainer>
           <Flexbox center gap="4px">
-            <img
-              src={Cancel}
-              alt=""
-              onClick={() => setImg(null)}
-              className="cancel"
-            />
-            <img src={Img} alt="" /> <p>{img.name}</p>
+            <div onClick={() => setImg(null)}>
+              <CancelIcon />
+            </div>
+            <ImageIcon /> <p>{img.name}</p>
           </Flexbox>
-        )}
-      </div>
+        </AddedImageContainer>
+      )}
       <SendOptions>
         {/* TODO add handling files */}
         {/* <img src={Attach} alt="" /> */}

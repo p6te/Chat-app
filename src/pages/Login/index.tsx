@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FormLayout from "~/components/common/FormLayout";
 import ErrorModal from "~/components/common/ErrorModal";
@@ -23,7 +23,7 @@ type Inputs = {
 function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { setLoggedUser } = useContext(AuthContext);
+  const { loggedUser, setLoggedUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -124,6 +124,12 @@ function Login() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (loggedUser) {
+      navigate("/");
+    }
+  }, [loggedUser]);
 
   return (
     <>

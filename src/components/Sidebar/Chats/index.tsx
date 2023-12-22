@@ -1,5 +1,11 @@
 import { v4 as uuid } from "uuid";
-import { useContext, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { Timestamp, doc, onSnapshot } from "firebase/firestore";
 import { AuthContext } from "../../../context/AuthContext";
 import { db } from "../../../firebaseConfig";
@@ -7,7 +13,7 @@ import User from "../../common/User";
 import { ChatContext } from "../../../context/ChatContext";
 import { changeUser } from "~/context/actionCreators";
 import { ensureError } from "../../../utils/ensureError";
-import Loading from "../../common/LoadingSpinner";
+
 import { ChatsContainer } from "./styled";
 
 export type ChatUserData = {
@@ -26,10 +32,10 @@ export type UserInfo = {
 
 type Props = {
   setErrorMessage: (message: string) => void;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function Chats({ setErrorMessage }: Props) {
-  const [isLoading, setIsLoading] = useState(true);
+export default function Chats({ setErrorMessage, setIsLoading }: Props) {
   const [chats, setChats] = useState<((ChatUserData & UserInfo) | null)[]>([]);
 
   const { loggedUser } = useContext(AuthContext);
@@ -57,7 +63,6 @@ export default function Chats({ setErrorMessage }: Props) {
         }
 
         const chatsData = Object.entries(userChatsDb.data());
-
         let randomUserChats: ((ChatUserData & UserInfo) | null)[] = [];
 
         chatsData.forEach((chatData) => {
@@ -69,7 +74,6 @@ export default function Chats({ setErrorMessage }: Props) {
               return;
             }
             const userDbData = userData.data() as UserInfo;
-            console.log(userDbData);
             const nextChatUser = {
               ...chatUser,
               ...userDbData,
@@ -118,7 +122,6 @@ export default function Chats({ setErrorMessage }: Props) {
 
   return (
     <>
-      {isLoading && <Loading />}
       <ChatsContainer>
         <div className="userChat">
           <div className="userChatInfo">

@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import Message from "./Message";
-import "./styles.scss";
+
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "~/firebaseConfig";
 import { ChatContext } from "~/context/ChatContext";

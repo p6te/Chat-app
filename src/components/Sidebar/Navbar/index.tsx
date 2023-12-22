@@ -13,13 +13,16 @@ type Props = {
 };
 export default function Navbar({ setErrorMessage, setIsLoading }: Props) {
   const { loggedUser } = useContext(AuthContext);
-  useEffect(() => {
-    if (!loggedUser || !loggedUser?.photoURL) {
-      setIsLoading(true);
-    } else {
-      setIsLoading(false);
-    }
-  }, [loggedUser, setIsLoading]);
+  console.warn(loggedUser);
+  console.log(loggedUser?.displayName);
+  console.log(loggedUser?.photoURL);
+  // useEffect(() => {
+  //   if (!loggedUser) {
+  //     setIsLoading(true);
+  //   } else {
+  //     setIsLoading(false);
+  //   }
+  // }, [loggedUser, setIsLoading]);
   return (
     <NavbarContainer>
       <ImageContainer onClick={() => {}}>

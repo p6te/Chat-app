@@ -1,9 +1,15 @@
 import { useContext, useEffect, useRef } from "react";
-import "./styles.scss";
 import { AuthContext } from "../../../../context/AuthContext";
 import { ChatContext } from "../../../../context/ChatContext";
 import { MessageType } from "../../../../types";
 import { formatDate } from "../../../../utils/formatDate";
+import {
+  AvatarImage,
+  ImageMessageContainer,
+  MessageContainer,
+  MessageContent,
+  MessageInfo,
+} from "./styled";
 type Props = {
   message: MessageType;
 };
@@ -19,12 +25,13 @@ export default function Message({ message }: Props) {
   }, [message]);
 
   return (
-    <div
+    <MessageContainer
       ref={ref}
       className={`message ${message.senderId === loggedUser?.uid && "owner"}`}
+      isOwner={message.senderId === loggedUser?.uid}
     >
-      <div className="messageInfo">
-        <img
+      <MessageInfo>
+        <AvatarImage
           src={
             message.senderId === loggedUser?.uid && loggedUser?.photoURL
               ? loggedUser?.photoURL
@@ -33,11 +40,15 @@ export default function Message({ message }: Props) {
           alt=""
         />
         <span>{formatDate(message.date?.seconds)}</span>
-      </div>
-      <div className="messageContent">
+      </MessageInfo>
+      <MessageContent isOwner={message.senderId === loggedUser?.uid}>
         {message.text && <p>{message.text}</p>}
-        {message?.img && <img src={message?.img} alt="" />}
-      </div>
-    </div>
+        {message?.img && (
+          <ImageMessageContainer>
+            <img src={message?.img} alt="" />
+          </ImageMessageContainer>
+        )}
+      </MessageContent>
+    </MessageContainer>
   );
 }

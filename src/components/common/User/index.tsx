@@ -1,5 +1,5 @@
-import "./styles.scss";
-import { formatDate } from "../../../utils/formatDate";
+import { formatDate } from "~/utils/formatDate";
+import { AvatarImage, UserContainer, UserInfo } from "./styled";
 
 type Props = {
   imgSrc: string;
@@ -18,12 +18,12 @@ const User: React.FC<Props> = ({
   isOnline,
 }: Props) => {
   return (
-    <div className={`user ${isSelected && "selected"}`}>
-      <div className="imgContainer">
-        <img src={imgSrc} alt="" />
-        {isOnline && <div className="onlineIcon"></div>}
-      </div>
-      <div className="userInfo">
+    <UserContainer isOnline={isOnline} isSelected={isSelected}>
+      <div className="isOnline"></div>
+
+      <AvatarImage src={imgSrc} alt="" />
+
+      <UserInfo onlyUsername={!lastMessage && !timestamp}>
         <span>{name}</span>
         {lastMessage && timestamp ? (
           <>
@@ -31,8 +31,8 @@ const User: React.FC<Props> = ({
             <time>{formatDate(timestamp)}</time>
           </>
         ) : null}
-      </div>
-    </div>
+      </UserInfo>
+    </UserContainer>
   );
 };
 

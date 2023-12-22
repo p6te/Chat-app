@@ -1,27 +1,35 @@
 import Messages from "./Messages";
 import Input from "./ChatInput";
-import { useContext } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { ChatContext } from "../../context/ChatContext";
-import { ChatContainer, ChatMissing, TopSection } from "./styled";
+import { AvatarImage, ChatContainer, ChatMissing, TopSection } from "./styled";
 import User from "../common/User";
+import { Button } from "../common/Button/styled";
+import { Flexbox } from "../common/Flexbox";
 
-export default function Chat() {
+type Props = {
+  setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
+};
+export default function Chat({ setIsSearchOpen }: Props) {
   const { state } = useContext(ChatContext);
   const { displayName, isOnline, photoURL } = state.user;
   return (
     <ChatContainer>
       {!state.chatId && (
         <ChatMissing>
-          <h3>Please open a new chat... </h3>
+          <Button shrink onClick={() => setIsSearchOpen(true)}>
+            Find a user to start chatting
+          </Button>
         </ChatMissing>
       )}
 
       <>
         <TopSection>
-          <span>{state.user.displayName}</span>
-          <span>Nazwa uzytkownika</span>
           {displayName && (
-            <User name={displayName} imgSrc={photoURL} isOnline={isOnline} />
+            <div>
+              <AvatarImage src={photoURL} />
+              <h3>{displayName}</h3>
+            </div>
           )}
           {/* TODO add additional functionality  */}
           {/* <div className="chatIcons">

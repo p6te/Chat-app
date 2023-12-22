@@ -6,7 +6,7 @@ export const NavbarContainer = styled.div`
 
   padding-left: 10px;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid ${({ theme }) => theme.secondary};
+  border-bottom: 1px solid ${({ theme }) => theme.tertiary};
   img {
     background-color: white;
     height: 50px;

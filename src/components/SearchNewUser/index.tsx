@@ -28,10 +28,15 @@ import { StyledInput } from "./styled";
 
 type Props = {
   setErrorMessage: (message: string) => void;
+  setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function Search({ setErrorMessage }: Props) {
-  const [isLoading, setIsLoading] = useState(false);
+export default function Search({
+  setErrorMessage,
+  setIsSearchOpen,
+  setIsLoading,
+}: Props) {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState<UserData | null>(null);
 
@@ -111,29 +116,28 @@ export default function Search({ setErrorMessage }: Props) {
   };
   return (
     <>
-      {isLoading && <Loading />}
-      <div>
-        <Flexbox spaceBetween gap="16px">
-          <StyledInput
-            type="text"
-            placeholder="Find a user by nickname"
-            onChange={(e) => setUsername(e.target.value)}
-            onKeyDown={handleKey}
-            value={username}
+      <Flexbox spaceBetween gap="16px">
+        <StyledInput
+          type="text"
+          placeholder="Find a user by nickname"
+          onChange={(e) => setUsername(e.target.value)}
+          onKeyDown={handleKey}
+          value={username}
+        />
+        <Button shrink onClick={handleSearch}>
+          Search
+        </Button>
+      </Flexbox>
+      <div onClick={handleSelectUser}>
+        {user && (
+          <UserComponent
+            imgSrc={user?.photoURL}
+            name={user?.displayName}
+            timestamp={0}
+            isOnline={false}
+            lastMessage=""
           />
-          <Button shrink>Search</Button>
-        </Flexbox>
-        <div onClick={handleSelectUser}>
-          {user && (
-            <UserComponent
-              imgSrc={user?.photoURL}
-              name={user?.displayName}
-              timestamp={0}
-              isOnline={false}
-              lastMessage=""
-            />
-          )}
-        </div>
+        )}
       </div>
     </>
   );

@@ -23,7 +23,11 @@ function Home() {
       )}
       <Container>
         <Modal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)}>
-          <Search setErrorMessage={setErrorMessage} />
+          <Search
+            setErrorMessage={setErrorMessage}
+            setIsSearchOpen={setIsSearchOpen}
+            setIsLoading={setIsLoading}
+          />
         </Modal>
 
         <Sidebar
@@ -31,7 +35,7 @@ function Home() {
           setIsSearchOpen={setIsSearchOpen}
           setIsLoading={setIsLoading}
         />
-        <Chat />
+        <Chat setIsSearchOpen={setIsSearchOpen} />
       </Container>
     </>
   );

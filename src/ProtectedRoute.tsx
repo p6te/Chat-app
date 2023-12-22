@@ -10,9 +10,8 @@ const ProtectedRoute: React.FC<PropsWithChildren> = ({ children }) => {
 
   const turnOnOnlineStatus = async () => {
     if (!loggedUser) {
-      return;
+      return null;
     }
-
     try {
       await setDoc(
         doc(db, "users", loggedUser.uid),
