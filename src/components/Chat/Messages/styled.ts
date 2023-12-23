@@ -5,12 +5,12 @@ export const MessagesContainer = styled.div`
   overflow-y: auto;
   &::-webkit-scrollbar-track {
     border-radius: 8px;
-    background-color: #f5f5f5;
+    background-color: ${({ theme }) => theme.backgroundSecondary};
   }
 
   &::-webkit-scrollbar {
     width: 8px;
-    background-color: #f5f5f5;
+    background-color: ${({ theme }) => theme.backgroundSecondary};
   }
 
   &::-webkit-scrollbar-thumb {

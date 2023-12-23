@@ -7,6 +7,7 @@ import Loading from "~/components/common/LoadingSpinner";
 import ChoseTheme from "~/components/ChoseTheme";
 import ErrorModal from "~/components/common/ErrorModal";
 import Sidebar from "~/components/Sidebar";
+import UserSettings from "~/components/UserSettings";
 
 function Home() {
   const [errorMessage, setErrorMessage] = useState("");
@@ -41,6 +42,7 @@ function Home() {
           title="Settings"
         >
           <ChoseTheme />
+          <UserSettings />
         </Modal>
 
         <Sidebar

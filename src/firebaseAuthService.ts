@@ -7,7 +7,6 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
 } from "firebase/auth";
-import { ensureError } from "./utils/ensureError";
 
 const registerUser = (email: string, password: string) => {
   return createUserWithEmailAndPassword(auth, email, password);
@@ -24,16 +23,10 @@ const logoutUser = () => {
 const resetPasswordViaEmail = (email: string) => {
   return sendPasswordResetEmail(auth, email);
 };
-
-const loginWithGoogle = async () => {
+const loginWithGoogle = () => {
   const provider = new GoogleAuthProvider();
-  try {
-    const result = await signInWithPopup(auth, provider);
-    return result;
-  } catch (err) {
-    const error = ensureError(err);
-    console.log(error);
-  }
+
+  return signInWithPopup(auth, provider);
 };
 
 const FirebaseAuthService = {
