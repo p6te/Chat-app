@@ -5,11 +5,12 @@ import { Flexbox } from "../Flexbox";
 import { Button } from "../Button/styled";
 
 interface Props {
-  isOpen?: boolean;
-  onClose?: () => void;
+  title: string;
+  isOpen: boolean;
+  onClose: () => void;
   children?: React.ReactNode;
 }
-export default function Modal({ isOpen, onClose, children }: Props) {
+export default function Modal({ isOpen, onClose, title, children }: Props) {
   if (!isOpen) {
     return null;
   }
@@ -19,7 +20,7 @@ export default function Modal({ isOpen, onClose, children }: Props) {
       <Background>
         <ModalContainer>
           <Flexbox spaceBetween>
-            <h2>Add new chat</h2>
+            <h2>{title}</h2>
             <CloseButton onClick={onClose}>
               <CancelIcon />
             </CloseButton>

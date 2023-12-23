@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const ChatsContainer = styled("div")`
   flex-grow: 1;
-  overflow-y: scroll;
+  overflow-y: auto;
   &::-webkit-scrollbar-track {
     border-radius: 8px;
     background-color: #f5f5f5;

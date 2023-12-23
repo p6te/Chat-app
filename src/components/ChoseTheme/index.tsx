@@ -1,6 +1,7 @@
 import { THEMES, ThemeType } from "~/styles/theme/theme";
 import { ThemeButton, ThemeCircle, ThemeContainer } from "./styled";
 import { useTheme } from "~/styles/theme/themeContext";
+import Spacer from "../common/Spacer";
 
 export default function ChoseTheme() {
   const themeKeys = Object.entries(THEMES);
@@ -12,6 +13,7 @@ export default function ChoseTheme() {
 
   return (
     <>
+      <Spacer />
       <h3>Chose Theme</h3>
       <ThemeContainer>
         {themeKeys.map(([themeKey, theme]) => (

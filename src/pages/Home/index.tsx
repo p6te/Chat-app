@@ -1,18 +1,18 @@
 import { useState } from "react";
-import Sidebar from "../../components/Sidebar";
-import ErrorModal from "../../components/common/ErrorModal";
 import { Container } from "./styled";
 import Search from "~/components/SearchNewUser";
 import Modal from "~/components/common/Modal";
 import Chat from "~/components/chat";
 import Loading from "~/components/common/LoadingSpinner";
 import ChoseTheme from "~/components/ChoseTheme";
+import ErrorModal from "~/components/common/ErrorModal";
+import Sidebar from "~/components/Sidebar";
 
 function Home() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isSettingsOpen, setIsSettingsOpen] = useState(true);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   return (
     <>
@@ -24,14 +24,22 @@ function Home() {
         />
       )}
       <Container>
-        <Modal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)}>
+        <Modal
+          isOpen={isSearchOpen}
+          onClose={() => setIsSearchOpen(false)}
+          title="Add new chat"
+        >
           <Search
             setErrorMessage={setErrorMessage}
             setIsSearchOpen={setIsSearchOpen}
             setIsLoading={setIsLoading}
           />
         </Modal>
-        <Modal isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)}>
+        <Modal
+          isOpen={isSettingsOpen}
+          onClose={() => setIsSettingsOpen(false)}
+          title="Settings"
+        >
           <ChoseTheme />
         </Modal>
 

@@ -61,7 +61,7 @@ const ProtectedRoute: React.FC<PropsWithChildren> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    turnOnOnlineStatus();
+    // turnOnOnlineStatus();
   }, []);
 
   if (!loggedUser) {

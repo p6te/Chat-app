@@ -63,9 +63,7 @@ export default function Chats({ setErrorMessage, setIsLoading }: Props) {
         }
 
         const chatsData = Object.entries(userChatsDb.data());
-        console.log(chatsData);
         let randomUserChats: ((ChatUserData & UserInfo) | null)[] = [];
-
         chatsData.forEach((chatData) => {
           const [, chatUser] = chatData as [string, ChatUserData];
 
@@ -75,13 +73,13 @@ export default function Chats({ setErrorMessage, setIsLoading }: Props) {
               return;
             }
             const userDbData = userData.data() as UserInfo;
+
             const nextChatUser = {
               ...chatUser,
               ...userDbData,
             };
 
             randomUserChats = [...randomUserChats, nextChatUser];
-
             const sortedChats = randomUserChats.sort((a, b) => {
               if (b?.date?.seconds && a?.date?.seconds) {
                 return b?.date.seconds - a?.date.seconds;
@@ -92,7 +90,6 @@ export default function Chats({ setErrorMessage, setIsLoading }: Props) {
               }
               return 0;
             });
-
             if (sortedChats[0]) {
               handleSelect({
                 displayName: sortedChats[0].displayName,
