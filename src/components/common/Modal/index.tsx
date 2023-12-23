@@ -13,7 +13,7 @@ export default function Modal({ isOpen, onClose, children }: Props) {
   if (!isOpen) {
     return null;
   }
-  console.log(isOpen);
+
   return (
     <>
       <Background>

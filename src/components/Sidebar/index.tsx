@@ -10,19 +10,25 @@ type Props = {
   setErrorMessage: (message: string) => void;
   setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
+  setIsSettingsOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function Sidebar({
   setErrorMessage,
   setIsSearchOpen,
   setIsLoading,
+  setIsSettingsOpen,
 }: Props) {
   const isMobile = useScreenWidth() <= 480;
 
   return (
     <>
       <SidebarContainer>
-        <Navbar setErrorMessage={setErrorMessage} setIsLoading={setIsLoading} />
+        <Navbar
+          setErrorMessage={setErrorMessage}
+          setIsLoading={setIsLoading}
+          setIsSettingsOpen={setIsSettingsOpen}
+        />
         <Chats setErrorMessage={setErrorMessage} setIsLoading={setIsLoading} />
         <Footer
           setErrorMessage={setErrorMessage}
