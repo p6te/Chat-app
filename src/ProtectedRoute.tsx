@@ -4,22 +4,26 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 import { ensureError } from "./utils/ensureError";
 import { Navigate } from "react-router-dom";
+import { ChatContext } from "./context/ChatContext";
+import { changeUser } from "./context/actionCreators";
 
 const ProtectedRoute: React.FC<PropsWithChildren> = ({ children }) => {
   const { loggedUser } = useContext(AuthContext);
+  const { dispatch } = useContext(ChatContext);
 
   const turnOnOnlineStatus = async () => {
     if (!loggedUser) {
       return null;
     }
+
     try {
-      await setDoc(
-        doc(db, "users", loggedUser.uid),
-        {
-          isOnline: true,
-        },
-        { merge: true }
-      );
+      await setDoc(doc(db, "users", loggedUser.uid), {
+        displayName: loggedUser.displayName,
+        email: loggedUser.email,
+        photoURL: loggedUser.photoURL,
+        uid: loggedUser.uid,
+        isOnline: true,
+      });
     } catch (err) {
       const error = ensureError(err);
       // TODO Send to error page
@@ -33,13 +37,13 @@ const ProtectedRoute: React.FC<PropsWithChildren> = ({ children }) => {
     }
 
     try {
-      await setDoc(
-        doc(db, "users", loggedUser.uid),
-        {
-          isOnline: false,
-        },
-        { merge: true }
-      );
+      await setDoc(doc(db, "users", loggedUser.uid), {
+        displayName: loggedUser.displayName,
+        email: loggedUser.email,
+        photoURL: loggedUser.photoURL,
+        uid: loggedUser.uid,
+        isOnline: false,
+      });
     } catch (err) {
       const error = ensureError(err);
       // TODO Send to error page
@@ -50,7 +54,10 @@ const ProtectedRoute: React.FC<PropsWithChildren> = ({ children }) => {
   useEffect(() => {
     const handleTabClose = (event: Event) => {
       event.preventDefault();
-      // turnOffOnlineStatus();
+      turnOffOnlineStatus();
+      dispatch(
+        changeUser({ displayName: "", isOnline: false, uid: "", photoURL: "" })
+      );
     };
 
     window.addEventListener("beforeunload", handleTabClose);
@@ -61,7 +68,7 @@ const ProtectedRoute: React.FC<PropsWithChildren> = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    // turnOnOnlineStatus();
+    turnOnOnlineStatus();
   }, []);
 
   if (!loggedUser) {

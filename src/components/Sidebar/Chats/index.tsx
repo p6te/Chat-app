@@ -37,7 +37,7 @@ type Props = {
 
 export default function Chats({ setErrorMessage, setIsLoading }: Props) {
   const [chats, setChats] = useState<((ChatUserData & UserInfo) | null)[]>([]);
-
+  console.log(chats);
   const { loggedUser } = useContext(AuthContext);
   const { dispatch, state } = useContext(ChatContext);
 
@@ -55,6 +55,8 @@ export default function Chats({ setErrorMessage, setIsLoading }: Props) {
     if (!loggedUser) {
       return;
     }
+    console.log(loggedUser.uid);
+
     try {
       onSnapshot(doc(db, "userChats", loggedUser.uid), (userChatsDb) => {
         if (!userChatsDb.exists()) {
@@ -63,6 +65,7 @@ export default function Chats({ setErrorMessage, setIsLoading }: Props) {
 
         const chatsData = Object.entries(userChatsDb.data());
 
+        console.log(chatsData);
         let randomUserChats: ((ChatUserData & UserInfo) | null)[] = [];
         chatsData.forEach((chatData) => {
           const [, chatUser] = chatData as [string, ChatUserData];
@@ -78,8 +81,13 @@ export default function Chats({ setErrorMessage, setIsLoading }: Props) {
               ...chatUser,
               ...userDbData,
             };
+            console.log(randomUserChats);
+            const filteredArray = randomUserChats.filter(
+              (ch) => ch?.userId !== nextChatUser.userId
+            );
+            console.log(filteredArray);
 
-            randomUserChats = [...randomUserChats, nextChatUser];
+            randomUserChats = [...filteredArray, nextChatUser];
             const sortedChats = randomUserChats.sort((a, b) => {
               if (b?.date?.seconds && a?.date?.seconds) {
                 return b?.date.seconds - a?.date.seconds;
@@ -90,6 +98,7 @@ export default function Chats({ setErrorMessage, setIsLoading }: Props) {
               }
               return 0;
             });
+            console.log(sortedChats);
             if (sortedChats[0]) {
               handleSelect({
                 displayName: sortedChats[0].displayName,

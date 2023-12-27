@@ -16,7 +16,7 @@ export default function HidePasswordIcon({ color, size }: Props) {
       fill="none"
       width={width}
       height={height}
-      viewBox={`0 0 ${width} ${height}`}
+      viewBox={`0 0 27 27`}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

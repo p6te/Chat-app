@@ -56,6 +56,7 @@ export const StyledInput = styled("input").withConfig({
     font-weight: 600;
     padding: 0 6px;
     background-color: ${({ theme }) => theme.backgroundPrimary};
+    color: ${({ theme }) => theme.primary};
   }
 
   &:not(:focus) + span {

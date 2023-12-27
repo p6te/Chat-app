@@ -1,21 +1,16 @@
-import Loading from "~/components/common/LoadingSpinner";
 import { FooterContainer, LogoutButton } from "./styled";
 import FirebaseAuthService from "~/firebaseAuthService";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "~/firebaseConfig";
-import {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "~/context/AuthContext";
 import { ensureError } from "~/utils/ensureError";
 import { Button } from "~/components/common/Button/styled";
 import LogoutIcon from "~/assets/logoutIcon";
 import Spacer from "~/components/common/Spacer";
+import { ChatContext } from "~/context/ChatContext";
+import { changeUser } from "~/context/actionCreators";
 
 type Props = {
   setErrorMessage: (message: string) => void;
@@ -30,7 +25,7 @@ export default function Footer({
 }: Props) {
   const navigate = useNavigate();
   const { loggedUser, setLoggedUser } = useContext(AuthContext);
-
+  const { dispatch } = useContext(ChatContext);
   const handleLogout = async () => {
     try {
       setIsLoading(true);
@@ -46,6 +41,9 @@ export default function Footer({
 
       FirebaseAuthService.logoutUser();
       setLoggedUser(null);
+      dispatch(
+        changeUser({ displayName: "", isOnline: false, uid: "", photoURL: "" })
+      );
       navigate("/login");
     } catch (err) {
       const error = ensureError(err);

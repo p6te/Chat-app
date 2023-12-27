@@ -63,8 +63,10 @@ function Register() {
 
     try {
       const userRes = await getDoc(doc(db, "users", user.uid));
+      console.log(userRes.data()?.displayName);
+      if (userRes.data()?.displayName) {
+        console.log("zwrot");
 
-      if (userRes.data()?.uid) {
         return;
       }
 
@@ -73,7 +75,7 @@ function Register() {
         displayName: displayName,
         photoURL: downloadURL,
       });
-
+      console.log(downloadURL);
       //create user on firestore
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
@@ -105,6 +107,7 @@ function Register() {
         values.email,
         values.password
       );
+      console.log(res.user.photoURL);
 
       const date = new Date().getTime();
       const storageRef = ref(storage, `avatars/${values.username + date}`);
@@ -113,14 +116,14 @@ function Register() {
         await uploadBytes(storageRef, avatar);
       }
 
-      getDownloadURL(avatar ? storageRef : ref(storage, "avatarIcon.png")).then(
-        async (downloadURL) => {
-          updateUserProfile(
-            res.user,
-            res.user.photoURL ? res.user.photoURL : downloadURL
-          );
-        }
-      );
+      await getDownloadURL(
+        avatar ? storageRef : ref(storage, "avatarIcon.png")
+      ).then(async (downloadURL) => {
+        await updateUserProfile(
+          res.user,
+          res.user.photoURL ? res.user.photoURL : downloadURL
+        );
+      });
       navigate("/");
     } catch (err) {
       const error = ensureError(err);
@@ -138,9 +141,9 @@ function Register() {
       setIsLoading(true);
       const response = await FirebaseAuthService.loginWithGoogle();
       if (response.user.photoURL) {
-        updateUserProfile(response.user, response.user.photoURL);
+        await updateUserProfile(response.user, response.user.photoURL);
       } else {
-        getDownloadURL(ref(storage, "avatarIcon.png")).then(
+        await getDownloadURL(ref(storage, "avatarIcon.png")).then(
           async (downloadURL) => {
             updateUserProfile(response.user, downloadURL);
           }

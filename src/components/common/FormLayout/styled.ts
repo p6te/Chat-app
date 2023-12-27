@@ -13,9 +13,10 @@ export const Container = styled("div")`
     text-align: center;
   }
   h3 {
-    color: ${({ theme }) => theme.textPrimary};
+    color: ${({ theme }) => theme.primary};
     font-size: 1.4rem;
     font-weight: 400;
+    text-align: center;
   }
 
   p {

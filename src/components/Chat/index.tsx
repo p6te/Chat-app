@@ -3,9 +3,7 @@ import Input from "./ChatInput";
 import { Dispatch, SetStateAction, useContext } from "react";
 import { ChatContext } from "../../context/ChatContext";
 import { AvatarImage, ChatContainer, ChatMissing, TopSection } from "./styled";
-import User from "../common/User";
 import { Button } from "../common/Button/styled";
-import { Flexbox } from "../common/Flexbox";
 
 type Props = {
   setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
@@ -13,7 +11,7 @@ type Props = {
 };
 export default function Chat({ setIsSearchOpen, setIsLoading }: Props) {
   const { state } = useContext(ChatContext);
-  const { displayName, isOnline, photoURL } = state.user;
+  const { displayName, photoURL } = state.user;
   return (
     <ChatContainer>
       {!state.chatId && (
