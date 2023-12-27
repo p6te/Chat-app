@@ -138,7 +138,6 @@ function Register() {
       setIsLoading(true);
       const response = await FirebaseAuthService.loginWithGoogle();
       if (response.user.photoURL) {
-        console.log(response.user.displayName);
         updateUserProfile(response.user, response.user.photoURL);
       } else {
         getDownloadURL(ref(storage, "avatarIcon.png")).then(

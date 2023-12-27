@@ -6,6 +6,7 @@ export const FooterContainer = styled("div")`
   flex-grow: 0;
   border-top: 1px solid ${({ theme }) => theme.tertiary};
   padding-top: 1rem;
+  margin-bottom: 0.5rem;
 
   & div {
     margin: 0 1rem;

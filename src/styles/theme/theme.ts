@@ -33,7 +33,7 @@ export const THEMES: Record<ThemeType, Theme> = {
     textPrimary: "#292929",
     textSecondary: "#ffffff",
     backgroundGradient:
-      "linear-gradient(90deg, rgba(191,187,255,1) 0%, rgba(192,245,255,1) 100%)",
+      "linear-gradient(30deg, rgba(191,187,255,1) 0%, rgba(192,245,255,1) 100%)",
     error: "#b50000",
   },
   dark: {

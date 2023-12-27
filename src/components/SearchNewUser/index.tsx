@@ -108,13 +108,13 @@ export default function Search({
           { merge: true }
         );
       }
+      setUser(null);
+      setUsername("");
+      setIsSearchOpen(false);
     } catch (err) {
       const error = ensureError(err);
       setErrorMessage(error.message);
     }
-
-    setUser(null);
-    setUsername("");
   };
   return (
     <>

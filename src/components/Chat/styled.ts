@@ -23,6 +23,8 @@ export const ChatMissing = styled.div`
 
 export const TopSection = styled.div`
   min-height: 50px;
+  margin: 8px 0;
+  box-shadow: 0px 10px 16px -16px rgba(66, 68, 90, 0.434);
 
   div {
     margin: 0 2rem;
