@@ -2,7 +2,7 @@ import CancelIcon from "~/assets/cancel.png";
 import { ChangeEvent, useContext, useState } from "react";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { User, updateProfile } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import Input from "~/components/common/Input";
 import { Button } from "~/components/common/Button/styled";
@@ -60,8 +60,14 @@ function Register() {
     const displayName = values.username
       ? values.username
       : googleAccountDisplayName;
-    console.log(displayName);
+
     try {
+      const userRes = await getDoc(doc(db, "users", user.uid));
+
+      if (userRes.data()?.uid) {
+        return;
+      }
+
       //Update profile
       await updateProfile(user, {
         displayName: displayName,
@@ -132,6 +138,7 @@ function Register() {
       setIsLoading(true);
       const response = await FirebaseAuthService.loginWithGoogle();
       if (response.user.photoURL) {
+        console.log(response.user.displayName);
         updateUserProfile(response.user, response.user.photoURL);
       } else {
         getDownloadURL(ref(storage, "avatarIcon.png")).then(

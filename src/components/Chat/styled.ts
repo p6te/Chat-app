@@ -22,12 +22,12 @@ export const ChatMissing = styled.div`
 `;
 
 export const TopSection = styled.div`
-  box-shadow: 0px 25px 20px -27px rgba(66, 68, 90, 0.232);
   min-height: 50px;
+
   div {
+    margin: 0 2rem;
     display: flex;
     align-items: center;
-    margin: 0.5rem 2rem;
     gap: 1rem;
   }
 `;

@@ -9,8 +9,9 @@ import { Flexbox } from "../common/Flexbox";
 
 type Props = {
   setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
-export default function Chat({ setIsSearchOpen }: Props) {
+export default function Chat({ setIsSearchOpen, setIsLoading }: Props) {
   const { state } = useContext(ChatContext);
   const { displayName, isOnline, photoURL } = state.user;
   return (
@@ -31,14 +32,8 @@ export default function Chat({ setIsSearchOpen }: Props) {
               <h3>{displayName}</h3>
             </div>
           )}
-          {/* TODO add additional functionality  */}
-          {/* <div className="chatIcons">
-          <img src={Cam} alt="" />
-          <img src={Add} alt="" />
-          <img src={More} alt="" />
-        </div> */}
         </TopSection>
-        <Messages />
+        <Messages setIsLoading={setIsLoading} />
         <Input />
       </>
     </ChatContainer>

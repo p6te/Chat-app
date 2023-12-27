@@ -11,7 +11,7 @@ import UserSettings from "~/components/UserSettings";
 
 function Home() {
   const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
@@ -54,7 +54,7 @@ function Home() {
           setIsSettingsOpen={setIsSettingsOpen}
           setIsLoading={setIsLoading}
         />
-        <Chat setIsSearchOpen={setIsSearchOpen} />
+        <Chat setIsSearchOpen={setIsSearchOpen} setIsLoading={setIsLoading} />
       </Container>
     </>
   );

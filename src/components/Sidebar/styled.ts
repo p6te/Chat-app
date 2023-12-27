@@ -9,5 +9,5 @@ export const SidebarContainer = styled("div")`
   padding: 0.5rem 0;
   border-radius: 40px;
   background-color: ${({ theme }) => theme.backgroundPrimary};
-  filter: drop-shadow(12px 7px 12px #00000033);
+  box-shadow: 10px 0px 30px -25px rgba(66, 68, 90, 1);
 `;

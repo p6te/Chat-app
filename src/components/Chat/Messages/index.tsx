@@ -1,4 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import Message from "./Message";
 
 import { doc, onSnapshot } from "firebase/firestore";
@@ -8,7 +14,11 @@ import { MessagesContainer } from "./styled";
 import { MessageType } from "~/types";
 import { formatDate } from "~/utils/formatDate";
 
-export default function Messages() {
+type Props = {
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
+};
+
+export default function Messages({ setIsLoading }: Props) {
   const [messages, setMessages] = useState<MessageType[]>([]);
   const { state } = useContext(ChatContext);
 
@@ -16,14 +26,17 @@ export default function Messages() {
     if (!state.chatId) {
       return;
     }
+
     try {
+      setIsLoading(true);
       onSnapshot(doc(db, "chats", state.chatId), (doc) => {
         doc.exists() && setMessages(doc.data().messages);
       });
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
-  }, [state.chatId]);
+  }, [state.chatId, setIsLoading]);
 
   return (
     <MessagesContainer>

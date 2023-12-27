@@ -52,7 +52,6 @@ export default function Chats({ setErrorMessage, setIsLoading }: Props) {
 
   const getChats = async () => {
     setIsLoading(true);
-
     if (!loggedUser) {
       return;
     }
@@ -63,6 +62,7 @@ export default function Chats({ setErrorMessage, setIsLoading }: Props) {
         }
 
         const chatsData = Object.entries(userChatsDb.data());
+
         let randomUserChats: ((ChatUserData & UserInfo) | null)[] = [];
         chatsData.forEach((chatData) => {
           const [, chatUser] = chatData as [string, ChatUserData];
@@ -104,11 +104,10 @@ export default function Chats({ setErrorMessage, setIsLoading }: Props) {
           });
         });
       });
+      setIsLoading(false);
     } catch (err) {
       const error = ensureError(err);
       setErrorMessage(error.message);
-    } finally {
-      setIsLoading(false);
     }
   };
 

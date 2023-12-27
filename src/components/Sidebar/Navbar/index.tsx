@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext } from "react";
+import { Dispatch, SetStateAction, useContext, useEffect } from "react";
 import {
   CredentialsContainer,
   ImageContainer,
@@ -12,16 +12,16 @@ type Props = {
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setIsSettingsOpen: Dispatch<SetStateAction<boolean>>;
 };
-export default function Navbar({ setIsSettingsOpen }: Props) {
+export default function Navbar({ setIsSettingsOpen, setIsLoading }: Props) {
   const { loggedUser } = useContext(AuthContext);
 
-  // useEffect(() => {
-  //   if (!loggedUser) {
-  //     setIsLoading(true);
-  //   } else {
-  //     setIsLoading(false);
-  //   }
-  // }, [loggedUser, setIsLoading]);
+  useEffect(() => {
+    if (!loggedUser?.photoURL) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [loggedUser?.photoURL, setIsLoading]);
   return (
     <NavbarContainer>
       <ImageContainer

@@ -44,19 +44,18 @@ function Login() {
     const values = getValues();
 
     try {
-      //Update profile
-      await updateProfile(user, {
-        displayName: googleAccountDisplayName,
-        photoURL: downloadURL,
-      });
-      console.log(user.uid);
       const userRes = await getDoc(doc(db, "users", user.uid));
-      console.log(userRes.data()?.uid);
 
       if (userRes.data()?.uid) {
         console.log("koniec");
         return;
       }
+
+      //Update profile
+      await updateProfile(user, {
+        displayName: googleAccountDisplayName,
+        photoURL: downloadURL,
+      });
 
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
