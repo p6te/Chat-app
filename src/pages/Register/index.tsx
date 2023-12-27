@@ -153,14 +153,18 @@ function Register() {
     const file = e.target.files?.[0];
 
     if (file) {
-      setAvatar(file);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        if (e.target !== null && typeof e.target.result === "string") {
-          setImageURL(e.target.result);
-        }
-      };
-      reader.readAsDataURL(file);
+      if (file.size > 100000) {
+        alert("Your img is too large, please use file below 100Kb");
+      } else {
+        setAvatar(file);
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          if (e.target !== null && typeof e.target.result === "string") {
+            setImageURL(e.target.result);
+          }
+        };
+        reader.readAsDataURL(file);
+      }
     }
   };
 

@@ -16,6 +16,8 @@ export const formatDate = (timestamp: number) => {
   }
 
   return date.toDateString() === currentDay.toDateString()
-    ? `${hours}:${minutes}`
+    ? minutes < 10
+      ? `${hours}:0${minutes}`
+      : `${hours}:${minutes}`
     : `${day}-${month}-${year}`;
 };

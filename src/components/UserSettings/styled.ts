@@ -16,29 +16,6 @@ export const AddImageContainer = styled("div")`
   }
 `;
 
-export const AvatarContainer = styled("div")`
-  margin-top: 1rem;
-  display: flex;
-  justify-content: center;
-  position: relative;
-
-  button {
-    position: absolute;
-    background-color: transparent;
-    outline: none;
-    border: none;
-    left: 0;
-    padding: 10px;
-    border-radius: 50%;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.backgroundSecondary};
-      cursor: pointer;
-      transition: 0.2s;
-    }
-  }
-`;
-
 export const Avatar = styled("img")`
   width: 70px;
   height: 70px;

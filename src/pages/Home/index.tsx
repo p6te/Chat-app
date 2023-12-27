@@ -42,7 +42,10 @@ function Home() {
           title="Settings"
         >
           <ChoseTheme />
-          <UserSettings />
+          <UserSettings
+            setIsLoading={setIsLoading}
+            onClose={() => setIsSettingsOpen(false)}
+          />
         </Modal>
 
         <Sidebar
