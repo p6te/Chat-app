@@ -5,9 +5,11 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "~/firebaseConfig";
 import { ChatContext } from "~/context/ChatContext";
 import { MessagesContainer } from "./styled";
+import { MessageType } from "~/types";
+import { formatDate } from "~/utils/formatDate";
 
 export default function Messages() {
-  const [messages, setMessages] = useState<[]>([]);
+  const [messages, setMessages] = useState<MessageType[]>([]);
   const { state } = useContext(ChatContext);
 
   useEffect(() => {
@@ -26,6 +28,25 @@ export default function Messages() {
   return (
     <MessagesContainer>
       {messages.map((message, i) => {
+        if (
+          i === 0 ||
+          message.date.seconds - messages[i - 1].date.seconds > 120
+        ) {
+          return (
+            <div key={i}>
+              <span>{formatDate(message.date?.seconds)}</span>
+              <Message message={message} withAvatar />
+            </div>
+          );
+        }
+        if (i > 0 && message.senderId !== messages[i - 1].senderId) {
+          return (
+            <div key={i}>
+              <Message message={message} withAvatar />
+            </div>
+          );
+        }
+
         return <Message message={message} key={i} />;
       })}
     </MessagesContainer>

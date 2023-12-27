@@ -2,9 +2,10 @@ import { useContext, useEffect, useRef } from "react";
 import { AuthContext } from "../../../../context/AuthContext";
 import { ChatContext } from "../../../../context/ChatContext";
 import { MessageType } from "../../../../types";
-import { formatDate } from "../../../../utils/formatDate";
+
 import {
   AvatarImage,
+  EmptyBox,
   ImageMessageContainer,
   MessageContainer,
   MessageContent,
@@ -12,9 +13,10 @@ import {
 } from "./styled";
 type Props = {
   message: MessageType;
+  withAvatar?: boolean;
 };
 
-export default function Message({ message }: Props) {
+export default function Message({ message, withAvatar = false }: Props) {
   const { loggedUser } = useContext(AuthContext);
   const { state } = useContext(ChatContext);
 
@@ -25,30 +27,38 @@ export default function Message({ message }: Props) {
   }, [message]);
 
   return (
-    <MessageContainer
-      ref={ref}
-      className={`message ${message.senderId === loggedUser?.uid && "owner"}`}
-      isOwner={message.senderId === loggedUser?.uid}
-    >
-      <MessageInfo>
-        <AvatarImage
-          src={
-            message.senderId === loggedUser?.uid && loggedUser?.photoURL
-              ? loggedUser?.photoURL
-              : state.user.photoURL
-          }
-          alt=""
-        />
-        <span>{formatDate(message.date?.seconds)}</span>
-      </MessageInfo>
-      <MessageContent isOwner={message.senderId === loggedUser?.uid}>
-        {message.text && <p>{message.text}</p>}
-        {message?.img && (
-          <ImageMessageContainer>
-            <img src={message?.img} alt="" />
-          </ImageMessageContainer>
-        )}
-      </MessageContent>
-    </MessageContainer>
+    <>
+      <MessageContainer
+        ref={ref}
+        className={`message ${message.senderId === loggedUser?.uid && "owner"}`}
+        isOwner={message.senderId === loggedUser?.uid}
+      >
+        <MessageInfo>
+          {withAvatar ? (
+            <AvatarImage
+              src={
+                message.senderId === loggedUser?.uid && loggedUser?.photoURL
+                  ? loggedUser?.photoURL
+                  : state.user.photoURL
+              }
+              alt=""
+            />
+          ) : (
+            <EmptyBox />
+          )}
+        </MessageInfo>
+        <MessageContent
+          isOwner={message.senderId === loggedUser?.uid}
+          withAvatar={withAvatar}
+        >
+          {message.text && <p>{message.text}</p>}
+          {message?.img && (
+            <ImageMessageContainer>
+              <img src={message?.img} alt="" />
+            </ImageMessageContainer>
+          )}
+        </MessageContent>
+      </MessageContainer>
+    </>
   );
 }

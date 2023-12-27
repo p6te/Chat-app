@@ -1,15 +1,16 @@
 import styled, { css } from "styled-components";
 export interface Props {
   isOwner?: boolean;
+  withAvatar?: boolean;
 }
 
 export const MessageContainer = styled("div").withConfig({
   shouldForwardProp: (prop) => !["isOwner"].includes(prop),
 })<Props>`
-  margin-top: 0.5rem;
   display: flex;
   gap: 20px;
   padding: 0 1rem;
+  margin-bottom: 4px;
   ${({ isOwner }) =>
     isOwner &&
     css`
@@ -20,9 +21,8 @@ export const MessageContainer = styled("div").withConfig({
 export const MessageInfo = styled.div`
   display: flex;
   flex-direction: column;
-  span {
-    color: ${({ theme }) => theme.secondary};
-  }
+  justify-content: flex-end;
+  align-items: flex-end;
 `;
 
 export const AvatarImage = styled.img`
@@ -32,23 +32,27 @@ export const AvatarImage = styled.img`
   object-fit: cover;
 `;
 
+export const EmptyBox = styled.div`
+  width: 40px;
+  height: 40px;
+`;
+
 export const MessageContent = styled("div").withConfig({
-  shouldForwardProp: (prop) => !["isOwner"].includes(prop),
+  shouldForwardProp: (prop) => !["isOwner", "withAvatar"].includes(prop),
 })<Props>`
   max-width: 80%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-bottom: 16px;
 
   p {
     background-color: ${({ theme }) => theme.tertiary};
     padding: 10px 20px;
-    border-radius: 0px 10px 10px 10px;
+    border-radius: ${({ withAvatar }) =>
+      withAvatar ? `10px 10px 10px 0px` : `0px 10px 10px 10px`};
     max-width: max-content;
   }
 
-  ${({ isOwner }) =>
+  ${({ isOwner, withAvatar }) =>
     isOwner &&
     css`
       flex-direction: row-reverse;
@@ -56,7 +60,9 @@ export const MessageContent = styled("div").withConfig({
       p {
         background-color: ${({ theme }) => theme.primaryLight};
         color: ${({ theme }) => theme.textSecondary};
-        border-radius: 10px 0px 10px 10px;
+        border-radius: ${withAvatar
+          ? "10px 10px 0px 10px"
+          : "10px 0px 10px 10px"};
       }
     `}
 `;

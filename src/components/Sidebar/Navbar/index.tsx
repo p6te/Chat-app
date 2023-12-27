@@ -30,7 +30,9 @@ export default function Navbar({ setIsSettingsOpen }: Props) {
         }}
       >
         {loggedUser?.photoURL && <img src={loggedUser?.photoURL} alt="" />}
-        <SettingsIcon size="24" />
+        <div>
+          <SettingsIcon size="24" color="white" />
+        </div>
       </ImageContainer>
       <CredentialsContainer>
         <h4>{loggedUser?.displayName}</h4>

@@ -39,18 +39,26 @@ export const CredentialsContainer = styled.div`
 export const ImageContainer = styled.div`
   position: relative;
 
+  div {
+    background: ${({ theme }) => theme.primary};
+    padding: 4px;
+    border-radius: 50%;
+
+    position: absolute;
+    bottom: 0px;
+    right: -4px;
+    transition: 0.2s;
+  }
   &:hover {
     cursor: pointer;
 
-    svg {
+    div {
       transform: scale(1.2);
     }
   }
+`;
 
-  svg {
-    position: absolute;
-    bottom: 5px;
-    right: 0px;
-    transition: 0.2s;
-  }
+export const Settings = styled.div`
+  padding: 10px;
+  border: 50%;
 `;
