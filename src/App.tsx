@@ -7,6 +7,7 @@ import styled, { ThemeProvider } from "styled-components";
 import ProtectedRoute from "./ProtectedRoute";
 import { useTheme } from "./styles/theme/themeContext";
 import GlobalStyle from "./styles/global";
+import { device } from "./styles/breakpoints";
 
 const StyledLayout = styled("div")`
   display: flex;
@@ -23,6 +24,12 @@ const AppContainer = styled("div")`
   background-color: ${({ theme }) => theme.backgroundPrimary};
   border-radius: 40px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  @media ${device.mobile} {
+    background-color: none;
+    border-radius: 0;
+    box-shadow: none;
+    min-height: 100vh;
+  }
 `;
 
 const Layout = () => {

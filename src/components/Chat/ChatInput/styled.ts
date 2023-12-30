@@ -1,16 +1,24 @@
 import styled from "styled-components";
+import { device } from "~/styles/breakpoints";
 
 export const SearchInputContainer = styled.div`
   margin: 1rem 1.5rem;
   display: flex;
   gap: 0.5rem;
   position: relative;
+  @media ${device.tablet} {
+    margin: 1rem;
+    gap: 0;
+  }
 `;
 
 export const SendOptions = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
+  @media ${device.tablet} {
+    gap: 0;
+  }
   label {
     transition: 0.2s;
     padding: 8px;

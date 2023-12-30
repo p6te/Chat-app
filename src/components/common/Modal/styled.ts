@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "~/styles/breakpoints";
 
 export const Background = styled.div`
   display: block;
@@ -27,6 +28,15 @@ export const ModalContainer = styled.div`
   width: 500px;
   border-radius: 40px;
   padding: 20px 30px;
+  overflow: auto;
+  @media ${device.mobile} {
+    position: static;
+    transform: none;
+    min-height: 100vh;
+    width: 100vw;
+    max-width: 100vw;
+    border-radius: 0;
+  }
 `;
 
 export const CloseButton = styled.div`

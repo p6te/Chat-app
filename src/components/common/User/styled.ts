@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { device } from "~/styles/breakpoints";
 
 export interface ContainerProps {
   isSelected?: boolean;
@@ -49,6 +50,10 @@ export const AvatarImage = styled.img`
   height: 50px;
   border-radius: 50%;
   object-fit: fill;
+  @media ${device.tablet} {
+    width: 40px;
+    height: 40px;
+  }
 `;
 
 export interface ContainerProps {
@@ -63,20 +68,29 @@ export const UserInfo = styled("div").withConfig({
   max-width: 80%;
 
   span {
-    font-size: 18px;
+    font-size: 1.1rem;
     font-weight: bold;
+    @media ${device.tablet} {
+      font-size: 0.8rem;
+    }
   }
   p {
-    font-style: 14px;
+    font-size: 1rem;
     color: lightgray;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     width: 80%;
+    @media ${device.tablet} {
+      font-size: 0.8rem;
+    }
   }
   time {
-    font-size: 12px;
+    font-size: 0.6rem;
     color: lightgray;
+    @media ${device.tablet} {
+      font-size: 0.5rem;
+    }
   }
   ${({ onlyUsername }) =>
     onlyUsername &&

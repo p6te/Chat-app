@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "~/styles/breakpoints";
 
 export const MessagesContainer = styled.div`
   flex-grow: 1;
@@ -23,5 +24,8 @@ export const MessagesContainer = styled.div`
     color: ${({ theme }) => theme.secondary};
     display: table;
     margin: 0 auto;
+    @media ${device.tablet} {
+      font-size: 12px;
+    }
   }
 `;

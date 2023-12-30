@@ -1,7 +1,5 @@
 import Navbar from "./Navbar";
 import Chats from "./Chats";
-
-import useScreenWidth from "../../hooks/useScreenWidth";
 import { SidebarContainer } from "./styled";
 import Footer from "./Footer";
 import { Dispatch, SetStateAction } from "react";
@@ -11,6 +9,7 @@ type Props = {
   setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
   setIsLoading: Dispatch<SetStateAction<boolean>>;
   setIsSettingsOpen: Dispatch<SetStateAction<boolean>>;
+  setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function Sidebar({
@@ -18,9 +17,8 @@ export default function Sidebar({
   setIsSearchOpen,
   setIsLoading,
   setIsSettingsOpen,
+  setIsSidebarOpen,
 }: Props) {
-  const isMobile = useScreenWidth() <= 480;
-
   return (
     <>
       <SidebarContainer>
@@ -28,8 +26,13 @@ export default function Sidebar({
           setErrorMessage={setErrorMessage}
           setIsLoading={setIsLoading}
           setIsSettingsOpen={setIsSettingsOpen}
+          setIsSidebarOpen={setIsSidebarOpen}
         />
-        <Chats setErrorMessage={setErrorMessage} setIsLoading={setIsLoading} />
+        <Chats
+          setErrorMessage={setErrorMessage}
+          setIsLoading={setIsLoading}
+          setIsSidebarOpen={setIsSidebarOpen}
+        />
         <Footer
           setErrorMessage={setErrorMessage}
           setIsSearchOpen={setIsSearchOpen}

@@ -62,3 +62,13 @@ export const Settings = styled.div`
   padding: 10px;
   border: 50%;
 `;
+
+export const ChatButton = styled.button`
+  margin-left: auto;
+  margin-right: 1rem;
+  background: ${({ theme }) => theme.tertiary};
+  padding: 8px;
+  border-radius: 50%;
+  outline: none;
+  border: none;
+`;

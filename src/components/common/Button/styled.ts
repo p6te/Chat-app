@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { device } from "~/styles/breakpoints";
 
 export interface ButtonProps
   extends React.DetailedHTMLProps<
@@ -26,6 +27,10 @@ export const Button = styled("button").withConfig({
   width: ${({ shrink }) => (shrink ? "auto" : "100%")};
   min-height: 3rem;
   word-wrap: break-word;
+  @media ${device.tablet} {
+    font-size: 1rem;
+    min-height: auto;
+  }
 
   &:hover {
     background-color: ${({ theme }) => theme.primary};

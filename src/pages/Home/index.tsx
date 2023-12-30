@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Container } from "./styled";
 import Search from "~/components/SearchNewUser";
 import Modal from "~/components/common/Modal";
@@ -8,12 +8,22 @@ import ChoseTheme from "~/components/ChoseTheme";
 import ErrorModal from "~/components/common/ErrorModal";
 import Sidebar from "~/components/Sidebar";
 import UserSettings from "~/components/UserSettings";
+import useIsMobile from "~/hooks/useIsMobile";
+import { AuthContext } from "~/context/AuthContext";
+import { Navigate } from "react-router-dom";
 
 function Home() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const isMobile = useIsMobile();
+  const { loggedUser } = useContext(AuthContext);
+
+  if (!loggedUser) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <>
@@ -48,13 +58,38 @@ function Home() {
           />
         </Modal>
 
-        <Sidebar
-          setErrorMessage={setErrorMessage}
-          setIsSearchOpen={setIsSearchOpen}
-          setIsSettingsOpen={setIsSettingsOpen}
-          setIsLoading={setIsLoading}
-        />
-        <Chat setIsSearchOpen={setIsSearchOpen} setIsLoading={setIsLoading} />
+        {isMobile && isSidebarOpen && (
+          <Sidebar
+            setErrorMessage={setErrorMessage}
+            setIsSearchOpen={setIsSearchOpen}
+            setIsSettingsOpen={setIsSettingsOpen}
+            setIsLoading={setIsLoading}
+            setIsSidebarOpen={setIsSidebarOpen}
+          />
+        )}
+        {isMobile && !isSidebarOpen && (
+          <Chat
+            setIsSearchOpen={setIsSearchOpen}
+            setIsLoading={setIsLoading}
+            setIsSidebarOpen={setIsSidebarOpen}
+          />
+        )}
+        {!isMobile && (
+          <>
+            <Sidebar
+              setErrorMessage={setErrorMessage}
+              setIsSearchOpen={setIsSearchOpen}
+              setIsSettingsOpen={setIsSettingsOpen}
+              setIsLoading={setIsLoading}
+              setIsSidebarOpen={setIsSidebarOpen}
+            />
+            <Chat
+              setIsSearchOpen={setIsSearchOpen}
+              setIsLoading={setIsLoading}
+              setIsSidebarOpen={setIsSidebarOpen}
+            />
+          </>
+        )}
       </Container>
     </>
   );

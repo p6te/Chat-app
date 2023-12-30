@@ -1,10 +1,11 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 export const ThemeContainer = styled("div")`
   min-height: 50px;
   margin-top: 1rem;
   display: flex;
-  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
 `;
 
 export interface Props

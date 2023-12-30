@@ -71,9 +71,9 @@ const ProtectedRoute: React.FC<PropsWithChildren> = ({ children }) => {
     turnOnOnlineStatus();
   }, []);
 
-  if (!loggedUser) {
-    return <Navigate to="/login" />;
-  }
+  // if (!loggedUser) {
+  //   return <Navigate to="/login" />;
+  // }
 
   return children;
 };

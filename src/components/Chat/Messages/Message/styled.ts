@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { device } from "~/styles/breakpoints";
 export interface Props {
   isOwner?: boolean;
   withAvatar?: boolean;
@@ -30,11 +31,17 @@ export const AvatarImage = styled.img`
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
+  @media ${device.tablet} {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 export const EmptyBox = styled.div`
-  width: 40px;
-  height: 40px;
+  @media ${device.tablet} {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 export const MessageContent = styled("div").withConfig({
@@ -50,6 +57,10 @@ export const MessageContent = styled("div").withConfig({
     border-radius: ${({ withAvatar }) =>
       withAvatar ? `10px 10px 10px 0px` : `0px 10px 10px 10px`};
     max-width: max-content;
+    @media ${device.tablet} {
+      padding: 6px 12px;
+      font-size: 14px;
+    }
   }
 
   ${({ isOwner, withAvatar }) =>
@@ -72,17 +83,28 @@ export const ImageMessageContainer = styled.div`
   width: 150px;
   max-width: 150px;
   max-height: 150px;
-
   border-radius: 1rem;
-
   box-shadow: 0px 0px 22px -14px rgba(66, 68, 90, 0.471);
   display: flex;
   justify-content: center;
+  @media ${device.tablet} {
+    height: 70px;
+    width: 70px;
+    max-width: 70px;
+    max-height: 70px;
+    border-radius: 0.5rem;
+  }
   img {
     object-fit: contain;
-
     max-width: 150px;
     max-height: 150px;
     flex: 1;
+    @media ${device.tablet} {
+      height: 70px;
+      width: 70px;
+      max-width: 70px;
+      max-height: 70px;
+      border-radius: 0.5rem;
+    }
   }
 `;

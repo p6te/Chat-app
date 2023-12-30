@@ -1,5 +1,5 @@
 import { THEMES, ThemeType } from "~/styles/theme/theme";
-import { ThemeButton, ThemeCircle, ThemeContainer } from "./styled";
+import { ThemeCircle, ThemeContainer } from "./styled";
 import { useTheme } from "~/styles/theme/themeContext";
 import Spacer from "../common/Spacer";
 

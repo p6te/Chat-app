@@ -29,6 +29,7 @@ import AddImageIcon from "~/assets/AddImageIcon";
 import SendIcon from "~/assets/SendIcon";
 import CancelIcon from "~/assets/CancelIcon";
 import ImageIcon from "~/assets/ImageIcon";
+import useIsMobile from "~/hooks/useIsMobile";
 
 export default function ChatInput() {
   const [text, setText] = useState("");
@@ -36,6 +37,7 @@ export default function ChatInput() {
   const [isEmojPicker, setIsEmojPicker] = useState(false);
   const { loggedUser } = useContext(AuthContext);
   const { state } = useContext(ChatContext);
+  const isMobile = useIsMobile();
   const emojiPickerRef = useOutsideClick(() => {
     setIsEmojPicker(false);
   });
@@ -165,7 +167,8 @@ export default function ChatInput() {
             <div onClick={() => setImg(null)}>
               <CancelIcon />
             </div>
-            <ImageIcon /> <p>{img.name}</p>
+            <ImageIcon />
+            {isMobile ? <p>{img.name.slice(0, 4)}...</p> : <p>{img.name}</p>}
           </Flexbox>
         </AddedImageContainer>
       )}
@@ -173,7 +176,7 @@ export default function ChatInput() {
         {/* TODO add handling files */}
         {/* <img src={Attach} alt="" /> */}
         <EmojiButton onClick={() => setIsEmojPicker(true)}>
-          <EmojiIcon size="28" />
+          <EmojiIcon size={isMobile ? "18px" : "28px"} />
         </EmojiButton>
         <input
           type="file"
@@ -182,10 +185,10 @@ export default function ChatInput() {
           onChange={handleFileChange}
         />
         <label htmlFor="file">
-          <AddImageIcon size="28" />
+          <AddImageIcon size={isMobile ? "18px" : "28px"} />
         </label>
         <SendButton onClick={handleSend}>
-          <SendIcon size="28" />
+          <SendIcon size={isMobile ? "18px" : "28px"} />
         </SendButton>
       </SendOptions>
     </SearchInputContainer>
