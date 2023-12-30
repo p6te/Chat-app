@@ -53,13 +53,6 @@ export default function Footer({
     }
   };
 
-  // useEffect(() => {
-  //   if (!loggedUser || !loggedUser?.photoURL) {
-  //     setIsLoading(true);
-  //   } else {
-  //     setIsLoading(false);
-  //   }
-  // }, [loggedUser, setIsLoading]);
   return (
     <>
       <FooterContainer>

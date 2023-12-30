@@ -1,11 +1,12 @@
 import { THEMES, ThemeType } from "~/styles/theme/theme";
 import { ThemeCircle, ThemeContainer } from "./styled";
-import { useTheme } from "~/styles/theme/themeContext";
 import Spacer from "../common/Spacer";
+import { useContext } from "react";
+import { ThemeContext } from "~/styles/theme/themeContext";
 
 export default function ChoseTheme() {
   const themeKeys = Object.entries(THEMES);
-  const { setCurrentTheme } = useTheme();
+  const { setCurrentTheme } = useContext(ThemeContext);
 
   const handleThemeChange = (selectedTheme: ThemeType) => {
     setCurrentTheme(selectedTheme);

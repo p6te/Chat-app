@@ -16,15 +16,14 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
-import { db } from "../../firebaseConfig";
-import { UserData } from "../../types";
-import { AuthContext } from "../../context/AuthContext";
-import { ensureError } from "../../utils/ensureError";
-
 import { Button } from "../common/Button/styled";
 import { Flexbox } from "../common/Flexbox";
 import { StyledInput, Users } from "./styled";
 import Spacer from "../common/Spacer";
+import { UserData } from "~/types";
+import { AuthContext } from "~/context/AuthContext";
+import { ensureError } from "~/utils/ensureError";
+import { db } from "~/firebaseConfig";
 
 type Props = {
   setErrorMessage: (message: string) => void;
@@ -70,15 +69,13 @@ export default function Search({
     if (!loggedUser || !user) {
       return;
     }
-    console.log(loggedUser);
-    console.log(user);
+
     const combinedId =
       loggedUser.uid > user.uid
         ? loggedUser.uid + user.uid
         : user.uid + loggedUser.uid;
     try {
       const res = await getDoc(doc(db, "chats", combinedId));
-      console.log(res.exists());
       if (!res.exists()) {
         //create a chat in chats collection
         await setDoc(doc(db, "chats", combinedId), { messages: [] });

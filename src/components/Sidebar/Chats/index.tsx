@@ -7,14 +7,13 @@ import {
   useState,
 } from "react";
 import { Timestamp, doc, onSnapshot } from "firebase/firestore";
-import { AuthContext } from "../../../context/AuthContext";
-import { db } from "../../../firebaseConfig";
-import User from "../../common/User";
-import { ChatContext } from "../../../context/ChatContext";
-import { changeUser } from "~/context/actionCreators";
-import { ensureError } from "../../../utils/ensureError";
-
 import { ChatsContainer } from "./styled";
+import { AuthContext } from "~/context/AuthContext";
+import { ChatContext } from "~/context/ChatContext";
+import { changeUser } from "~/context/actionCreators";
+import { db } from "~/firebaseConfig";
+import { ensureError } from "~/utils/ensureError";
+import User from "~/components/common/User";
 
 export type ChatUserData = {
   userId: string;

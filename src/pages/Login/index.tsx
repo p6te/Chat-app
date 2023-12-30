@@ -24,9 +24,7 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { loggedUser, setLoggedUser } = useContext(AuthContext);
-
   const navigate = useNavigate();
-
   const {
     register,
     handleSubmit,
@@ -39,6 +37,7 @@ function Login() {
       password: "",
     },
   });
+
   const updateUserProfile = async (user: User, downloadURL: string) => {
     const googleAccountDisplayName = user.providerData[0].displayName;
     const values = getValues();
@@ -47,7 +46,6 @@ function Login() {
       const userRes = await getDoc(doc(db, "users", user.uid));
 
       if (userRes.data()?.uid) {
-        console.log("koniec");
         return;
       }
 
@@ -139,6 +137,7 @@ function Login() {
     if (loggedUser) {
       navigate("/");
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedUser]);
 
   return (

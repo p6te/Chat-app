@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Container } from "./styled";
 import Search from "~/components/SearchNewUser";
 import Modal from "~/components/common/Modal";
@@ -9,8 +9,6 @@ import ErrorModal from "~/components/common/ErrorModal";
 import Sidebar from "~/components/Sidebar";
 import UserSettings from "~/components/UserSettings";
 import useIsMobile from "~/hooks/useIsMobile";
-import { AuthContext } from "~/context/AuthContext";
-import { Navigate } from "react-router-dom";
 
 function Home() {
   const [errorMessage, setErrorMessage] = useState("");
@@ -19,11 +17,6 @@ function Home() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const isMobile = useIsMobile();
-  const { loggedUser } = useContext(AuthContext);
-
-  if (!loggedUser) {
-    return <Navigate to="/login" />;
-  }
 
   return (
     <>

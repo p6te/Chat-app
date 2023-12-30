@@ -1,13 +1,13 @@
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
-import "./index.scss";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import styled, { ThemeProvider } from "styled-components";
 import ProtectedRoute from "./ProtectedRoute";
-import { useTheme } from "./styles/theme/themeContext";
+import { ThemeContext } from "./styles/theme/themeContext";
 import GlobalStyle from "./styles/global";
 import { device } from "./styles/breakpoints";
+import { useContext } from "react";
 
 const StyledLayout = styled("div")`
   display: flex;
@@ -43,7 +43,7 @@ const Layout = () => {
 };
 
 function App() {
-  const currentTheme = useTheme();
+  const currentTheme = useContext(ThemeContext);
 
   const router = createBrowserRouter([
     {

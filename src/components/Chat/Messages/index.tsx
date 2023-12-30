@@ -6,7 +6,6 @@ import {
   useState,
 } from "react";
 import Message from "./Message";
-
 import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "~/firebaseConfig";
 import { ChatContext } from "~/context/ChatContext";
@@ -34,7 +33,7 @@ export default function Messages({ setIsLoading }: Props) {
       });
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }, [state.chatId, setIsLoading]);
 

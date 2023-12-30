@@ -1,8 +1,4 @@
 import { useContext, useEffect, useRef } from "react";
-import { AuthContext } from "../../../../context/AuthContext";
-import { ChatContext } from "../../../../context/ChatContext";
-import { MessageType } from "../../../../types";
-
 import {
   AvatarImage,
   EmptyBox,
@@ -11,6 +7,9 @@ import {
   MessageContent,
   MessageInfo,
 } from "./styled";
+import { MessageType } from "~/types";
+import { AuthContext } from "~/context/AuthContext";
+import { ChatContext } from "~/context/ChatContext";
 type Props = {
   message: MessageType;
   withAvatar?: boolean;

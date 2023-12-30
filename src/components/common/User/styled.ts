@@ -61,7 +61,7 @@ export interface ContainerProps {
 }
 
 export const UserInfo = styled("div").withConfig({
-  shouldForwardProp: (prop) => !["isLastMessage"].includes(prop),
+  shouldForwardProp: (prop) => !["onlyUsername"].includes(prop),
 })<ContainerProps>`
   height: 75px;
   margin-left: 1rem;

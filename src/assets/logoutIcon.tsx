@@ -1,4 +1,5 @@
-import { useTheme } from "~/styles/theme/themeContext";
+import { useContext } from "react";
+import { ThemeContext } from "~/styles/theme/themeContext";
 
 interface Props {
   color?: string;
@@ -6,16 +7,15 @@ interface Props {
 }
 
 export default function LogoutIcon({ color, size }: Props) {
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
 
-  const width = size ? size + "px" : "24px";
-  const height = size ? size + "px" : "24px";
-
+  const width = size ? size : "24";
+  const height = size ? size : "24";
   return (
     <svg
       width={width}
       height={height}
-      viewBox={`0 0 ${width} ${height}`}
+      viewBox={`0 0 24 24`}
       xmlns="http://www.w3.org/2000/svg"
     >
       <g

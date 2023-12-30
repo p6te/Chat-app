@@ -63,10 +63,8 @@ function Register() {
 
     try {
       const userRes = await getDoc(doc(db, "users", user.uid));
-      console.log(userRes.data()?.displayName);
-      if (userRes.data()?.displayName) {
-        console.log("zwrot");
 
+      if (userRes.data()?.displayName) {
         return;
       }
 
@@ -75,7 +73,6 @@ function Register() {
         displayName: displayName,
         photoURL: downloadURL,
       });
-      console.log(downloadURL);
       //create user on firestore
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
@@ -98,7 +95,6 @@ function Register() {
 
   const handleRegistrationViaEmail: SubmitHandler<Inputs> = async (data) => {
     const values = data;
-
     setIsLoading(true);
 
     try {
@@ -107,7 +103,6 @@ function Register() {
         values.email,
         values.password
       );
-      console.log(res.user.photoURL);
 
       const date = new Date().getTime();
       const storageRef = ref(storage, `avatars/${values.username + date}`);

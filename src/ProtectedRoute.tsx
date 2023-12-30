@@ -3,9 +3,9 @@ import { AuthContext } from "./context/AuthContext";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "./firebaseConfig";
 import { ensureError } from "./utils/ensureError";
-import { Navigate } from "react-router-dom";
 import { ChatContext } from "./context/ChatContext";
 import { changeUser } from "./context/actionCreators";
+import { Navigate } from "react-router-dom";
 
 const ProtectedRoute: React.FC<PropsWithChildren> = ({ children }) => {
   const { loggedUser } = useContext(AuthContext);
@@ -65,15 +65,17 @@ const ProtectedRoute: React.FC<PropsWithChildren> = ({ children }) => {
     return () => {
       window.removeEventListener("beforeunload", handleTabClose);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     turnOnOnlineStatus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // if (!loggedUser) {
-  //   return <Navigate to="/login" />;
-  // }
+  if (!loggedUser) {
+    return <Navigate to="/login" />;
+  }
 
   return children;
 };

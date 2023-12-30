@@ -8,12 +8,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { useContext, useState } from "react";
-import { AuthContext } from "../../../context/AuthContext";
-import { ChatContext } from "../../../context/ChatContext";
-import { db, storage } from "../../../firebaseConfig";
-import { MessageType } from "../../../types";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
-import { useOutsideClick } from "../../../hooks/useOutsideClick";
 import EmojiIcon from "~/assets/EmojiIcon";
 import Input from "~/components/common/Input";
 import {
@@ -30,6 +25,11 @@ import SendIcon from "~/assets/SendIcon";
 import CancelIcon from "~/assets/CancelIcon";
 import ImageIcon from "~/assets/ImageIcon";
 import useIsMobile from "~/hooks/useIsMobile";
+import { AuthContext } from "~/context/AuthContext";
+import { ChatContext } from "~/context/ChatContext";
+import { useOutsideClick } from "~/hooks/useOutsideClick";
+import { db, storage } from "~/firebaseConfig";
+import { MessageType } from "~/types";
 
 export default function ChatInput() {
   const [text, setText] = useState("");

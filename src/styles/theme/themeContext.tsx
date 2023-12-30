@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useContext } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { THEMES, Theme, ThemeType } from "./theme";
 
 interface ThemeContextProps {
@@ -34,5 +34,3 @@ export const ThemeContextProvider = ({ children }: ThemeProviderProps) => {
     </ThemeContext.Provider>
   );
 };
-
-export const useTheme = () => useContext(ThemeContext);

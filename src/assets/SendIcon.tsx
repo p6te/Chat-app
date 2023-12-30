@@ -1,4 +1,5 @@
-import { useTheme } from "~/styles/theme/themeContext";
+import { useContext } from "react";
+import { ThemeContext } from "~/styles/theme/themeContext";
 
 interface Props {
   color?: string;
@@ -6,7 +7,7 @@ interface Props {
 }
 
 export default function SendIcon({ color, size }: Props) {
-  const { theme } = useTheme();
+  const { theme } = useContext(ThemeContext);
 
   const width = size ? size : "24";
   const height = size ? size : "24";
@@ -15,7 +16,7 @@ export default function SendIcon({ color, size }: Props) {
     <svg
       width={width}
       height={height}
-      viewBox={`0 0 24 24`}
+      viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >

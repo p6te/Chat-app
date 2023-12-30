@@ -1,7 +1,6 @@
 import Messages from "./Messages";
 import Input from "./ChatInput";
 import { Dispatch, SetStateAction, useContext } from "react";
-import { ChatContext } from "../../context/ChatContext";
 import {
   AvatarImage,
   ChatContainer,
@@ -9,9 +8,10 @@ import {
   MenuButton,
   TopSection,
 } from "./styled";
-import { Button } from "../common/Button/styled";
 import useIsMobile from "~/hooks/useIsMobile";
 import MenuIcon from "~/assets/MenuIcon";
+import { ChatContext } from "~/context/ChatContext";
+import { Button } from "../common/Button/styled";
 
 type Props = {
   setIsSearchOpen: Dispatch<SetStateAction<boolean>>;
