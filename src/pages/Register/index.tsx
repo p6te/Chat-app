@@ -7,7 +7,12 @@ import { useNavigate } from "react-router-dom";
 import Input from "~/components/common/Input";
 import { Button } from "~/components/common/Button/styled";
 import Spacer from "~/components/common/Spacer";
-import { AddImageContainer, Avatar, AvatarContainer } from "./styled";
+import {
+  AddImageContainer,
+  Avatar,
+  AvatarContainer,
+  StyledGoogleIcon,
+} from "./styled";
 import { SubmitHandler, useForm } from "react-hook-form";
 import ImageIcon from "~/assets/ImageIcon";
 import { AuthContext } from "~/context/AuthContext";
@@ -19,6 +24,7 @@ import ErrorModal from "~/components/common/ErrorModal";
 import FormLayout from "~/components/common/FormLayout";
 import HidePasswordIcon from "~/assets/HidePasswordIcon";
 import ShowPasswordIcon from "~/assets/ShowPasswordIcon";
+import googleIcon from "~/assets/googleIcon.png";
 
 type Inputs = {
   username: string;
@@ -311,6 +317,7 @@ function Register() {
               outline
             >
               Register with Google account
+              <StyledGoogleIcon src={googleIcon} />
             </Button>
           </>
         </FormLayout>

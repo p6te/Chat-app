@@ -14,6 +14,8 @@ import { User, updateProfile } from "firebase/auth";
 import { AuthContext } from "~/context/AuthContext";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db, storage } from "~/firebaseConfig";
+import { StyledGoogleIcon } from "../Register/styled";
+import googleIcon from "~/assets/googleIcon.png";
 
 type Inputs = {
   email: string;
@@ -190,7 +192,7 @@ function Login() {
           </form>
           <Spacer size="24" />
           <Button onClick={handleRegistrationViaGoogle} outline>
-            Sign in with Google
+            Sign in with Google <StyledGoogleIcon src={googleIcon} />
           </Button>
         </>
       </FormLayout>

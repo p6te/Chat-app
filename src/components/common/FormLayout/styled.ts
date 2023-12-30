@@ -8,6 +8,10 @@ export const Container = styled("div")`
   padding: 40px;
   max-width: 500px;
   width: 80vw;
+  @media ${device.mobile} {
+    max-width: fit-content;
+    width: 100vw;
+  }
 
   h1 {
     color: ${({ theme }) => theme.primary};

@@ -48,3 +48,8 @@ export const Avatar = styled("img")`
   border-radius: 50%;
   object-position: 50% 50%;
 `;
+
+export const StyledGoogleIcon = styled("img")`
+  margin-left: 1rem;
+  align-self: center;
+`;
