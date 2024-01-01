@@ -66,10 +66,14 @@ export const UserInfo = styled("div").withConfig({
   height: 75px;
   margin-left: 1rem;
   max-width: 80%;
+  flex-grow: 1;
 
   span {
     font-size: 1.1rem;
     font-weight: bold;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     @media ${device.tablet} {
       font-size: 0.8rem;
     }
