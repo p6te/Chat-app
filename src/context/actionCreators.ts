@@ -1,11 +1,6 @@
-import { ACTION, ActionType } from "./chatTypes";
+import { ACTION, ActionType, UserType } from "./chatTypes";
 
-export const changeUser = (user: {
-  uid: string;
-  displayName: string;
-  photoURL: string;
-  isOnline: boolean;
-}): ActionType => ({
+export const changeUser = (user: UserType): ActionType => ({
   type: ACTION.CHANGE_USER,
   payload: user,
 });

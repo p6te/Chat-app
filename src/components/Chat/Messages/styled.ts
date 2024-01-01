@@ -21,7 +21,7 @@ export const MessagesContainer = styled.div`
   }
 
   span {
-    color: ${({ theme }) => theme.secondary};
+    color: ${({ theme }) => theme.tertiary};
     display: table;
     margin: 0 auto;
     @media ${device.tablet} {

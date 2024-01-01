@@ -76,18 +76,18 @@ export const UserInfo = styled("div").withConfig({
   }
   p {
     font-size: 1rem;
-    color: lightgray;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     width: 80%;
+    color: ${({ theme }) => theme.tertiary};
     @media ${device.tablet} {
       font-size: 0.8rem;
     }
   }
   time {
     font-size: 0.6rem;
-    color: lightgray;
+    color: ${({ theme }) => theme.tertiary};
     @media ${device.tablet} {
       font-size: 0.5rem;
     }

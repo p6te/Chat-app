@@ -4,9 +4,10 @@ export const FooterContainer = styled("div")`
   display: flex;
   flex-direction: column;
   flex-grow: 0;
-  border-top: 1px solid ${({ theme }) => theme.tertiary};
+
   padding-top: 1rem;
   margin-bottom: 0.5rem;
+  box-shadow: 0px -10px 16px -16px rgba(66, 68, 90, 0.299);
 
   & div {
     margin: 0 1rem;

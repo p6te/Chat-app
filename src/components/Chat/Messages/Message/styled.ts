@@ -9,7 +9,7 @@ export const MessageContainer = styled("div").withConfig({
   shouldForwardProp: (prop) => !["isOwner"].includes(prop),
 })<Props>`
   display: flex;
-  gap: 20px;
+  gap: 6px;
   padding: 0 1rem;
   margin-bottom: 4px;
   ${({ isOwner }) =>
@@ -38,6 +38,8 @@ export const AvatarImage = styled.img`
 `;
 
 export const EmptyBox = styled.div`
+  width: 40px;
+  height: 40px;
   @media ${device.tablet} {
     width: 30px;
     height: 30px;
@@ -52,7 +54,7 @@ export const MessageContent = styled("div").withConfig({
   flex-direction: column;
 
   p {
-    background-color: ${({ theme }) => theme.tertiary};
+    background-color: ${({ theme }) => theme.secondary};
     padding: 10px 20px;
     border-radius: ${({ withAvatar }) =>
       withAvatar ? `10px 10px 10px 0px` : `0px 10px 10px 10px`};

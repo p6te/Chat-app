@@ -53,7 +53,7 @@ export const EmojiButton = styled.button`
 `;
 
 export const SendButton = styled(EmojiButton)`
-  background-color: ${({ theme }) => theme.tertiary};
+  background-color: ${({ theme }) => theme.backgroundSecondary};
 `;
 
 export const AddedImageContainer = styled.div`

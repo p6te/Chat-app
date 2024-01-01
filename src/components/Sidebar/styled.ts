@@ -8,9 +8,10 @@ export const SidebarContainer = styled("div")`
   min-width: 300px;
   max-width: 300px;
   padding: 0.5rem 0;
-  border-radius: 40px;
+  border-top-left-radius: 40px;
+  border-bottom-left-radius: 40px;
   background-color: ${({ theme }) => theme.backgroundPrimary};
-  box-shadow: 10px 0px 30px -25px rgba(66, 68, 90, 1);
+  border-right: 1px solid ${({ theme }) => theme.secondary};
   @media ${device.tablet} {
     min-width: 200px;
     max-width: 200px;

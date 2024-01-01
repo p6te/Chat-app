@@ -24,6 +24,7 @@ export const Container = styled.div`
 export const StyledInput = styled("input").withConfig({
   shouldForwardProp: (prop) => !["isError", "withEndIcon"].includes(prop),
 })<InputProps>`
+  background: none;
   width: 100%;
   height: 3rem;
   padding: 0.6rem 1.2rem;
@@ -60,7 +61,7 @@ export const StyledInput = styled("input").withConfig({
   }
 
   &:not(:focus) + span {
-    color: ${({ theme }) => theme.secondary};
+    color: ${({ theme }) => theme.tertiary};
   }
 `;
 

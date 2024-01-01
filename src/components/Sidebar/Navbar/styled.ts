@@ -3,10 +3,9 @@ import styled from "styled-components";
 export const NavbarContainer = styled.div`
   display: flex;
   align-items: center;
-
   padding-left: 10px;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid ${({ theme }) => theme.tertiary};
+  box-shadow: 0px 10px 16px -16px rgba(66, 68, 90, 0.299);
   img {
     background-color: white;
     height: 50px;
@@ -66,7 +65,7 @@ export const Settings = styled.div`
 export const ChatButton = styled.button`
   margin-left: auto;
   margin-right: 1rem;
-  background: ${({ theme }) => theme.tertiary};
+  background: ${({ theme }) => theme.backgroundSecondary};
   padding: 8px;
   border-radius: 50%;
   outline: none;

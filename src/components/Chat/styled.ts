@@ -26,7 +26,7 @@ export const TopSection = styled.div`
   min-height: 50px;
   padding: 12px 0;
   margin: 8px 0;
-  box-shadow: 0px 10px 16px -16px rgba(66, 68, 90, 0.434);
+  box-shadow: 0px 10px 16px -16px rgba(66, 68, 90, 0.299);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -56,7 +56,7 @@ export const AvatarImage = styled.img`
 export const MenuButton = styled.button`
   margin-left: auto;
   margin-right: 1rem;
-  background: ${({ theme }) => theme.tertiary};
+  background: ${({ theme }) => theme.backgroundSecondary};
   padding: 8px;
   border-radius: 50%;
   outline: none;

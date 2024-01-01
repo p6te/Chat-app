@@ -9,7 +9,6 @@ const initialState: StateType = {
     photoURL: "",
     isOnline: false,
   },
-
   chatId: "",
 };
 
