@@ -21,12 +21,13 @@ function Home() {
   return (
     <>
       {isLoading && <Loading />}
-      {errorMessage && (
-        <ErrorModal
-          closeModal={() => setErrorMessage("")}
-          errorMessage={errorMessage}
-        />
-      )}
+
+      <ErrorModal
+        onClose={() => setErrorMessage("")}
+        errorMessage={errorMessage}
+        isOpen={!!errorMessage}
+      />
+
       <Container>
         <Modal
           isOpen={isSearchOpen}

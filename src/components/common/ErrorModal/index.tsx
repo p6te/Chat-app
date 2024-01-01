@@ -1,21 +1,20 @@
 import ErrorIcon from "~/assets/error-message.png";
-import CloseIcon from "~/assets/cancel.png";
-import "./styles.scss";
+
+import Modal from "../Modal";
+import { ErrorContainer } from "./styled";
 type Props = {
   errorMessage?: string;
-  closeModal: () => void;
+  onClose: () => void;
+  isOpen: boolean;
 };
-export default function ErrorModal({ errorMessage, closeModal }: Props) {
+export default function ErrorModal({ errorMessage, onClose, isOpen }: Props) {
   return (
-    <div className="errorBackground">
-      <div>
-        <button onClick={closeModal}>
-          <img src={CloseIcon} alt="" />
-        </button>
-        <img src={ErrorIcon} alt="" />
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <ErrorContainer>
         <h2>Houston, we have a problem...</h2>
+        <img src={ErrorIcon} alt="" />
         <h4>{errorMessage}</h4>
-      </div>
-    </div>
+      </ErrorContainer>
+    </Modal>
   );
 }

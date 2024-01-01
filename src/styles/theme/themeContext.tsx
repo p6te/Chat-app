@@ -19,7 +19,9 @@ interface ThemeProviderProps {
 
 export const ThemeContextProvider = ({ children }: ThemeProviderProps) => {
   const [currentTheme, setCurrentTheme] = React.useState<ThemeType>(
-    ThemeType.light
+    localStorage.getItem("theme")
+      ? (localStorage.getItem("theme") as ThemeType)
+      : ThemeType.light
   );
 
   return (

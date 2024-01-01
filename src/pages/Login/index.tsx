@@ -145,13 +145,11 @@ function Login() {
   return (
     <>
       {isLoading && <Loading />}
-      {errorMessage && (
-        <ErrorModal
-          closeModal={() => setErrorMessage("")}
-          errorMessage={errorMessage}
-        />
-      )}
-
+      <ErrorModal
+        onClose={() => setErrorMessage("")}
+        errorMessage={errorMessage}
+        isOpen={!!errorMessage}
+      />
       <FormLayout
         title="Login"
         footer="You don't have an account?"

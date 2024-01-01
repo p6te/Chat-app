@@ -49,6 +49,7 @@ function Register() {
     formState: { errors },
     getValues,
     watch,
+    setError,
   } = useForm<Inputs>({
     defaultValues: {
       username: "",
@@ -128,7 +129,14 @@ function Register() {
       navigate("/");
     } catch (err) {
       const error = ensureError(err);
-      setErrorMessage(error.message);
+      if (error.message.includes("auth/email-already-in-use")) {
+        setError("email", {
+          type: "custom",
+          message: "This email is already in use",
+        });
+      } else {
+        setErrorMessage(error.message);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -181,12 +189,11 @@ function Register() {
   return (
     <>
       {isLoading && <Loading />}
-      {errorMessage && (
-        <ErrorModal
-          closeModal={() => setErrorMessage("")}
-          errorMessage={errorMessage}
-        />
-      )}
+      <ErrorModal
+        onClose={() => setErrorMessage("")}
+        errorMessage={errorMessage}
+        isOpen={!!errorMessage}
+      />
       <div>
         <FormLayout
           title="Register"

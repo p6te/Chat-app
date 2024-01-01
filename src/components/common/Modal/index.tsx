@@ -5,7 +5,7 @@ import { Flexbox } from "../Flexbox";
 import { Button } from "../Button/styled";
 
 interface Props {
-  title: string;
+  title?: string;
   isOpen: boolean;
   onClose: () => void;
   children?: React.ReactNode;

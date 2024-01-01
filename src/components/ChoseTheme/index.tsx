@@ -10,6 +10,8 @@ export default function ChoseTheme() {
 
   const handleThemeChange = (selectedTheme: ThemeType) => {
     setCurrentTheme(selectedTheme);
+
+    localStorage.setItem("theme", selectedTheme);
   };
 
   return (
