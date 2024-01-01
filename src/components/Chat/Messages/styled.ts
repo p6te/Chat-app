@@ -7,12 +7,12 @@ export const MessagesContainer = styled.div`
 
   &::-webkit-scrollbar-track {
     border-radius: 8px;
-    background-color: ${({ theme }) => theme.backgroundSecondary};
+    background-color: ${({ theme }) => theme.backgroundPrimary};
   }
 
   &::-webkit-scrollbar {
     width: 8px;
-    background-color: ${({ theme }) => theme.backgroundSecondary};
+    background-color: ${({ theme }) => theme.backgroundPrimary};
   }
 
   &::-webkit-scrollbar-thumb {

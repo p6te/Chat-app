@@ -24,7 +24,6 @@ export default function Sidebar({
       <SidebarContainer>
         <Navbar
           setErrorMessage={setErrorMessage}
-          setIsLoading={setIsLoading}
           setIsSettingsOpen={setIsSettingsOpen}
           setIsSidebarOpen={setIsSidebarOpen}
         />

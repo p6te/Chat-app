@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext, useEffect } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import {
   ChatButton,
   CredentialsContainer,
@@ -12,25 +12,13 @@ import ChatIcon from "~/assets/ChatIcon";
 
 type Props = {
   setErrorMessage: (message: string) => void;
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
   setIsSettingsOpen: Dispatch<SetStateAction<boolean>>;
   setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
 };
-export default function Navbar({
-  setIsSettingsOpen,
-  setIsLoading,
-  setIsSidebarOpen,
-}: Props) {
+export default function Navbar({ setIsSettingsOpen, setIsSidebarOpen }: Props) {
   const { loggedUser } = useContext(AuthContext);
   const isMobile = useIsMobile();
 
-  useEffect(() => {
-    if (!loggedUser?.photoURL) {
-      setIsLoading(true);
-    } else {
-      setIsLoading(false);
-    }
-  }, [loggedUser?.photoURL, setIsLoading]);
   return (
     <NavbarContainer>
       <ImageContainer

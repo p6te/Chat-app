@@ -27,11 +27,9 @@ export default function Messages({ setIsLoading }: Props) {
     }
 
     try {
-      setIsLoading(true);
       onSnapshot(doc(db, "chats", state.chatId), (doc) => {
         doc.exists() && setMessages(doc.data().messages);
       });
-      setIsLoading(false);
     } catch (error) {
       console.error(error);
     }

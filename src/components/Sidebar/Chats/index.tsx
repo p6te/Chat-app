@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Timestamp, doc, onSnapshot } from "firebase/firestore";
+import { Timestamp, doc, getDoc, onSnapshot } from "firebase/firestore";
 import { ChatsContainer } from "./styled";
 import { AuthContext } from "~/context/AuthContext";
 import { ChatContext } from "~/context/ChatContext";
@@ -54,69 +54,78 @@ export default function Chats({
   };
 
   const getChats = async () => {
-    setIsLoading(true);
     if (!loggedUser) {
       return;
     }
 
+    setIsLoading(true);
+
     try {
-      onSnapshot(doc(db, "userChats", loggedUser.uid), (userChatsDb) => {
+      const userChatsRef = doc(db, "userChats", loggedUser.uid);
+
+      const unsubscribe = onSnapshot(userChatsRef, async (userChatsDb) => {
         if (!userChatsDb.exists()) {
+          setIsLoading(false);
           return;
         }
 
         const chatsData = Object.entries(userChatsDb.data());
 
-        let randomUserChats: ((ChatUserData & UserInfo) | null)[] = [];
-        chatsData.forEach((chatData) => {
+        const chatPromises = chatsData.map(async (chatData) => {
           const [, chatUser] = chatData as [string, ChatUserData];
 
           const userRef = doc(db, "users", chatUser.userId);
-          onSnapshot(userRef, (userData) => {
-            if (!userData.exists()) {
-              return;
-            }
-            const userDbData = userData.data() as UserInfo;
+          const userData = await getDoc(userRef);
 
-            const nextChatUser = {
-              ...chatUser,
-              ...userDbData,
-            };
+          if (!userData.exists()) {
+            return null;
+          }
 
-            const filteredArray = randomUserChats.filter(
-              (ch) => ch?.userId !== nextChatUser.userId
-            );
+          const userDbData = userData.data() as UserInfo;
 
-            randomUserChats = [...filteredArray, nextChatUser];
-            const sortedChats = randomUserChats.sort((a, b) => {
-              if (b?.date?.seconds && a?.date?.seconds) {
-                return b?.date.seconds - a?.date.seconds;
-              } else if (b?.date.seconds) {
-                return -1;
-              } else if (a?.date.seconds) {
-                return 1;
-              }
-              return 0;
-            });
-
-            if (sortedChats[0]) {
-              handleSelect({
-                displayName: sortedChats[0].displayName,
-                isOnline: sortedChats[0].isOnline,
-                photoURL: sortedChats[0].photoURL,
-                uid: sortedChats[0].userId,
-              });
-            }
-
-            //TODO Consider better solution to not save state for each user, but all in one.
-            setChats(sortedChats);
-          });
+          return {
+            ...chatUser,
+            ...userDbData,
+          };
         });
+
+        const resolvedChats = await Promise.all(chatPromises);
+
+        const filteredChats = resolvedChats.filter(Boolean) as (ChatUserData &
+          UserInfo)[];
+
+        const sortedChats = filteredChats.sort((a, b) => {
+          if (b?.date?.seconds && a?.date?.seconds) {
+            return b?.date?.seconds - a?.date?.seconds;
+          } else if (b?.date?.seconds) {
+            return -1;
+          } else if (a?.date?.seconds) {
+            return 1;
+          }
+          return 0;
+        });
+
+        if (sortedChats[0]) {
+          handleSelect({
+            displayName: sortedChats[0].displayName,
+            isOnline: sortedChats[0].isOnline,
+            photoURL: sortedChats[0].photoURL,
+            uid: sortedChats[0].userId,
+          });
+        }
+
+        // Update state with the sorted chats
+        setChats(sortedChats);
+        setIsLoading(false);
       });
-      setIsLoading(false);
+
+      return () => {
+        unsubscribe();
+      };
     } catch (err) {
       const error = ensureError(err);
       setErrorMessage(error.message);
+      setIsLoading(false);
     }
   };
 
