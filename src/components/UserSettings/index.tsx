@@ -52,7 +52,7 @@ export default function UserSettings({ setIsLoading, onClose }: Props) {
     if (errors.username) {
       return;
     }
-    setIsLoading(true);
+
     const values = getValues();
 
     if (
@@ -60,6 +60,7 @@ export default function UserSettings({ setIsLoading, onClose }: Props) {
         values.username !== (loggedUser?.displayName as string)) &&
       !!loggedUser.displayName
     ) {
+      setIsLoading(true);
       try {
         const date = new Date().getTime();
         const storageRef = ref(
@@ -114,6 +115,8 @@ export default function UserSettings({ setIsLoading, onClose }: Props) {
         // TODO Send to error page
         alert(error.message);
       }
+    } else {
+      onClose();
     }
   };
 
