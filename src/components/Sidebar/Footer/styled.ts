@@ -33,7 +33,7 @@ export const LogoutButton = styled("button")`
 
   &:hover {
     cursor: pointer;
-    background-color: ${({ theme }) => theme.tertiary};
+    background-color: ${({ theme }) => theme.backgroundSecondary};
     transition: 0.2s;
   }
 `;

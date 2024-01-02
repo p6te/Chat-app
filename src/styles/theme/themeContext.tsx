@@ -8,8 +8,8 @@ interface ThemeContextProps {
 }
 
 export const ThemeContext = React.createContext<ThemeContextProps>({
-  themeType: ThemeType.light,
-  theme: THEMES.light,
+  themeType: ThemeType.blue,
+  theme: THEMES.blue,
   setCurrentTheme: () => {},
 });
 
@@ -21,7 +21,7 @@ export const ThemeContextProvider = ({ children }: ThemeProviderProps) => {
   const [currentTheme, setCurrentTheme] = React.useState<ThemeType>(
     localStorage.getItem("theme")
       ? (localStorage.getItem("theme") as ThemeType)
-      : ThemeType.light
+      : ThemeType.blue
   );
 
   return (

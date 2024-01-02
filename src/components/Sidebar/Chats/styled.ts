@@ -5,7 +5,6 @@ export const ChatsContainer = styled("div")`
   overflow-y: auto;
   overflow-x: hidden;
   padding: 0.5rem;
-  gap: 0.5rem;
   &::-webkit-scrollbar-track {
     border-radius: 8px;
     background-color: ${({ theme }) => theme.backgroundPrimary};

@@ -14,6 +14,7 @@ import { changeUser } from "~/context/actionCreators";
 import { db } from "~/firebaseConfig";
 import { ensureError } from "~/utils/ensureError";
 import User from "~/components/common/User";
+import Spacer from "~/components/common/Spacer";
 
 export type ChatUserData = {
   userId: string;
@@ -163,6 +164,7 @@ export default function Chats({
                 isSelected={chat.userId === state.user.uid ? true : false}
                 isOnline={chat.isOnline}
               />
+              <Spacer size="8" />
             </div>
           );
         })}
