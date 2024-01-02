@@ -138,38 +138,34 @@ export default function Chats({
   return (
     <>
       <ChatsContainer>
-        <div className="userChat">
-          <div className="userChatInfo">
-            {chats.map((chat) => {
-              if (!chat) {
-                return null;
-              }
-              return (
-                <div
-                  onClick={() => {
-                    handleSelect({
-                      displayName: chat.displayName,
-                      isOnline: chat.isOnline,
-                      photoURL: chat.photoURL,
-                      uid: chat.userId,
-                    });
-                    setIsSidebarOpen(false);
-                  }}
-                  key={uuid()}
-                >
-                  <User
-                    name={chat.displayName}
-                    imgSrc={chat.photoURL}
-                    lastMessage={chat.lastMessage}
-                    timestamp={chat?.date?.seconds ? chat?.date?.seconds : 0}
-                    isSelected={chat.userId === state.user.uid ? true : false}
-                    isOnline={chat.isOnline}
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        {chats.map((chat) => {
+          if (!chat) {
+            return null;
+          }
+          return (
+            <div
+              onClick={() => {
+                handleSelect({
+                  displayName: chat.displayName,
+                  isOnline: chat.isOnline,
+                  photoURL: chat.photoURL,
+                  uid: chat.userId,
+                });
+                setIsSidebarOpen(false);
+              }}
+              key={uuid()}
+            >
+              <User
+                name={chat.displayName}
+                imgSrc={chat.photoURL}
+                lastMessage={chat.lastMessage}
+                timestamp={chat?.date?.seconds ? chat?.date?.seconds : 0}
+                isSelected={chat.userId === state.user.uid ? true : false}
+                isOnline={chat.isOnline}
+              />
+            </div>
+          );
+        })}
       </ChatsContainer>
     </>
   );

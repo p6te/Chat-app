@@ -7,4 +7,5 @@ export const StyledInput = styled(Input)`
 
 export const Users = styled("div")`
   min-height: 50px;
+  padding: 1rem 0;
 `;

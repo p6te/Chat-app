@@ -20,7 +20,8 @@ export const ChatMissing = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border-radius: 40px;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
 `;
 
 export const TopSection = styled.div`
@@ -47,7 +48,7 @@ export const AvatarImage = styled.img`
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  object-fit: fill;
+  object-fit: cover;
   @media ${device.tablet} {
     width: 36px;
     height: 36px;

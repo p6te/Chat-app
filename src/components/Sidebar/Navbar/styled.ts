@@ -42,7 +42,6 @@ export const ImageContainer = styled.div`
     background: ${({ theme }) => theme.primary};
     padding: 4px;
     border-radius: 50%;
-
     position: absolute;
     bottom: 0px;
     right: -4px;

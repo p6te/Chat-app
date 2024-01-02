@@ -16,10 +16,9 @@ export const UserContainer = styled("div").withConfig({
   color: white;
   cursor: pointer;
   padding: 4px;
-  margin: 0 0.5rem;
   border-radius: 1rem;
   transition: background-color 0.2s;
-  margin: 0.5rem;
+
   &:hover {
     background-color: ${({ theme }) => theme.backgroundSecondary};
   }
@@ -49,7 +48,7 @@ export const AvatarImage = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  object-fit: fill;
+  object-fit: cover;
   @media ${device.tablet} {
     width: 40px;
     height: 40px;
