@@ -27,7 +27,7 @@ export default function Modal({ isOpen, onClose, title, children }: Props) {
           </Flexbox>
           {children}
           <Button outline onClick={onClose}>
-            close
+            Close
           </Button>
         </ModalContainer>
       </Background>

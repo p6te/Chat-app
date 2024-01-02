@@ -155,7 +155,7 @@ export default function ChatInput() {
           <EmojiPicker
             onEmojiClick={handleEmojiClick}
             height={350}
-            width={350}
+            width={isMobile ? 250 : 350}
             lazyLoadEmojis={true}
             skinTonesDisabled={true}
           />

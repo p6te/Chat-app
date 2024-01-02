@@ -5,7 +5,8 @@ export const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  border-radius: 40px;
+  border-top-right-radius: 40px;
+  border-bottom-right-radius: 40px;
   position: relative;
 `;
 
