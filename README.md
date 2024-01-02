@@ -1,4 +1,4 @@
-![image](https://github.com/p6te/Chat-app/assets/93533892/393d1f46-9b0f-4f40-a563-4cf81801909b)# Chat Wall
+# Chat Wall
 
 Chat Wall is an application that utilizes Firebase for database management and authentication. It incorporates Continuous Delivery through GitHub Actions.
 
@@ -27,3 +27,5 @@ Feel free to use the following example users for testing:
   - *Password:* Password1
 
 ## Enjoy!
+
+![image](https://github.com/p6te/Chat-app/assets/93533892/393d1f46-9b0f-4f40-a563-4cf81801909b)
