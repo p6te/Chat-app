@@ -10,7 +10,7 @@ type Props = {
 
 function FormLayout({ title, footer, footerLink, children }: Props) {
   return (
-    <Container>
+    <Container data-testId="FormLayout-testid">
       <h1>Chat wall</h1>
       <h3>{title}</h3>
       {children}

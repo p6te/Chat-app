@@ -25,8 +25,13 @@
     "paths": {
       "~/*": ["./src/*"]
     },
-    "types": ["node", "vite-plugin-svgr/client"]
+    "types": [
+      "node",
+      "vite-plugin-svgr/client",
+      "vitest/importMeta",
+      "vitest/globals"
+    ]
   },
-  "include": ["src"],
+  "include": ["src", ".eslintrc.cjs", ".src/test/setup.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -10,14 +10,20 @@ interface Props {
   onClose: () => void;
   children?: React.ReactNode;
 }
-export default function Modal({ isOpen, onClose, title, children }: Props) {
+export default function Modal({
+  isOpen,
+  onClose,
+  title,
+  children,
+  ...props
+}: Props) {
   if (!isOpen) {
     return null;
   }
 
   return (
     <>
-      <Background>
+      <Background {...props}>
         <ModalContainer>
           <Flexbox spaceBetween>
             <h2>{title}</h2>

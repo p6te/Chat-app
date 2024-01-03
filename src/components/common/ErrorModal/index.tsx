@@ -9,11 +9,11 @@ type Props = {
 };
 export default function ErrorModal({ errorMessage, onClose, isOpen }: Props) {
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal data-testId="ErrorModal-testid" isOpen={isOpen} onClose={onClose}>
       <ErrorContainer>
         <h2>Houston, we have a problem...</h2>
         <img src={ErrorIcon} alt="" />
-        <h4>{errorMessage}</h4>
+        <h4 data-testId="errorMessage-testid">{errorMessage}</h4>
       </ErrorContainer>
     </Modal>
   );
