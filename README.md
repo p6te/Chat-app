@@ -26,6 +26,8 @@ Feel free to use the following example users for testing:
   - *Login:* luna@mail.com
   - *Password:* Password1
 
+### Or create your own account!
+
 ## Enjoy!
 
 ![image](https://github.com/p6te/Chat-app/assets/93533892/393d1f46-9b0f-4f40-a563-4cf81801909b)
