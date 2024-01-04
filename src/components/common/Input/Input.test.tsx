@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import Input from ".";
-import { ThemeContextProvider } from "~/styles/theme/themeContext";
 
 describe("Input tests", () => {
   const mockLabel = "test label";
