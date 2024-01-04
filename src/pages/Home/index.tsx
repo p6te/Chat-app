@@ -2,13 +2,13 @@ import { useState } from "react";
 import { Container } from "./styled";
 import Search from "~/components/SearchNewUser";
 import Modal from "~/components/common/Modal";
-import Chat from "~/components/chat";
 import Loading from "~/components/common/LoadingSpinner";
 import ChoseTheme from "~/components/ChoseTheme";
 import ErrorModal from "~/components/common/ErrorModal";
 import Sidebar from "~/components/Sidebar";
 import UserSettings from "~/components/UserSettings";
 import useIsMobile from "~/hooks/useIsMobile";
+import CurrentChat from "~/components/CurrentChat";
 
 function Home() {
   const [errorMessage, setErrorMessage] = useState("");
@@ -62,7 +62,7 @@ function Home() {
           />
         )}
         {isMobile && !isSidebarOpen && (
-          <Chat
+          <CurrentChat
             setIsSearchOpen={setIsSearchOpen}
             setIsLoading={setIsLoading}
             setIsSidebarOpen={setIsSidebarOpen}
@@ -77,7 +77,7 @@ function Home() {
               setIsLoading={setIsLoading}
               setIsSidebarOpen={setIsSidebarOpen}
             />
-            <Chat
+            <CurrentChat
               setIsSearchOpen={setIsSearchOpen}
               setIsLoading={setIsLoading}
               setIsSidebarOpen={setIsSidebarOpen}
