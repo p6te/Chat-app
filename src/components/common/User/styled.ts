@@ -32,14 +32,20 @@ export const UserContainer = styled("div").withConfig({
     css`
       .isOnline {
         position: absolute;
-        bottom: 24px;
-        left: 48px;
+        bottom: 18px;
+        left: 40px;
         border-radius: 50%;
         width: 16px;
         height: 16px;
         padding: 2px;
         border: 2px solid white;
         background-color: greenyellow;
+        @media ${device.tablet} {
+          width: 14px;
+          height: 14px;
+          bottom: 22px;
+          left: 32px;
+        }
       }
     `}
 `;
