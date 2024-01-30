@@ -16,6 +16,9 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db, storage } from "~/firebaseConfig";
 import { StyledGoogleIcon } from "../Register/styled";
 import googleIcon from "~/assets/googleIcon.png";
+import Modal from "~/components/common/Modal";
+import { MockUser, mockUsersData } from "~/mockUsersData";
+import TestUserCard from "~/components/TestUserCard";
 
 type Inputs = {
   email: string;
@@ -24,6 +27,7 @@ type Inputs = {
 
 function Login() {
   const [errorMessage, setErrorMessage] = useState("");
+  const [isTestUsersModalOpen, setIsTestUsersModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { loggedUser, setLoggedUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -135,6 +139,19 @@ function Login() {
     }
   };
 
+  const loginMockUser = async (user: MockUser) => {
+    try {
+      setIsLoading(true);
+      await FirebaseAuthService.loginUser(user.email, user.password);
+      navigate("/");
+    } catch (err) {
+      const error = ensureError(err);
+      setErrorMessage(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (loggedUser) {
       navigate("/");
@@ -150,6 +167,23 @@ function Login() {
         errorMessage={errorMessage}
         isOpen={!!errorMessage}
       />
+      <Modal
+        isOpen={isTestUsersModalOpen}
+        onClose={() => setIsTestUsersModalOpen(false)}
+        title="Choose a test user"
+      >
+        <Spacer size="24" />
+        {mockUsersData.map((user, index) => {
+          return (
+            <TestUserCard
+              key={index}
+              user={user}
+              onClick={() => loginMockUser(user)}
+            />
+          );
+        })}
+        <Spacer size="24" />
+      </Modal>
       <FormLayout
         title="Login"
         footer="You don't have an account?"
@@ -191,6 +225,10 @@ function Login() {
           <Spacer size="24" />
           <Button onClick={handleRegistrationViaGoogle} outline>
             Sign in with Google <StyledGoogleIcon src={googleIcon} />
+          </Button>
+          <Spacer size="24" />
+          <Button onClick={() => setIsTestUsersModalOpen(true)} outline>
+            Testing - use mock user
           </Button>
         </>
       </FormLayout>
